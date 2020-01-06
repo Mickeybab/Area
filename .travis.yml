@@ -1,0 +1,22 @@
+language: node_js
+
+node_js:
+  - 10.16.3
+
+script:
+  - echo "hello"
+
+jobs:
+  include:
+    - stage: Deploy Epitech
+      if: branch IN (master) AND type != cron AND type != pull_request
+      script:
+        - chmod +x ./ci/deploy_epitech_server.sh
+      deploy:
+        provider: script
+        script: ./ci/deploy_epitech_server.sh
+        skip_cleanup: true
+        on:
+          branch: master
+
+
