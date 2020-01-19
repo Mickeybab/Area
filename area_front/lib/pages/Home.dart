@@ -7,7 +7,6 @@ import 'package:area_front/widgets/TopBar.dart';
 // Datas
 import 'package:area_front/static/Routes.dart';
 
-
 class HomePage extends StatelessWidget {
   const HomePage({Key key}) : super(key: key);
 
