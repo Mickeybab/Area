@@ -1,4 +1,5 @@
 // Core
+import 'package:area_front/widgets/SearchBar.dart';
 import 'package:flutter/material.dart';
 
 // My Widgets
@@ -12,7 +13,12 @@ class Explore extends StatelessWidget {
     return Scaffold(
       appBar: TopBar(),
       body: Center(
-          child: Text("Account"),
+          child: Column(
+            children: <Widget>[
+              Text("Explore"),
+              SearchBar()
+            ],
+          ),
       ),
     );
   }
