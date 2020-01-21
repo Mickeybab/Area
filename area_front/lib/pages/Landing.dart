@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:area_front/widgets/TopBar.dart';
 
 // Datas
-import 'package:area_front/static/Constants.dart';
-import 'package:area_front/static/Routes.dart';
-
 class LoginPage extends StatelessWidget {
   const LoginPage({Key key}) : super(key: key);
 
