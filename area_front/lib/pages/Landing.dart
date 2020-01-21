@@ -15,16 +15,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopBar(),
-      body: Container(
-        child: RaisedButton(
-            child: Text(Constants.getMore),
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, Routes.home);
-            },
-            color: Colors.black,
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(18.0),
-            )),
+      body: Stack(
       ),
     );
   }
