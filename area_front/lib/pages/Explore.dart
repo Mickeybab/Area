@@ -250,14 +250,14 @@ class ListAppletSugestion extends StatelessWidget {
       shrinkWrap: true,
       itemCount: applets.length,
       itemBuilder: (context, index) {
+        List<Widget> line = [buildCard(context, applets[index][0])];
+        if (applets[index].length == 2)
+          line.add(buildCard(context, applets[index][1]));
         return Container(
             child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            buildCard(context, applets[index][0]),
-            buildCard(context, applets[index][1]),
-          ],
+          children: line,
         ));
       },
     ));
