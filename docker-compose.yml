@@ -112,6 +112,11 @@ services:
       MYSQL_ROOT_PASSWORD: test
     volumes:
       - /sessions
+    
+  area_front:
+    build:
+      context: ./area_front
+      dockerfile: Dockerfile
 
 volumes:
   db-data:
