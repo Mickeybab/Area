@@ -1,18 +1,18 @@
 // Core
 import 'package:flutter/material.dart';
 
-class LogContainer extends StatefulWidget {
+class SignUpContainer extends StatefulWidget {
   @override
-  _LogContainerState createState() => _LogContainerState();
+  _SignUpContainerState createState() => _SignUpContainerState();
 }
 
-class _LogContainerState extends State<LogContainer> {
+class _SignUpContainerState extends State<SignUpContainer> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 25.0, color: Colors.black);
 
   @override
   Widget build(BuildContext context) {
     final pageTitle = Text(
-      'Sign in',
+      'Sign up',
       style: TextStyle(
         fontFamily: 'Montserrat',
         fontSize: 70.0,
@@ -55,21 +55,6 @@ class _LogContainerState extends State<LogContainer> {
       ),
     );
 
-    final forgotButton = FlatButton(
-      child: Text(
-        'Forgot your password',
-        style: TextStyle(
-          decoration: TextDecoration.underline,
-          fontFamily: 'Montserrat',
-          fontSize: 15.0,
-          fontWeight: FontWeight.w400,
-          color: Colors.grey
-        ),
-      ),
-      onPressed: () {
-      },
-    );
-
     final logWithButton = FlatButton(
       child: Text(
         'Continue With Slack or Github',
@@ -84,14 +69,14 @@ class _LogContainerState extends State<LogContainer> {
       },
     );
 
-    final loginButon = Material(
+    final signUpButon = Material(
       borderRadius: BorderRadius.circular(35.0),
       color: Colors.black,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.all(20.0),
         onPressed: () {},
-        child: Text("Sign in",
+        child: Text("Sign up",
           textAlign: TextAlign.center,
           style: style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)
         ),
@@ -113,10 +98,8 @@ class _LogContainerState extends State<LogContainer> {
                 emailField,
                 SizedBox(height: 25.0),
                 passwordField,
-                SizedBox(height: 15.0),
-                forgotButton,
                 SizedBox(height: 25.0),
-                loginButon,
+                signUpButon,
                 SizedBox(height: 15.0),
                 logWithButton,
               ],

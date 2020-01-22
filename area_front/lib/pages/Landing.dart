@@ -1,5 +1,5 @@
 // Core
-import 'package:area_front/widgets/LogContainer.dart';
+import 'package:area_front/widgets/SignInContainer.dart';
 import 'package:flutter/material.dart';
 
 // My Widgets
@@ -32,7 +32,7 @@ class LandingPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(17.0),
                 color: Color.fromARGB(255, 237, 237, 237),
               ),
-              child: LogContainer()
+              child: SignInContainer()
             )
           )
         ],
