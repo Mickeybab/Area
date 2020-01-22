@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // My Widgets
 import 'package:area_front/widgets/TopBar.dart';
+import 'package:area_front/widgets/LogContainer.dart';
 
 // Datas
 import 'package:area_front/static/Constants.dart';
@@ -16,15 +17,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: TopBar(),
       body: Container(
-        child: RaisedButton(
-            child: Text(Constants.getMore),
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, Routes.home);
-            },
-            color: Colors.black,
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(18.0),
-            )),
+        child: LogContainer()
       ),
     );
   }

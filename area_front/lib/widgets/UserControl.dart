@@ -58,7 +58,8 @@ class UserControl extends StatelessWidget {
           ),
           PopupMenuItem(
             child: Text(Constants.signOut),
-            value: Routes.signOut,
+            // value: Routes.signOut,
+            value: Routes.login,
           ),
         ];
       },

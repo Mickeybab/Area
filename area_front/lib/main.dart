@@ -11,7 +11,7 @@ import 'package:area_front/pages/Login.dart' show LoginPage;
 import 'package:area_front/pages/MyApplets.dart' show MyApplets;
 import 'package:area_front/pages/MyServices.dart' show MyServices;
 import 'package:area_front/pages/SignOut.dart' show SignOut;
-
+import 'package:area_front/pages/Landing.dart' show LandingPage;
 
 void main() => runApp(MyApp());
 
@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: HomePage(),
         routes: <String, WidgetBuilder>{
+          Routes.landing: (BuildContext context) => LandingPage(),
           Routes.home: (BuildContext context) => HomePage(),
           Routes.login: (BuildContext context) => LoginPage(),
           Routes.signOut: (BuildContext context) => SignOut(),

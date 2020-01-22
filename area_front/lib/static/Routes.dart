@@ -1,4 +1,5 @@
 class Routes {
+  static const String landing = "/landing";
   static const String home = "/home";
   static const String login = "/login";
   static const String explore = "/explore";
