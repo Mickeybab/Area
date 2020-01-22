@@ -117,6 +117,8 @@ services:
     build:
       context: ./area_front
       dockerfile: Dockerfile
+    ports:
+      - 80:80
 
 volumes:
   db-data:
