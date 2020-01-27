@@ -2,30 +2,46 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
 
-class Backend {
-  static Future<http.Response> get(http.Client client, String path, {Map<String, String> headers}) async {
+
+class Backend extends IOClient {
+  Map<String, String> _headers;
+
+  Backend(this._headers) : super();
+
+  @override
+  Future<http.StreamedResponse> send(http.BaseRequest request) =>
+      super.send(request..headers.addAll(_headers));
+
+  @override
+  Future<http.Response> head(Object url, {Map<String, String> headers}) =>
+      super.head(url, headers: headers..addAll(_headers));
+
+  @override
+  Future<http.Response> get(dynamic path, {Map<String, String> headers}) async {
     final String route = FlutterConfig.get('API_URL') + path;
-    return await client.get(route, headers: headers);
+    return await super.get(route, headers: headers);
   }
 
-  static Future<http.Response> post(http.Client client, String path, {Map<String, String> headers, body, Encoding encoding}) async {
+  @override
+  Future<http.Response> post(dynamic path, {Map<String, String> headers, body, Encoding encoding}) async {
     final String route = FlutterConfig.get('API_URL') + path;
-    return await client.post(route, headers: headers, body: body, encoding: encoding);
+    return await super.post(route, headers: headers, body: body, encoding: encoding);
   }
 
-  static Future<http.Response> put(http.Client client, String path, {Map<String, String> headers, body, Encoding encoding}) async {
+  Future<http.Response> put(dynamic path, {Map<String, String> headers, body, Encoding encoding}) async {
     final route = FlutterConfig.get('API_URL') + path;
-    return await client.put(route, headers: headers, body: body, encoding: encoding);
+    return await super.put(route, headers: headers, body: body, encoding: encoding);
   }
 
-  static Future<http.Response> patch(http.Client client, String path, {Map<String, String> headers, body, Encoding encoding}) async {
+  Future<http.Response> patch(dynamic path, {Map<String, String> headers, body, Encoding encoding}) async {
     final route = FlutterConfig.get('API_URL') + path;
-    return await client.patch(route, headers: headers, body: body, encoding: encoding);
+    return await super.patch(route, headers: headers, body: body, encoding: encoding);
   }
 
-  static Future<http.Response> delete(http.Client client, String path, {Map<String, String> headers}) async {
+  Future<http.Response> delete(dynamic path, {Map<String, String> headers}) async {
     final route = FlutterConfig.get('API_URL') + path;
-    return await client.delete(route, headers: headers);
+    return await super.delete(route, headers: headers);
   }
 }
