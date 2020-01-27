@@ -1,4 +1,5 @@
 // Core
+import 'package:area_front/widgets/GoogleButtonLogin.dart';
 import 'package:flutter/material.dart';
 
 // My Widgets
@@ -12,8 +13,13 @@ class MyServices extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopBar(),
-      body: Center(
-          child: Text("Mes Services"),
+      body: Column(
+        children: <Widget>[
+          Center(
+              child: Text("Mes Services"),
+          ),
+          GoogleButtonLogin()
+        ],
       ),
     );
   }

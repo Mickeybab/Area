@@ -17,6 +17,7 @@ import 'package:flutter_config/flutter_config.dart';
 
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
   await FlutterConfig.loadEnvVariables();
 
