@@ -15,9 +15,11 @@ class _SignUpContainerState extends State<SignUpContainer> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 25.0, color: Colors.black);
 
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   String email = '';
   String password = '';
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class _SignUpContainerState extends State<SignUpContainer> {
         contentPadding: EdgeInsets.all(20.0),
         hintText: "Email",
       ),
+      validator: (value) => value.isEmpty ? 'Enter an email' : null,
       onChanged: (value) {
         setState(() {
           email = value;
@@ -68,6 +71,7 @@ class _SignUpContainerState extends State<SignUpContainer> {
         contentPadding: EdgeInsets.all(20.0),
         hintText: "Password",
       ),
+      validator: (value) => value.length < 6 ? 'Enter at least 6 characters' : null,
       onChanged: (value) {
         setState(() {
           password = value;
@@ -82,7 +86,12 @@ class _SignUpContainerState extends State<SignUpContainer> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.all(20.0),
         onPressed: () async {
-
+          if (_formKey.currentState.validate()) {
+            dynamic result = await _auth.signWithEmail(email, password);
+            if (result == null) {
+              setState(() => error = 'Please supply a valid email');
+            }
+          }
         },
         child: Text("Sign up",
           textAlign: TextAlign.center,
@@ -91,6 +100,9 @@ class _SignUpContainerState extends State<SignUpContainer> {
       ),
     );
 
+    final errorText = Text(
+      error
+    );
     final logWithButton = FlatButton(
       child: Text(
         'Continue With Slack or Github',
@@ -129,6 +141,7 @@ class _SignUpContainerState extends State<SignUpContainer> {
         padding: const EdgeInsets.all(36.0),
         width: 550,
         child: Form(
+          key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -140,6 +153,8 @@ class _SignUpContainerState extends State<SignUpContainer> {
               passwordField,
               SizedBox(height: 25.0),
               signUpButon,
+              SizedBox(height: 15.0),
+              errorText,
               SizedBox(height: 15.0),
               logWithButton,
               SizedBox(height: 10.0),
