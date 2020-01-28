@@ -1,13 +1,11 @@
-FROM node:10.16.3
+FROM python:3.7
 
-WORKDIR /usr/src/app
+WORKDIR /users_api
 
-COPY package*.json ./
+COPY requirement.txt .
 
-RUN npm install
+RUN pip3 install -r requirement.txt
 
 COPY . .
 
-EXPOSE 9000
-
-CMD [ "npm", "start" ]
+CMD ["python3", "-u", "manage.py", "runserver", "--verbosity", "3", "0.0.0.0:9000"]

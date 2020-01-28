@@ -7,7 +7,6 @@ services:
       dockerfile: Dockerfile
     environment:
       DEV_ENV: "TRUE"
-    image: server-dashboard
     ports:
       - 8080:8080
 
@@ -15,10 +14,8 @@ services:
     build: 
       context: ./api/users
       dockerfile: Dockerfile
-    environment:
-      DEV_ENV: "TRUE"
-      PORT: "9000"
-    image: users_api_dashboard
+    volumes:
+      - ./api/users:/users_api
     links:
       - db:database
     depends_on:
@@ -33,7 +30,6 @@ services:
     environment:
       DEV_ENV: "TRUE"
       PORT: "9001"
-    image: widget_api_dashboard
     links:
       - db:database
     depends_on:
@@ -49,7 +45,6 @@ services:
       dockerfile: Dockerfile
     environment:
       DEV_ENV: "TRUE"
-    image: news_api_dashboard
     ports:
       - 9002:5000
 
@@ -59,7 +54,6 @@ services:
       dockerfile: Dockerfile
     environment:
       DEV_ENV: "TRUE"
-    image: intra_api_dashboard
     ports:
       - 9003:8080
     restart: unless-stopped
@@ -71,7 +65,6 @@ services:
     environment:
       DEV_ENV: "TRUE"
       PORT: 9000
-    image: github_api_dashboard
     ports:
       - 9004:9000
     restart: unless-stopped
@@ -82,7 +75,6 @@ services:
       dockerfile: Dockerfile
     environment:
       DEV_ENV: "TRUE"
-    image: currency_api_dashboard
     ports:
       - 9005:8080
     restart: unless-stopped
