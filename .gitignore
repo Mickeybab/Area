@@ -4,4 +4,4 @@ node_modules
 # Config Files
 area_front/android/app/google-services.json
 area_front/web/init-firebase.js
-area_front/assets/cfg/app_settings.json
+area_front/lib/config.dart

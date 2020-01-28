@@ -48,9 +48,16 @@ TODO
 
 ### **Global**
 
-- Add in `.env` environnement configuration variable :
-  - `API_URL`
-  - ...
+- Add in `./lib/config.dart` environnement configuration variable :
+```
+final Map<String, String> config = {
+  'API_URL': 'localhost'
+  ...YOUR_KEY
+}
+```
+*We will change the way of handle the config file as soon as the issue on [Flutter Global Config](https://github.com/Ephenodrom/Flutter-Global-Config/issues/9) instead of using dart code we will use an assets in json*
+
+----
 
 For this porject in more than `Firebase` you will need your proper API to handle all the APPLET the `routes` needed are described below :
 
