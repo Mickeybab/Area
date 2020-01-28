@@ -38,7 +38,7 @@ class HomePage extends StatelessWidget {
                           style: TextStyle(fontSize: 24),
                         ),
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, Routes.login);
+                          Navigator.pushReplacementNamed(context, Routes.signIn);
                         },
                         color: Colors.black,
                         shape: RoundedRectangleBorder(

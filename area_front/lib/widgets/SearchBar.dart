@@ -21,6 +21,8 @@ class _SearchBarState extends State<SearchBar> {
   Widget build(BuildContext context) {
     const textField = TextField(
       decoration: const InputDecoration(
+        fillColor: Colors.grey,
+        filled: true,
         contentPadding: EdgeInsets.only(left: 15, right: 15),
         enabledBorder: const OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.grey),

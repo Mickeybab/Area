@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Datas
 import 'package:area_front/static/Constants.dart';
+import 'package:area_front/static/Routes.dart';
 
 // My Widgets
 import 'package:area_front/widgets/UserControl.dart';
@@ -20,8 +21,13 @@ class TopBar extends StatelessWidget with PreferredSizeWidget {
               alignment: Alignment.bottomCenter,
               padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width / 100 * 1),
-              child: Text("Home",
-                  style: TextStyle(color: Colors.black, fontSize: 20))),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushReplacementNamed(Routes.home);
+                },
+                child: Text("Home",
+                    style: TextStyle(color: Colors.black, fontSize: 20)),
+              )),
           SearchBar()
         ],
       ),
