@@ -1,9 +1,11 @@
+// Core
 import 'dart:convert';
 import 'dart:async';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 
+// Config
+import 'package:global_configuration/global_configuration.dart';
 
 class Backend extends IOClient {
   Map<String, String> _headers;
@@ -20,28 +22,28 @@ class Backend extends IOClient {
 
   @override
   Future<http.Response> get(dynamic path, {Map<String, String> headers}) async {
-    final String route = FlutterConfig.get('API_URL') + path;
+    final String route = GlobalConfiguration().getString('API_URL') + path;
     return await super.get(route, headers: headers);
   }
 
   @override
   Future<http.Response> post(dynamic path, {Map<String, String> headers, body, Encoding encoding}) async {
-    final String route = FlutterConfig.get('API_URL') + path;
+    final String route = GlobalConfiguration().getString('API_URL') + path;
     return await super.post(route, headers: headers, body: body, encoding: encoding);
   }
 
   Future<http.Response> put(dynamic path, {Map<String, String> headers, body, Encoding encoding}) async {
-    final route = FlutterConfig.get('API_URL') + path;
+    final route = GlobalConfiguration().getString('API_URL') + path;
     return await super.put(route, headers: headers, body: body, encoding: encoding);
   }
 
   Future<http.Response> patch(dynamic path, {Map<String, String> headers, body, Encoding encoding}) async {
-    final route = FlutterConfig.get('API_URL') + path;
+    final route = GlobalConfiguration().getString('API_URL') + path;
     return await super.patch(route, headers: headers, body: body, encoding: encoding);
   }
 
   Future<http.Response> delete(dynamic path, {Map<String, String> headers}) async {
-    final route = FlutterConfig.get('API_URL') + path;
+    final route = GlobalConfiguration().getString('API_URL') + path;
     return await super.delete(route, headers: headers);
   }
 }

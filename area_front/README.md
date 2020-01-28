@@ -2,7 +2,6 @@
 
 A new Flutter project.
 
-
 ## **Dependency**
 
 - `flutter channel beta`
@@ -19,33 +18,51 @@ if you want help to config channel beta [here](https://flutter.dev/docs/get-star
 - Download **google-service.json** at `./android/app/src/`
 - Connect Your Phone / Create a emulator
 
-
 ### **Web**
 
- TODO
+- Verify _scripts_ in `./web/index.html` ([Add Firebase to your JavaScript project](https://firebase.google.com/docs/web/setup#from-the-cdn))
+- Add an `init-firebase.js` at `./web/` which contain :
+
+```
+  // Your web app's Firebase configuration
+ var firebaseConfig = {
+     apiKey: "...",
+     authDomain: "[YOUR_PROJECT].firebaseapp.com",
+     databaseURL: "https://[YOUR_PROJECT].firebaseio.com",
+     projectId: "[YOUR_PROJECT]",
+     storageBucket: "[YOUR_PROJECT].appspot.com",
+     messagingSenderId: "...",
+     appId: "1:...:web:...",
+     measurementId: "G-..."
+ };
+ // Initialize Firebase
+ firebase.initializeApp(firebaseConfig);
+ firebase.analytics();
+```
+
+You can find your config value [here](http://support.google.com/firebase/answer/7015592).
 
 ### **IOS**
 
- TODO
-
+TODO
 
 ### **Global**
 
 - Add in `.env` environnement configuration variable :
-    - `API_URL`
+  - `API_URL`
+  - ...
 
 For this porject in more than `Firebase` you will need your proper API to handle all the APPLET the `routes` needed are described below :
 
-| Action | Method | Route |
-| ---- | ---- | ---- | ---- |
-| Get all the reactions component | `GET` | `API_URL/reactions` |
-| Get all the reactions component that the user does'nt already have | `GET` | `API_URL/:userId/suggestions` |
-| ... | ... | ... |
-
+| Action                                                             | Method | Route                         |
+| ------------------------------------------------------------------ | ------ | ----------------------------- |
+| Get all the reactions component                                    | `GET`  | `API_URL/reactions`           |
+| Get all the reactions component that the user does'nt already have | `GET`  | `API_URL/:userId/suggestions` |
+| ...                                                                | ...    | ...                           |
 
 ## **Run It**
 
-*You must do the set up part to be able to run the app !*
+_You must do the set up part to be able to run the app !_
 
 List possibles devides using :
 
@@ -57,28 +74,35 @@ Chrome      • chrome     • web-javascript • Google Chrome 79.0.3945.117
 Web Server  • web-server • web-javascript • Flutter Tools
 ```
 
-For the *web* version you will have to do :
+For the _web_ version you will have to do :
+
 ```
 flutter run -d chrome
 ```
 
-For *Android* :
+For _Android_ :
+
 ```
 flutter run -d 937AX056XB
 ```
 
-For *IOS* :
+For _IOS_ :
+
 ```
 flutter run -d `TOFILL` @cecile.cadoule@epitech.eu
 ```
 
 ## **Help used to realise the project**
 
-### Auth
-- [Firebase authentication & Google sign in using Flutter](https://blog.codemagic.io/firebase-authentication-google-sign-in-using-flutter/)
 ### Config
+
 - [Environment-Specific Configuration with Flutter](https://flutterigniter.com/env-specific-configuration/)
 - [JSON SERIABLE](https://pub.dev/packages/json_serializable#-readme-tab-)
+- [Add Firebase to your JavaScript project](https://firebase.google.com/docs/web/setup#from-the-cdn)
+
+### Auth
+
+- [Firebase authentication & Google sign in using Flutter](https://blog.codemagic.io/firebase-authentication-google-sign-in-using-flutter/)
 
 ### UI
 
@@ -86,13 +110,13 @@ flutter run -d `TOFILL` @cecile.cadoule@epitech.eu
 - [Layouts](https://flutter.dev/docs/development/ui/layout)
 
 ### Architecture
+
 - [Simple app state management](https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple)
 
 ## **Purpose of the Project**
 
-*The objective of this project is to discover the software platform of your choice among Java, C# .Net and mode.js, Flutter, ... to realize a business application that interconnects several external services (such as Epitech intranet, Yammer, Gmail, RSS...) as Reaction components.
-It is similar to tools like IFTTT or Zapier.*
-
+_The objective of this project is to discover the software platform of your choice among Java, C# .Net and mode.js, Flutter, ... to realize a business application that interconnects several external services (such as Epitech intranet, Yammer, Gmail, RSS...) as Reaction components.
+It is similar to tools like IFTTT or Zapier._
 
 # Authors
 
