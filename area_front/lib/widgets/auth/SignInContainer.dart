@@ -1,18 +1,28 @@
 // Core
+import 'package:area_front/services/Auth.dart';
 import 'package:flutter/material.dart';
 
-class SignUpContainer extends StatefulWidget {
+class SignInContainer extends StatefulWidget {
+
+  final Function toggleSignForm;
+  SignInContainer({this.toggleSignForm });
+
   @override
-  _SignUpContainerState createState() => _SignUpContainerState();
+  _SignInContainerState createState() => _SignInContainerState();
 }
 
-class _SignUpContainerState extends State<SignUpContainer> {
+class _SignInContainerState extends State<SignInContainer> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 25.0, color: Colors.black);
+
+  final AuthService _auth = AuthService();
+
+  String email = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
     final pageTitle = Text(
-      'Sign up',
+      'Sign in',
       style: TextStyle(
         fontFamily: 'Montserrat',
         fontSize: 70.0,
@@ -21,7 +31,7 @@ class _SignUpContainerState extends State<SignUpContainer> {
       ),
     );
 
-    final emailField = TextField(
+    final emailField = TextFormField(
       obscureText: false,
       style: style,
       decoration: InputDecoration(
@@ -36,9 +46,14 @@ class _SignUpContainerState extends State<SignUpContainer> {
         contentPadding: EdgeInsets.all(20.0),
         hintText: "Email",
       ),
+      onChanged: (value) {
+        setState(() {
+          email = value;
+        });
+      },
     );
 
-    final passwordField = TextField(
+    final passwordField = TextFormField(
       obscureText: true,
       style: style,
       decoration: InputDecoration(
@@ -52,6 +67,42 @@ class _SignUpContainerState extends State<SignUpContainer> {
         ),
         contentPadding: EdgeInsets.all(20.0),
         hintText: "Password",
+      ),
+      onChanged: (value) {
+        setState(() {
+          password = value;
+        });
+      },
+    );
+
+    final forgotButton = FlatButton(
+      child: Text(
+        'Forgot your password',
+        style: TextStyle(
+          decoration: TextDecoration.underline,
+          fontFamily: 'Montserrat',
+          fontSize: 15.0,
+          fontWeight: FontWeight.w400,
+          color: Colors.grey
+        ),
+      ),
+      onPressed: () {
+      },
+    );
+
+    final signInButon = Material(
+      borderRadius: BorderRadius.circular(35.0),
+      color: Colors.black,
+      child: MaterialButton(
+        minWidth: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.all(20.0),
+        onPressed: () async {
+          // dynamic user = await _auth.
+        },
+        child: Text("Sign in",
+          textAlign: TextAlign.center,
+          style: style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)
+        ),
       ),
     );
 
@@ -69,26 +120,30 @@ class _SignUpContainerState extends State<SignUpContainer> {
       },
     );
 
-    final signUpButon = Material(
-      borderRadius: BorderRadius.circular(35.0),
-      color: Colors.black,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(20.0),
-        onPressed: () {},
-        child: Text("Sign up",
-          textAlign: TextAlign.center,
-          style: style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)
+    final orText = Text(
+      'or'
+    );
+
+    final signUpButton = FlatButton(
+      child: Text(
+        'Sign up',
+        style: TextStyle(
+          decoration: TextDecoration.underline,
+          fontFamily: 'Montserrat',
+          fontSize: 15.0,
+          fontWeight: FontWeight.w600,
         ),
       ),
+      onPressed: () {
+        widget.toggleSignForm();
+      },
     );
 
     return Scaffold(
-      body: Center(
-        child: Container(
+      body: Container(
+          padding: const EdgeInsets.all(36.0),
           width: 550,
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
+          child: Form(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -98,15 +153,20 @@ class _SignUpContainerState extends State<SignUpContainer> {
                 emailField,
                 SizedBox(height: 25.0),
                 passwordField,
-                SizedBox(height: 25.0),
-                signUpButon,
+                SizedBox(height: 5.0),
+                forgotButton,
+                SizedBox(height: 10.0),
+                signInButon,
                 SizedBox(height: 15.0),
                 logWithButton,
+                SizedBox(height: 10.0),
+                orText,
+                SizedBox(height: 10.0),
+                signUpButton
               ],
             )
           ),
-        ),
-      ),
+      )
     );
   }
 }
