@@ -1,4 +1,5 @@
 // Core
+import 'package:area_front/backend/Navigation.dart';
 import 'package:flutter/material.dart';
 
 // Datas
@@ -9,7 +10,7 @@ class UserControl extends StatelessWidget {
   const UserControl({Key key}) : super(key: key);
 
   _selected(BuildContext context, String choice) {
-    Navigator.of(context).pushReplacementNamed(choice);
+    Navigation.navigate(context, choice);
   }
 
   @override

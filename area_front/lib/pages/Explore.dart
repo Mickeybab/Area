@@ -3,11 +3,9 @@ import 'package:area_front/static/Constants.dart';
 import 'package:flutter/material.dart';
 
 // Model
-import 'package:area_front/models/User.dart';
 
 // My Widgets
 import 'package:area_front/widgets/topbar/TopBar.dart';
-import 'package:provider/provider.dart';
 
 // Random Color
 import 'package:random_color/random_color.dart';
@@ -16,7 +14,6 @@ import 'package:random_color/random_color.dart';
 import 'package:area_front/models/Applets/Applet.dart';
 
 // Pages
-import 'package:area_front/pages/auth/Authenticate.dart';
 
 class Explore extends StatelessWidget {
   final List<List<Applet>> _suggestion = const [
@@ -206,12 +203,6 @@ class Explore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, fontWeight: FontWeight.w500, color: Colors.grey);
-
-    final user = Provider.of<User>(context);
-
-    if (user == null) {
-      return AuthPage();
-    }
 
     final exploreText = Container(
       margin: EdgeInsets.only(

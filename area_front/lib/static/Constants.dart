@@ -16,7 +16,16 @@ class Constants {
     signOut,
   ];
 
+  static const String or = 'or';
+  static const String continueWithSlackOrGithub = 'Continue With Slack or Github';
+  static const String errorMessagePasswordTooShort = 'Enter at least 6 characters';
+  static const String errorMessageEmailEmpty = 'Enter a valid email';
+  static const String hintPasswordField = 'Password';
+  static const String hintEmailField = 'Email';
+  static const String forgotYourPassword = 'Forgot your password';
 
+
+  static const String mainTitle = 'Area v1';
   static const String title = "AREA";
   static const String getMore = "Get More";
 
