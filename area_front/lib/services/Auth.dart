@@ -1,17 +1,20 @@
-// Auths
+// Auths Tools
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+// Config
+import 'package:global_configuration/global_configuration.dart';
 
 // Models
 import 'package:area_front/models/User.dart';
 
-// Responsible of all Auth Process
+/// Responsible of all Auth Process
 class AuthService {
   /// Instance of Firebase to handle oauth Procedures
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   /// Google Handle the selection of the Google Account and ask for permission
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(clientId: GlobalConfiguration().getString('GoogleSignInClientId'));
 
   /// Depending on the credential [FirebaseAuth] will sign In or Up the user
   ///

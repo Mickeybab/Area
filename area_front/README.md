@@ -11,13 +11,28 @@ if you want help to config channel beta [here](https://flutter.dev/docs/get-star
 
 ## **Set Up**
 
+### **Global**
+
 - Create a **Firebase Project**
+
+- Add in `./lib/config.dart` environnement configuration variable :
+```
+final Map<String, String> config = {
+  'GoogleSignInClientId': 'YOUR-GOOGLE-SIGN-IN-CLIENT-ID'
+  'API_URL': 'localhost'
+  ...YOUR_KEY
+}
+```
+You can find your **Google Sign In Client Id** at : https://console.firebase.google.com/u/0/project/{YOUR_PROJECT_NAME}/authentication/providers
+
+*We will change the way of handle the config file as soon as the issue on [Flutter Global Config](https://github.com/Ephenodrom/Flutter-Global-Config/issues/9) instead of using dart code we will use an assets in json*
 
 ### **Android**
 
 - On the Firebase console's project overview page, add an **Android App** to the Project
 - Download **google-service.json** at `./android/app/src/`
 - Connect Your Phone / Create a emulator
+// TODo add .xml line
 
 ### **Web**
 
@@ -58,18 +73,9 @@ _Find this **bundle ID** from your open project in XCode. Select the top-level a
 
 To test your application, you can [set up the iOS simulator](https://flutter.dev/docs/get-started/install/macos#set-up-the-ios-simulator) or/and [use an iOS device](https://flutter.dev/docs/get-started/install/macos#deploy-to-ios-devices).
 
-### **Global**
-
-- Add in `./lib/config.dart` environnement configuration variable :
-```
-final Map<String, String> config = {
-  'API_URL': 'localhost'
-  ...YOUR_KEY
-}
-```
-*We will change the way of handle the config file as soon as the issue on [Flutter Global Config](https://github.com/Ephenodrom/Flutter-Global-Config/issues/9) instead of using dart code we will use an assets in json*
 
 ----
+### Back-End
 
 For this porject in more than `Firebase` you will need your proper API to handle all the APPLET the `routes` needed are described below:
 
@@ -86,7 +92,7 @@ For this porject in more than `Firebase` you will need your proper API to handle
 List possibles devides using:
 
 ```
-flutter devices
+$ flutter devices
 
 Pixel 3a XL • 937AX056XB • android-arm64  • Android 10 (API 29)
 Chrome      • chrome     • web-javascript • Google Chrome 79.0.3945.117
@@ -95,15 +101,27 @@ Web Server  • web-server • web-javascript • Flutter Tools
 
 ### **Web**
 
+- Start the web server
 ```
-$ flutter run -d chrome
+$ flutter run -d web-server --web-port 5000
+
+Launching lib/main.dart on Web Server in debug mode...
+Building application for the web...                                16.7s
+lib/main.dart is being served at http://localhost:5000/
 ```
+- Open the url displayed in a browser in this case `http://localhost:5000/` *(Google Chrome is advisor)*
+
+
+*We specify port **5000** because this **URI** is authorized by default by Google Sign In. To allow more URI check [here](https://console.developers.google.com/apis/credentials)*.
 
 ### **Android**
 
+- Run the app on your devices
 ```
 $ flutter run -d 937AX056XB
 ```
+
+- Check your device
 
 ### **iOS**
 
