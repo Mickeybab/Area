@@ -1,6 +1,9 @@
 // Core
-import 'package:area_front/backend/Auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+// Services
+import 'package:area_front/backend/Auth.dart';
 
 class SignUpContainer extends StatefulWidget {
 
@@ -87,9 +90,10 @@ class _SignUpContainerState extends State<SignUpContainer> {
         padding: EdgeInsets.all(20.0),
         onPressed: () async {
           if (_formKey.currentState.validate()) {
-            dynamic result = await _auth.signWithEmail(email, password);
-            if (result == null) {
-              setState(() => error = 'Please supply a valid email');
+            try {
+              await _auth.signUpWithEmail(email, password);
+            } on AuthException catch (e) {
+              setState(() => error = e.message);
             }
           }
         },
@@ -103,6 +107,7 @@ class _SignUpContainerState extends State<SignUpContainer> {
     final errorText = Text(
       error
     );
+
     final logWithButton = FlatButton(
       child: Text(
         'Continue With Slack or Github',
@@ -137,32 +142,34 @@ class _SignUpContainerState extends State<SignUpContainer> {
     );
 
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(36.0),
-        width: 550,
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              pageTitle,
-              SizedBox(height: 45.0),
-              emailField,
-              SizedBox(height: 25.0),
-              passwordField,
-              SizedBox(height: 25.0),
-              signUpButon,
-              SizedBox(height: 15.0),
-              errorText,
-              SizedBox(height: 15.0),
-              logWithButton,
-              SizedBox(height: 10.0),
-              orText,
-              SizedBox(height: 10.0),
-              signInButton
-            ],
-          )
+      body: Center(
+        child: Container(
+          padding: const EdgeInsets.all(36.0),
+          width: 550,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                pageTitle,
+                SizedBox(height: 45.0),
+                emailField,
+                SizedBox(height: 25.0),
+                passwordField,
+                SizedBox(height: 25.0),
+                signUpButon,
+                SizedBox(height: 15.0),
+                errorText,
+                SizedBox(height: 15.0),
+                logWithButton,
+                SizedBox(height: 10.0),
+                orText,
+                SizedBox(height: 10.0),
+                signInButton
+              ],
+            )
+          ),
         ),
       ),
     );

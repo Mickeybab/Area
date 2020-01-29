@@ -1,5 +1,9 @@
 // Core
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+// Models
+import 'package:area_front/models/User.dart';
 
 // My Widgets
 import 'package:area_front/widgets/TopBar.dart';
@@ -12,43 +16,48 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // final user = Provider.of<User>(context);
+
     return Scaffold(
-        appBar: TopBar(),
-        body: Stack(
-          children: <Widget>[
-            Center(
-              child: LimitedBox(
-                maxHeight: 600,
-                maxWidth: 600,
-                child: Image.asset(
-                  'assets/images/home/IFTTT.png',
-                ),
+      appBar: TopBar(),
+      body: Stack(
+        children: <Widget>[
+          Center(
+            child: LimitedBox(
+              maxHeight: 600,
+              maxWidth: 600,
+              child: Image.asset(
+                'assets/images/home/IFTTT.png',
               ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                ButtonBar(
-                  alignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    RaisedButton(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Text(
-                          "Get More",
-                          style: TextStyle(fontSize: 24),
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(context, Routes.auth);
-                        },
-                        color: Colors.black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(18.0),
-                        ))
-                  ],
-                ),
-              ],
-            )
-          ],
-        ));
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RaisedButton(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Text(
+                      "Get More",
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, Routes.explore);
+                    },
+                    color: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(18.0),
+                    )
+                  )
+                ],
+              ),
+            ],
+          )
+        ],
+      )
+    );
   }
 }
