@@ -10,34 +10,24 @@ services:
     ports:
       - 8080:8080
 
-  users_api:
+  link_api:
     build: 
-      context: ./api/users
+      context: ./api/link
       dockerfile: Dockerfile
     volumes:
-      - ./api/users:/users_api
+      - ./api/link:/link_api
+    environment:
+      DEV: 1
+      MYSQL_DATABASE: area
+      MYSQL_USER: user
+      MYSQL_PASSWORD: test
     links:
-      - db:database
+      - db
     depends_on:
       - db
     ports:
       - 9000:9000
-
-  widget_api:
-    build: 
-      context: ./api/widget
-      dockerfile: Dockerfile
-    environment:
-      DEV_ENV: "TRUE"
-      PORT: "9001"
-    links:
-      - db:database
-    depends_on:
-      - db
-      - users_api
-    ports:
-      - 9001:9001
-    restart: unless-stopped
+    restart: always
 
   news_api:
     build: 
@@ -56,7 +46,7 @@ services:
       DEV_ENV: "TRUE"
     ports:
       - 9003:8080
-    restart: unless-stopped
+    restart: always
 
   github_api:
     build: 
@@ -67,7 +57,7 @@ services:
       PORT: 9000
     ports:
       - 9004:9000
-    restart: unless-stopped
+    restart: always
 
   currency_api:
     build: 
@@ -77,23 +67,24 @@ services:
       DEV_ENV: "TRUE"
     ports:
       - 9005:8080
-    restart: unless-stopped
+    restart: always
 
   db:
     image: mysql:5.7
     ports: 
       - "3306:3306"
     environment:
+      MYSQL_DATABASE: area
       MYSQL_USER: user
       MYSQL_PASSWORD: test
       MYSQL_ROOT_PASSWORD: test
     volumes:
-      - db-data:/var/lib/mysql
+      - ./db-data:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     links: 
-      - db:db
+      - db
     depends_on:
       - db
     ports:
@@ -105,12 +96,9 @@ services:
     volumes:
       - /sessions
     
-  area_front:
+  front:
     build:
       context: ./area_front
       dockerfile: Dockerfile
     ports:
       - 80:80
-
-volumes:
-  db-data:
