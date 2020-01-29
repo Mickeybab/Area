@@ -2,6 +2,7 @@ package-lock.json
 node_modules
 
 # Config Files
+area_front/ios/Runner/GoogleService-Info.plist
 area_front/android/app/google-services.json
 area_front/web/init-firebase.js
 area_front/lib/config.dart
