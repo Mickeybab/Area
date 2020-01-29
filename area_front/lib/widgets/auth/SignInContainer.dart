@@ -1,5 +1,5 @@
 // Core
-import 'package:area_front/services/Auth.dart';
+import 'package:area_front/backend/Auth.dart';
 import 'package:flutter/material.dart';
 
 class SignInContainer extends StatefulWidget {

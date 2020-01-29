@@ -2,13 +2,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:area_front/services/Auth.dart';
+import 'package:area_front/backend/Auth.dart';
 import 'package:area_front/models/User.dart';
 
 // Data
 import 'package:area_front/static/Routes.dart' show Routes;
 
 import 'package:area_front/Wrapper.dart';
+// Config
+import 'package:area_front/config.dart';
+
 // Pages
 import 'package:area_front/pages/Explore.dart';
 import 'package:area_front/pages/Home.dart' show HomePage;
@@ -21,7 +24,15 @@ import 'package:area_front/pages/MyServices.dart' show MyServices;
 import 'package:area_front/pages/auth/SignOut.dart' show SignOut;
 import 'package:area_front/pages/Landing.dart' show LandingPage;
 
-void main() => runApp(MyApp());
+// Config
+import 'package:global_configuration/global_configuration.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  GlobalConfiguration().loadFromMap(config);
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -29,25 +40,24 @@ class MyApp extends StatelessWidget {
     return StreamProvider<User>.value(
       value: AuthService().user,
       child: MaterialApp(
-        title: 'Area v1',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        debugShowCheckedModeBanner: false,
-        home: Wrapper(),
-        routes: <String, WidgetBuilder>{
-          Routes.landing: (BuildContext context) => LandingPage(),
-          Routes.home: (BuildContext context) => HomePage(),
-          // Routes.signIn: (BuildContext context) => SignInPage(),
-          // Routes.signUp: (BuildContext context) => SignUpPage(),
-          Routes.auth: (BuildContext context) => AuthPage(),
-          Routes.signWith: (BuildContext context) => SignWithPage(),
-          Routes.signOut: (BuildContext context) => SignOut(),
-          Routes.myApplets: (BuildContext context) => MyApplets(),
-          Routes.myServices: (BuildContext context) => MyServices(),
-          Routes.explore: (BuildContext context) => Explore(),
-        }
-      ),
+          title: 'Area v1',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          debugShowCheckedModeBanner: false,
+          home: Wrapper(),
+          routes: <String, WidgetBuilder>{
+            Routes.landing: (BuildContext context) => LandingPage(),
+            Routes.home: (BuildContext context) => HomePage(),
+            // Routes.signIn: (BuildContext context) => SignInPage(),
+            // Routes.signUp: (BuildContext context) => SignUpPage(),
+            Routes.auth: (BuildContext context) => AuthPage(),
+            Routes.signWith: (BuildContext context) => SignWithPage(),
+            Routes.signOut: (BuildContext context) => SignOut(),
+            Routes.myApplets: (BuildContext context) => MyApplets(),
+            Routes.myServices: (BuildContext context) => MyServices(),
+            Routes.explore: (BuildContext context) => Explore(),
+          }),
     );
   }
 }

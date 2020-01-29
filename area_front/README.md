@@ -1,30 +1,131 @@
-# area_front
+# **AREA Epitech front**
 
 A new Flutter project.
 
-
-## Dependency
+## **Dependency**
 
 - `flutter channel beta`
+- `Google Account -> Firebase Project`
 
 if you want help to config channel beta [here](https://flutter.dev/docs/get-started/web)
 
-## Make it Run
+## **Set Up**
+
+### **Android App**
+
+- Create a **Firebase Project**
+- Add an **Android App** to the Project
+- Download **google-service.json** at `./android/app/src/`
+- Connect Your Phone / Create a emulator
+
+### **Web**
+
+- Verify _scripts_ in `./web/index.html` ([Add Firebase to your JavaScript project](https://firebase.google.com/docs/web/setup#from-the-cdn))
+- Add an `init-firebase.js` at `./web/` which contain :
+
+```
+  // Your web app's Firebase configuration
+ var firebaseConfig = {
+     apiKey: "...",
+     authDomain: "[YOUR_PROJECT].firebaseapp.com",
+     databaseURL: "https://[YOUR_PROJECT].firebaseio.com",
+     projectId: "[YOUR_PROJECT]",
+     storageBucket: "[YOUR_PROJECT].appspot.com",
+     messagingSenderId: "...",
+     appId: "1:...:web:...",
+     measurementId: "G-..."
+ };
+ // Initialize Firebase
+ firebase.initializeApp(firebaseConfig);
+ firebase.analytics();
+```
+
+You can find your config value [here](http://support.google.com/firebase/answer/7015592).
+
+### **IOS**
+
+TODO
+
+### **Global**
+
+- Add in `./lib/config.dart` environnement configuration variable :
+```
+final Map<String, String> config = {
+  'API_URL': 'localhost'
+  ...YOUR_KEY
+}
+```
+*We will change the way of handle the config file as soon as the issue on [Flutter Global Config](https://github.com/Ephenodrom/Flutter-Global-Config/issues/9) instead of using dart code we will use an assets in json*
+
+----
+
+For this porject in more than `Firebase` you will need your proper API to handle all the APPLET the `routes` needed are described below :
+
+| Action                                                             | Method | Route                         |
+| ------------------------------------------------------------------ | ------ | ----------------------------- |
+| Get all the reactions component                                    | `GET`  | `API_URL/reactions`           |
+| Get all the reactions component that the user does'nt already have | `GET`  | `API_URL/:userId/suggestions` |
+| ...                                                                | ...    | ...                           |
+
+## **Run It**
+
+_You must do the set up part to be able to run the app !_
+
+List possibles devides using :
+
+```
+flutter devices
+
+Pixel 3a XL • 937AX056XB • android-arm64  • Android 10 (API 29)
+Chrome      • chrome     • web-javascript • Google Chrome 79.0.3945.117
+Web Server  • web-server • web-javascript • Flutter Tools
+```
+
+For the _web_ version you will have to do :
 
 ```
 flutter run -d chrome
 ```
 
+For _Android_ :
 
-## Getting Started
+```
+flutter run -d 937AX056XB
+```
 
-This project is a starting point for a Flutter application.
+For _IOS_ :
 
-A few resources to get you started if this is your first Flutter project:
+```
+flutter run -d `TOFILL` @cecile.cadoule@epitech.eu
+```
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## **Help used to realise the project**
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Config
+
+- [Environment-Specific Configuration with Flutter](https://flutterigniter.com/env-specific-configuration/)
+- [JSON SERIABLE](https://pub.dev/packages/json_serializable#-readme-tab-)
+- [Add Firebase to your JavaScript project](https://firebase.google.com/docs/web/setup#from-the-cdn)
+
+### Auth
+
+- [Firebase authentication & Google sign in using Flutter](https://blog.codemagic.io/firebase-authentication-google-sign-in-using-flutter/)
+
+### UI
+
+- [Flutter - Settings Button (Popup Menu Button)](https://www.youtube.com/watch?v=CpjfR5rG2lM)
+- [Layouts](https://flutter.dev/docs/development/ui/layout)
+
+### Architecture
+
+- [Simple app state management](https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple)
+
+## **Purpose of the Project**
+
+_The objective of this project is to discover the software platform of your choice among Java, C# .Net and mode.js, Flutter, ... to realize a business application that interconnects several external services (such as Epitech intranet, Yammer, Gmail, RSS...) as Reaction components.
+It is similar to tools like IFTTT or Zapier._
+
+# Authors
+
+- cecile.cadoul@epitech.eu
+- julien.ollivier@epitech.eu
