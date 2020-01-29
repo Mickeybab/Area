@@ -30,9 +30,9 @@ You can find your **Google Sign In Client Id** at : https://console.firebase.goo
 ### **Android**
 
 - On the Firebase console's project overview page, add an **Android App** to the Project
+    - Take time to do the **full** configuration as explained
 - Download **google-service.json** at `./android/app/src/`
 - Connect Your Phone / Create a emulator
-// TODo add .xml line
 
 ### **Web**
 
