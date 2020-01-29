@@ -17,13 +17,17 @@ class Constants {
   ];
 
   static const String or = 'or';
-  static const String continueWithSlackOrGithub = 'Continue With Slack or Github';
+  static const String continueWithSlackOrGithub = 'Continue With External Services';
   static const String errorMessagePasswordTooShort = 'Enter at least 6 characters';
   static const String errorMessageEmailEmpty = 'Enter a valid email';
   static const String hintPasswordField = 'Password';
   static const String hintEmailField = 'Email';
   static const String forgotYourPassword = 'Forgot your password';
-
+  static const String usePassword = 'Or use your password to';
+  static const String continueWithGithub = 'Continue with Github';
+  static const String continueWithSlack = 'Continue with Slack';
+  static const String continueWithGoogle = 'Continue with Google';
+  static const String getStarted = 'Get Started';
 
   static const String mainTitle = 'Area v1';
   static const String title = "AREA";
