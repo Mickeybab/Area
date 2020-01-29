@@ -6,14 +6,15 @@ import 'package:area_front/widgets/TopBar.dart';
 import 'package:area_front/widgets/auth/SignInContainer.dart';
 
 class SignInPage extends StatelessWidget {
-  const SignInPage({Key key}) : super(key: key);
+  final Function toggleSignForm;
+  SignInPage({ this.toggleSignForm });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopBar(),
       body: Container(
-        child: SignInContainer()
+        child: SignInContainer(toggleSignForm: toggleSignForm,)
       ),
     );
   }

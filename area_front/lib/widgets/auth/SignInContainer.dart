@@ -1,11 +1,14 @@
 // Core
-import 'package:area_front/services/Auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+// Services
+import 'package:area_front/services/Auth.dart';
 
 class SignInContainer extends StatefulWidget {
 
   final Function toggleSignForm;
-  SignInContainer({this.toggleSignForm });
+  SignInContainer({ this.toggleSignForm });
 
   @override
   _SignInContainerState createState() => _SignInContainerState();
@@ -15,9 +18,11 @@ class _SignInContainerState extends State<SignInContainer> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 25.0, color: Colors.black);
 
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   String email = '';
   String password = '';
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +51,7 @@ class _SignInContainerState extends State<SignInContainer> {
         contentPadding: EdgeInsets.all(20.0),
         hintText: "Email",
       ),
+      validator: (value) => value.isEmpty ? 'Enter an email' : null,
       onChanged: (value) {
         setState(() {
           email = value;
@@ -68,6 +74,7 @@ class _SignInContainerState extends State<SignInContainer> {
         contentPadding: EdgeInsets.all(20.0),
         hintText: "Password",
       ),
+      validator: (value) => value.length < 6 ? 'Enter at least 6 characters' : null,
       onChanged: (value) {
         setState(() {
           password = value;
@@ -97,13 +104,23 @@ class _SignInContainerState extends State<SignInContainer> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.all(20.0),
         onPressed: () async {
-          // dynamic user = await _auth.
+          if (_formKey.currentState.validate()) {
+            try {
+              await _auth.signInWithEmail(email, password);
+            } on AuthException catch (e) {
+              setState(() => error = e.message);
+            }
+          }
         },
         child: Text("Sign in",
           textAlign: TextAlign.center,
           style: style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)
         ),
       ),
+    );
+
+    final errorText = Text(
+      error
     );
 
     final logWithButton = FlatButton(
@@ -144,6 +161,7 @@ class _SignInContainerState extends State<SignInContainer> {
           padding: const EdgeInsets.all(36.0),
           width: 550,
           child: Form(
+            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -157,6 +175,8 @@ class _SignInContainerState extends State<SignInContainer> {
                 forgotButton,
                 SizedBox(height: 10.0),
                 signInButon,
+                SizedBox(height: 15.0),
+                errorText,
                 SizedBox(height: 15.0),
                 logWithButton,
                 SizedBox(height: 10.0),
