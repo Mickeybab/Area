@@ -2,6 +2,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+// Constants
+import 'package:area_front/static/Constants.dart';
+
 // Services
 import 'package:area_front/services/Auth.dart';
 
@@ -15,8 +18,6 @@ class SignUpContainer extends StatefulWidget {
 }
 
 class _SignUpContainerState extends State<SignUpContainer> {
-  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 25.0, color: Colors.black);
-
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
@@ -27,18 +28,16 @@ class _SignUpContainerState extends State<SignUpContainer> {
   @override
   Widget build(BuildContext context) {
     final pageTitle = Text(
-      'Sign up',
-      style: TextStyle(
-        fontFamily: 'Montserrat',
+      Constants.signUp,
+      style: Constants.style.copyWith(
         fontSize: 70.0,
         fontWeight: FontWeight.w600,
-        color: Colors.black
       ),
     );
 
     final emailField = TextFormField(
       obscureText: false,
-      style: style,
+      style: Constants.style,
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Color.fromARGB(255, 237, 237, 237), width: 5.0),
@@ -61,7 +60,7 @@ class _SignUpContainerState extends State<SignUpContainer> {
 
     final passwordField = TextFormField(
       obscureText: true,
-      style: style,
+      style: Constants.style,
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Color.fromARGB(255, 237, 237, 237), width: 5.0),
@@ -97,23 +96,25 @@ class _SignUpContainerState extends State<SignUpContainer> {
             }
           }
         },
-        child: Text("Sign up",
+        child: Text(
+          Constants.signUp,
           textAlign: TextAlign.center,
-          style: style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)
+          style: Constants.style.copyWith(color: Colors.white, fontWeight: FontWeight.w600)
         ),
       ),
     );
 
     final errorText = Text(
-      error
+      error,
+      style: Constants.style.copyWith(fontSize: 12, color: Colors.redAccent),
+      textAlign: TextAlign.center,
     );
 
     final logWithButton = FlatButton(
       child: Text(
         'Continue With Slack or Github',
-        style: TextStyle(
+        style: Constants.style.copyWith(
           decoration: TextDecoration.underline,
-          fontFamily: 'Montserrat',
           fontSize: 15.0,
           fontWeight: FontWeight.w600,
         ),
@@ -128,10 +129,9 @@ class _SignUpContainerState extends State<SignUpContainer> {
 
     final signInButton = FlatButton(
       child: Text(
-        'Sign in',
-        style: TextStyle(
+        Constants.signIn,
+        style: Constants.style.copyWith(
           decoration: TextDecoration.underline,
-          fontFamily: 'Montserrat',
           fontSize: 15.0,
           fontWeight: FontWeight.w600,
         ),

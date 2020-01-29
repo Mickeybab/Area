@@ -2,6 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+// Constants
+import 'package:area_front/static/Constants.dart';
+
 // Services
 import 'package:area_front/services/Auth.dart';
 
@@ -15,8 +18,6 @@ class SignInContainer extends StatefulWidget {
 }
 
 class _SignInContainerState extends State<SignInContainer> {
-  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 25.0, color: Colors.black);
-
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
@@ -27,18 +28,16 @@ class _SignInContainerState extends State<SignInContainer> {
   @override
   Widget build(BuildContext context) {
     final pageTitle = Text(
-      'Sign in',
-      style: TextStyle(
-        fontFamily: 'Montserrat',
+      Constants.signIn,
+      style: Constants.style.copyWith(
         fontSize: 70.0,
         fontWeight: FontWeight.w600,
-        color: Colors.black
       ),
     );
 
     final emailField = TextFormField(
       obscureText: false,
-      style: style,
+      style: Constants.style,
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Color.fromARGB(255, 237, 237, 237), width: 5.0),
@@ -49,7 +48,7 @@ class _SignInContainerState extends State<SignInContainer> {
           borderRadius: BorderRadius.circular(10.0)
         ),
         contentPadding: EdgeInsets.all(20.0),
-        hintText: "Email",
+        hintText: 'Email',
       ),
       validator: (value) => value.isEmpty ? 'Enter an email' : null,
       onChanged: (value) {
@@ -61,7 +60,7 @@ class _SignInContainerState extends State<SignInContainer> {
 
     final passwordField = TextFormField(
       obscureText: true,
-      style: style,
+      style: Constants.style,
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Color.fromARGB(255, 237, 237, 237), width: 5.0),
@@ -72,7 +71,7 @@ class _SignInContainerState extends State<SignInContainer> {
           borderRadius: BorderRadius.circular(10.0)
         ),
         contentPadding: EdgeInsets.all(20.0),
-        hintText: "Password",
+        hintText: 'Password',
       ),
       validator: (value) => value.length < 6 ? 'Enter at least 6 characters' : null,
       onChanged: (value) {
@@ -85,9 +84,8 @@ class _SignInContainerState extends State<SignInContainer> {
     final forgotButton = FlatButton(
       child: Text(
         'Forgot your password',
-        style: TextStyle(
+        style: Constants.style.copyWith(
           decoration: TextDecoration.underline,
-          fontFamily: 'Montserrat',
           fontSize: 15.0,
           fontWeight: FontWeight.w400,
           color: Colors.grey
@@ -112,23 +110,25 @@ class _SignInContainerState extends State<SignInContainer> {
             }
           }
         },
-        child: Text("Sign in",
+        child: Text(
+          Constants.signIn,
           textAlign: TextAlign.center,
-          style: style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)
+          style: Constants.style.copyWith(color: Colors.white, fontWeight: FontWeight.w600)
         ),
       ),
     );
 
     final errorText = Text(
-      error
+      error,
+      style: Constants.style.copyWith(fontSize: 12, color: Colors.redAccent),
+      textAlign: TextAlign.center,
     );
 
     final logWithButton = FlatButton(
       child: Text(
         'Continue With Slack or Github',
-        style: TextStyle(
+        style: Constants.style.copyWith(
           decoration: TextDecoration.underline,
-          fontFamily: 'Montserrat',
           fontSize: 15.0,
           fontWeight: FontWeight.w600,
         ),
@@ -138,15 +138,15 @@ class _SignInContainerState extends State<SignInContainer> {
     );
 
     final orText = Text(
-      'or'
+      'or',
+      style: Constants.style.copyWith(fontSize: 13),
     );
 
     final signUpButton = FlatButton(
       child: Text(
         'Sign up',
-        style: TextStyle(
+        style: Constants.style.copyWith(
           decoration: TextDecoration.underline,
-          fontFamily: 'Montserrat',
           fontSize: 15.0,
           fontWeight: FontWeight.w600,
         ),

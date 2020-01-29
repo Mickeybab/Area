@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 // Services
 import 'package:area_front/services/Auth.dart';
 
+// Constants
+import 'package:area_front/static/Constants.dart';
+
 // Datas
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/static/Routes.dart';
@@ -18,8 +21,6 @@ class ConnectTopBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle style = TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600, fontSize: 40, color: Colors.black);
-
     final signOutButon = IconButton(
       icon: Icon(Icons.exit_to_app, color: Colors.black,),
       onPressed: () async {
@@ -28,6 +29,7 @@ class ConnectTopBar extends StatelessWidget with PreferredSizeWidget {
     );
 
     return AppBar(
+      elevation: 1,
       title: Row(
         children: <Widget>[
           Container(
@@ -37,7 +39,7 @@ class ConnectTopBar extends StatelessWidget with PreferredSizeWidget {
               },
               child: Text(
                 Constants.title,
-                style: style
+                style: Constants.style.copyWith(fontWeight: FontWeight.w600, fontSize: 40)
               ),
             ),
           ),

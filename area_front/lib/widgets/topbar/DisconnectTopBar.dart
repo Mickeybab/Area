@@ -11,9 +11,8 @@ class DisconnectTopBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle style = TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600, fontSize: 40, color: Colors.black);
-
     return AppBar(
+      elevation: 1,
       title: Row(
         children: <Widget>[
           Container(
@@ -22,7 +21,7 @@ class DisconnectTopBar extends StatelessWidget with PreferredSizeWidget {
                 Navigator.of(context).pushReplacementNamed(Routes.wrapper);
               },
               child: Text(Constants.title,
-                style: style
+                style: Constants.style.copyWith(fontWeight: FontWeight.w600, fontSize: 40)
               ),
             ),
           ),
