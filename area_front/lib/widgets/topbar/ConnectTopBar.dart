@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 // Services
 import 'package:area_front/services/Auth.dart';
 
-// Constants
-import 'package:area_front/static/Constants.dart';
-
 // Datas
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/static/Routes.dart';

@@ -18,9 +18,6 @@ import 'package:area_front/models/Applets/Applet.dart';
 // Pages
 import 'package:area_front/pages/auth/Authenticate.dart';
 
-// Pages
-import 'package:area_front/pages/auth/Authenticate.dart';
-
 class Explore extends StatelessWidget {
   final List<List<Applet>> _suggestion = const [
     [
