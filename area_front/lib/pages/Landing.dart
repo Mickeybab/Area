@@ -5,7 +5,7 @@ import 'package:area_front/widgets/landing/HorizontalLandingStack.dart';
 import 'package:area_front/widgets/landing/VerticalLandingStack.dart';
 
 // My Widgets
-import 'package:area_front/widgets/TopBar.dart';
+import 'package:area_front/widgets/topbar/TopBar.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key key}) : super(key: key);

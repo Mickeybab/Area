@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:area_front/models/User.dart';
 
 // My Widgets
-import 'package:area_front/widgets/TopBar.dart';
+import 'package:area_front/widgets/topbar/TopBar.dart';
 
 // Datas
 import 'package:area_front/static/Routes.dart';

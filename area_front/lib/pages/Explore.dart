@@ -1,14 +1,21 @@
 // Core
 import 'package:flutter/material.dart';
 
+// Model
+import 'package:area_front/models/User.dart';
+
 // My Widgets
-import 'package:area_front/widgets/TopBar.dart';
+import 'package:area_front/widgets/topbar/TopBar.dart';
+import 'package:provider/provider.dart';
 
 // Random Color
 import 'package:random_color/random_color.dart';
 
 // Datas
 import 'package:area_front/backend/Applets/Applet.dart';
+
+// Pages
+import 'package:area_front/pages/auth/Authenticate.dart';
 
 class Explore extends StatelessWidget {
   final List<List<Applet>> _suggestion = const [
@@ -197,6 +204,11 @@ class Explore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
+    if (user == null) {
+      return AuthPage();
+    }
     return Scaffold(
       appBar: TopBar(),
       body: Center(
