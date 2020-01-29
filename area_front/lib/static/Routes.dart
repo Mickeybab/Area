@@ -1,6 +1,7 @@
 class Routes {
   static const String landing = "/landing";
   static const String wrapper = "/home";
+  static const String home = "/home";
   static const String explore = "/explore";
   static const String myApplets = "/my-applets";
   static const String myServices = "/my-services";

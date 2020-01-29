@@ -1,9 +1,5 @@
 // Core
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-// Models
-import 'package:area_front/models/User.dart';
 
 // My Widgets
 import 'package:area_front/widgets/TopBar.dart';

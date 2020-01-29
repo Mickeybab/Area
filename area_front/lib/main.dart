@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // Services
-import 'package:area_front/backend/Auth.dart';
+import 'package:area_front/services/Auth.dart';
 
 // Models
 import 'package:area_front/models/User.dart';

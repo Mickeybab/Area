@@ -8,7 +8,7 @@ import 'package:area_front/widgets/TopBar.dart';
 import 'package:random_color/random_color.dart';
 
 // Datas
-import 'package:area_front/backend/Applets/Applet.dart';
+import 'package:area_front/models/Applets/Applet.dart';
 
 class Explore extends StatelessWidget {
   final List<List<Applet>> _suggestion = const [

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 // Services
-import 'package:area_front/backend/Auth.dart';
+import 'package:area_front/services/Auth.dart';
 
 class SignInContainer extends StatefulWidget {
 
