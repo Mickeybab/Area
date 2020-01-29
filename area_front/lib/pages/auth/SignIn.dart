@@ -13,9 +13,7 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopBar(),
-      body: Container(
-        child: SignInContainer(toggleSignForm: toggleSignForm,)
-      ),
+      body: SignInContainer(toggleSignForm: toggleSignForm,)
     );
   }
 }

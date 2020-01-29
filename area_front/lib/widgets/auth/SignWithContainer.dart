@@ -1,23 +1,23 @@
 // Core
 import 'package:flutter/material.dart';
 
+// Constants
+import 'package:area_front/static/Constants.dart';
+
 class SignWithContainer extends StatefulWidget {
   @override
   _SignWithContainerState createState() => _SignWithContainerState();
 }
 
 class _SignWithContainerState extends State<SignWithContainer> {
-  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 25.0, color: Colors.black);
 
   @override
   Widget build(BuildContext context) {
     final pageTitle = Text(
       'Get started',
-      style: TextStyle(
-        fontFamily: 'Montserrat',
+      style: Constants.style.copyWith(
         fontSize: 70.0,
         fontWeight: FontWeight.w600,
-        color: Colors.black
       ),
     );
 
@@ -28,9 +28,10 @@ class _SignWithContainerState extends State<SignWithContainer> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.all(20.0),
         onPressed: () {},
-        child: Text("Continue With Slack",
+        child: Text(
+          'Continue With Slack',
           textAlign: TextAlign.center,
-          style: style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)
+          style: Constants.style.copyWith(color: Colors.white, fontWeight: FontWeight.w600)
         ),
       ),
     );
@@ -42,27 +43,29 @@ class _SignWithContainerState extends State<SignWithContainer> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.all(20.0),
         onPressed: () {},
-        child: Text("Continue With Github",
+        child: Text(
+          'Continue With Github',
           textAlign: TextAlign.center,
-          style: style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)
+          style: Constants.style.copyWith(color: Colors.white, fontWeight: FontWeight.w600)
         ),
       ),
     );
 
     final usePasswordText = Text(
-      'Or use your password to'
+      'Or use your password to',
+      style: Constants.style.copyWith(fontSize: 13),
     );
 
     final orText = Text(
-      'or'
+      'or',
+      style: Constants.style.copyWith(fontSize: 13),
     );
 
     final signInButton = FlatButton(
       child: Text(
-        'Sign in',
-        style: TextStyle(
+        Constants.signIn,
+        style: Constants.style.copyWith(
           decoration: TextDecoration.underline,
-          fontFamily: 'Montserrat',
           fontSize: 15.0,
           fontWeight: FontWeight.w600,
         ),
@@ -73,10 +76,9 @@ class _SignWithContainerState extends State<SignWithContainer> {
 
     final signUpButton = FlatButton(
       child: Text(
-        'Sign up',
-        style: TextStyle(
+        Constants.signUp,
+        style: Constants.style.copyWith(
           decoration: TextDecoration.underline,
-          fontFamily: 'Montserrat',
           fontSize: 15.0,
           fontWeight: FontWeight.w600,
         ),
