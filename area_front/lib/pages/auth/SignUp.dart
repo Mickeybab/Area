@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // My Widgets
-import 'package:area_front/widgets/TopBar.dart';
+import 'package:area_front/widgets/topbar/TopBar.dart';
 import 'package:area_front/widgets/auth/SignUpContainer.dart';
 
 class SignUpPage extends StatelessWidget {
