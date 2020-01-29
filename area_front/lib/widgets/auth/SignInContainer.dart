@@ -157,7 +157,8 @@ class _SignInContainerState extends State<SignInContainer> {
     );
 
     return Scaffold(
-      body: Container(
+      body: Center(
+        child: Container(
           padding: const EdgeInsets.all(36.0),
           width: 550,
           child: Form(
@@ -186,6 +187,7 @@ class _SignInContainerState extends State<SignInContainer> {
               ],
             )
           ),
+        ),
       )
     );
   }

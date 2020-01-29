@@ -52,19 +52,21 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: TopBar(),
-      body: Container(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          children: <Widget>[
-            connectText,
-            SizedBox(height: 50.0),
-            image,
-            SizedBox(height: 200.0),
-            Container(
-              width: 300,
-              child: getMoreButon
-            )
-          ],
+      body: Center(
+        child: Container(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            children: <Widget>[
+              connectText,
+              SizedBox(height: 50.0),
+              image,
+              SizedBox(height: 200.0),
+              Container(
+                width: 300,
+                child: getMoreButon
+              )
+            ],
+          ),
         ),
       )
 

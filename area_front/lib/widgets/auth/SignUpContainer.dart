@@ -124,7 +124,8 @@ class _SignUpContainerState extends State<SignUpContainer> {
     );
 
     final orText = Text(
-      'or'
+      'or',
+      style: Constants.style.copyWith(fontSize: 13),
     );
 
     final signInButton = FlatButton(
@@ -157,7 +158,7 @@ class _SignUpContainerState extends State<SignUpContainer> {
                 emailField,
                 SizedBox(height: 25.0),
                 passwordField,
-                SizedBox(height: 25.0),
+                SizedBox(height: 63.0),
                 signUpButon,
                 SizedBox(height: 15.0),
                 errorText,
