@@ -1,14 +1,25 @@
 // Core
+import 'package:area_front/static/Constants.dart';
 import 'package:flutter/material.dart';
 
+// Model
+import 'package:area_front/models/User.dart';
+
 // My Widgets
-import 'package:area_front/widgets/TopBar.dart';
+import 'package:area_front/widgets/topbar/TopBar.dart';
+import 'package:provider/provider.dart';
 
 // Random Color
 import 'package:random_color/random_color.dart';
 
 // Datas
 import 'package:area_front/models/Applets/Applet.dart';
+
+// Pages
+import 'package:area_front/pages/auth/Authenticate.dart';
+
+// Pages
+import 'package:area_front/pages/auth/Authenticate.dart';
 
 class Explore extends StatelessWidget {
   final List<List<Applet>> _suggestion = const [
@@ -197,34 +208,56 @@ class Explore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, fontWeight: FontWeight.w500, color: Colors.grey);
+
+    final user = Provider.of<User>(context);
+
+    if (user == null) {
+      return AuthPage();
+    }
+
+    final exploreText = Container(
+      margin: EdgeInsets.only(
+        top: MediaQuery.of(context).size.height / 100 * 8,
+        bottom: 30
+      ),
+      child: Text(
+        'Explore',
+        style: Constants.style.copyWith(fontSize: 60, fontWeight: FontWeight.w600),
+        textAlign: TextAlign.center,
+      )
+    );
+
     return Scaffold(
       appBar: TopBar(),
       body: Center(
         child: Column(
           children: <Widget>[
-            Container(
-                margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 100 * 8,
-                    bottom: 30),
-                child: Text(
-                  "Explore",
-                  style: TextStyle(fontSize: 50),
-                )),
+            exploreText,
             // SearchBar(),
             Container(
+              // padding: EdgeInsets.only(20),
               child: TextField(
-                  decoration: const InputDecoration(
-                fillColor: Colors.grey,
-                filled: true,
-                enabledBorder: const OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.grey),
-                    borderRadius:
-                        const BorderRadius.all(const Radius.circular(30.0))),
-                prefixIcon: Icon(Icons.search),
-                hintText: 'Search',
-              )),
+                decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.only(right: 5),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: const BorderSide(color: Color.fromARGB(255, 237, 237, 237), width: 2.0),
+                    borderRadius: const BorderRadius.all(const Radius.circular(10.0))
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black, width: 2.0),
+                    borderRadius: const BorderRadius.all(const Radius.circular(10.0))
+                  ),
+                  prefixIcon: Icon(Icons.search, color: Colors.black,),
+                  hintText: 'Search',
+                  hintStyle: style,
+                )
+              ),
               margin: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).size.height / 25),
+                bottom: MediaQuery.of(context).size.height / 25,
+                left: 30,
+                right: 30,
+              ),
             ),
             ListAppletSugestion(
               applets: _suggestion,
