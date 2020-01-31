@@ -54,7 +54,6 @@ flutter:
   assets:
     - assets/images/home/IFTTT.png
     - assets/images/services.png
-    - assets/images/google_logo.png
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 

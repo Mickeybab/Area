@@ -8,11 +8,11 @@ class AreaTextField extends StatelessWidget {
       {Key key,
       this.obscureText = false,
       this.hintText = '',
-      this.enabledBorderColor = const Color.fromARGB(255, 237, 237, 237),
+      this.enabledBorderColor = Constants.colorBorder,
       this.focusedBorderColor = const Color.fromARGB(255, 0, 0, 0),
       this.borderWidth = 5.0,
       this.borderRadius = 10.0,
-      this.contentPadding = const EdgeInsets.all(20.0),
+      this.contentPadding = Constants.defaultPadding,
       @required this.onChanged,
       @required this.validator})
       : super(key: key);
@@ -30,7 +30,7 @@ class AreaTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: false,
+      obscureText: this.obscureText,
       style: Constants.style,
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
@@ -38,8 +38,8 @@ class AreaTextField extends StatelessWidget {
                 color: this.enabledBorderColor, width: this.borderWidth),
             borderRadius: BorderRadius.circular(this.borderRadius)),
         focusedBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(color: this.focusedBorderColor, width: this.borderWidth),
+            borderSide: BorderSide(
+                color: this.focusedBorderColor, width: this.borderWidth),
             borderRadius: BorderRadius.circular(this.borderRadius)),
         contentPadding: this.contentPadding,
         hintText: this.hintText,

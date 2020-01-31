@@ -1,3 +1,4 @@
+import 'package:area_front/static/Constants.dart';
 import 'package:flutter/material.dart';
 
 // Widgets
@@ -19,7 +20,7 @@ class AreaLargeButton extends StatelessWidget {
       color: Colors.black,
       child: MaterialButton(
           minWidth: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.all(20.0),
+          padding: Constants.defaultPadding,
           onPressed: this.onPressed,
           child:
               AreaText(this.text, textAlign: TextAlign.center, color: color)),

@@ -1,5 +1,7 @@
 // Core
 import 'package:area_front/backend/Navigation.dart';
+import 'package:area_front/widgets/AreaLargeButton.dart';
+import 'package:area_front/widgets/AreaTitle.dart';
 import 'package:flutter/material.dart';
 
 // Constants
@@ -16,39 +18,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final user = Provider.of<User>(context);
-
-    final connectText = Text(
-      'Connect your world.',
-      style:
-          Constants.style.copyWith(fontSize: 60, fontWeight: FontWeight.w600),
-      textAlign: TextAlign.center,
-    );
-
-    final image = Container(
-      padding: EdgeInsets.only(left: 40, right: 40),
-      width: 600,
-      child: Image.asset(
-        'assets/images/3.0x/services.png',
-      ),
-    );
-
-    final getMoreButon = Material(
-      borderRadius: BorderRadius.circular(35.0),
-      color: Colors.black,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(20.0),
-        onPressed: () {
-          Navigation.navigate(context, Routes.explore);
-        },
-        child: Text("Get more",
-            textAlign: TextAlign.center,
-            style: Constants.style
-                .copyWith(color: Colors.white, fontWeight: FontWeight.w600)),
-      ),
-    );
-
     return Scaffold(
         appBar: TopBar(),
         body: Center(
@@ -56,11 +25,21 @@ class HomePage extends StatelessWidget {
             padding: EdgeInsets.all(20),
             child: Column(
               children: <Widget>[
-                connectText,
+                AreaTitle(Constants.connectYourWorld),
                 SizedBox(height: 50.0),
-                image,
+                Image.asset(
+                  'assets/images/3.0x/services.png',
+                  width: 600,
+                ),
                 SizedBox(height: 200.0),
-                Container(width: 300, child: getMoreButon)
+                Container(
+                    width: 300,
+                    child: AreaLargeButton(
+                      text: Constants.getMore,
+                      onPressed: () {
+                        Navigation.navigate(context, Routes.explore);
+                      },
+                    )),
               ],
             ),
           ),

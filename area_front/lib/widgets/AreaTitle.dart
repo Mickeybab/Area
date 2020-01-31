@@ -15,6 +15,7 @@ class AreaTitle extends StatelessWidget {
       this.title,
       fontSize: 70.0,
       fontWeight: FontWeight.w600,
+      textAlign: TextAlign.center,
     );
   }
 }
