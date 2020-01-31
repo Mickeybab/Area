@@ -1,6 +1,5 @@
 // Core
 import 'package:area_front/services/Auth.dart';
-import 'package:area_front/widgets/GoogleButtonLogin.dart';
 import 'package:flutter/material.dart';
 import 'package:area_front/backend/Navigation.dart';
 
