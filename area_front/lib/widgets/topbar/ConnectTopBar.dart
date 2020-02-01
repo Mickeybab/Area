@@ -1,4 +1,5 @@
 // Core
+import 'package:area_front/backend/Navigation.dart';
 import 'package:flutter/material.dart';
 
 // Services
@@ -32,7 +33,7 @@ class ConnectTopBar extends StatelessWidget with PreferredSizeWidget {
           Container(
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).pushReplacementNamed(Routes.wrapper);
+                Navigation.navigate(context, Routes.wrapper);
               },
               child: Text(
                 Constants.title,
