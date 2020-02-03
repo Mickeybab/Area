@@ -44,6 +44,7 @@ class _SignInPageState extends State<SignInPage> {
           try {
             await _auth.signInWithEmail(email, password);
           } on AuthException catch (e) {
+            await _auth.signOut();
             setState(() => error = e.message);
           }
         }
