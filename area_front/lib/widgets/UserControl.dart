@@ -1,4 +1,5 @@
 // Core
+import 'package:area_front/backend/Navigation.dart';
 import 'package:flutter/material.dart';
 
 // Datas
@@ -9,7 +10,7 @@ class UserControl extends StatelessWidget {
   const UserControl({Key key}) : super(key: key);
 
   _selected(BuildContext context, String choice) {
-    Navigator.of(context).pushReplacementNamed(choice);
+    Navigation.navigate(context, choice);
   }
 
   @override
@@ -25,7 +26,7 @@ class UserControl extends StatelessWidget {
       itemBuilder: (BuildContext context) {
         return [
           PopupMenuItem(
-            value: Routes.home,
+            value: Routes.wrapper,
             child: Container(
               decoration: BoxDecoration(
                   border: Border(bottom: BorderSide(color: Colors.black))),
@@ -55,12 +56,6 @@ class UserControl extends StatelessWidget {
           PopupMenuItem(
             child: Text(Constants.myServices),
             value: Routes.myServices,
-          ),
-          PopupMenuItem(
-            child: Text(Constants.signOut),
-            // value: Routes.landing,
-            value: Routes.signOut,
-            // value: Routes.signWith,
           ),
         ];
       },
