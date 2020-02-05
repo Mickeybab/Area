@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// All the constants of the project area
 class Constants {
   static const String explore = "Explore";
   static const String myApplets = "My applets";

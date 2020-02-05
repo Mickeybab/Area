@@ -154,6 +154,25 @@ $ flutter run
 
 ---
 
+## **Contributing**
+
+### Documentation
+
+#### Generation
+
+```
+$ dartdoc
+```
+
+#### Access to doc
+
+```
+$ pub global activate dhttpd
+$ dhttpd --path doc/api
+```
+
+---
+
 ## **Purpose of the Project**
 
 _The objective of this project is to discover the software platform of your choice among Java, C# .Net and mode.js, Flutter, ... to realize a business application that interconnects several external services (such as Epitech intranet, Yammer, Gmail, RSS...) as Reaction components.

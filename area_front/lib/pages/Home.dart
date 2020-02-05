@@ -13,6 +13,7 @@ import 'package:area_front/widgets/topbar/TopBar.dart';
 // Datas
 import 'package:area_front/static/Routes.dart';
 
+/// `Home` Page of the Area Project
 class HomePage extends StatelessWidget {
   const HomePage({Key key}) : super(key: key);
 
@@ -31,7 +32,7 @@ class HomePage extends StatelessWidget {
                   'assets/images/3.0x/services.png',
                   width: 600,
                 ),
-                SizedBox(height: 200.0),
+                SizedBox(height: 150.0),
                 Container(
                     width: 300,
                     child: AreaLargeButton(
