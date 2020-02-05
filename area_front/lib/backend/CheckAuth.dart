@@ -8,10 +8,13 @@ import 'package:area_front/pages/auth/SignIn.dart';
 // Models
 import 'package:area_front/models/User.dart';
 
+
+/// If a [User] is connected the Widget will display the result of
+/// the [Function] `page` given as parameter otherwise it will display the [SignInPage]
 class CheckAuth extends StatelessWidget {
   const CheckAuth(this.page, {Key key}) : super(key: key);
 
-  final Function page;
+  final Function page;/// this [Function] is given as parameter is must return Widget to display
 
   @override
   Widget build(BuildContext context) {

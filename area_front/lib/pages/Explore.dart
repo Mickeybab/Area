@@ -11,7 +11,7 @@ import 'package:area_front/widgets/LargeSearchBar.dart';
 // Datas
 import 'package:area_front/models/applets/Applet.dart';
 
-
+/// `Explores` Page of the Area Project
 class Explore extends StatelessWidget {
   const Explore({Key key}) : super(key: key);
 

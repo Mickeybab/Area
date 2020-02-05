@@ -1,12 +1,4 @@
 // Core
-import 'package:area_front/static/Routes.dart';
-import 'package:area_front/widgets/AreaText.dart';
-import 'package:area_front/widgets/AreaLargeButton.dart';
-import 'package:area_front/widgets/AreaTitle.dart';
-import 'package:area_front/widgets/AreaTextField.dart';
-import 'package:area_front/widgets/auth/ErrorAuthText.dart';
-import 'package:area_front/widgets/auth/Link.dart';
-import 'package:area_front/widgets/topbar/TopBar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -15,6 +7,20 @@ import 'package:area_front/static/Constants.dart';
 
 // Services
 import 'package:area_front/services/Auth.dart';
+
+// Widgets
+import 'package:area_front/widgets/AreaFlatButton.dart';
+import 'package:area_front/widgets/AreaText.dart';
+import 'package:area_front/widgets/AreaLargeButton.dart';
+import 'package:area_front/widgets/AreaTitle.dart';
+import 'package:area_front/widgets/AreaTextField.dart';
+import 'package:area_front/widgets/auth/ErrorAuthText.dart';
+import 'package:area_front/widgets/auth/Link.dart';
+import 'package:area_front/widgets/topbar/TopBar.dart';
+
+// Static
+import 'package:area_front/static/Routes.dart';
+
 
 class SignInPage extends StatefulWidget {
   SignInPage({this.toggleSignForm});

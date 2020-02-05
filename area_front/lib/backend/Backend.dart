@@ -7,8 +7,9 @@ import 'package:http/io_client.dart';
 // Config
 import 'package:global_configuration/global_configuration.dart';
 
+/// Backend is a [IOClient] to create the correct [URL] for all request
 class Backend extends IOClient {
-  Map<String, String> _headers;
+  Map<String, String> _headers;/// headers of all request
 
   Backend(this._headers) : super();
 

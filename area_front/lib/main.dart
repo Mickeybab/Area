@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 // Services
 import 'package:area_front/services/Auth.dart';
+import 'package:area_front/backend/CheckAuth.dart';
 
 // Models
 import 'package:area_front/models/User.dart';
@@ -16,7 +17,6 @@ import 'package:area_front/models/User.dart';
 // Data
 import 'package:area_front/static/Routes.dart' show Routes;
 
-import 'package:area_front/Wrapper.dart';
 // Config
 import 'package:area_front/config.dart';
 
