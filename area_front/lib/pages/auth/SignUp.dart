@@ -79,33 +79,35 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       appBar: TopBar(),
       body: Center(
-        child: Container(
-          padding: const EdgeInsets.all(36.0),
-          width: 550,
-          child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  AreaTitle(Constants.signUp),
-                  SizedBox(height: 45.0),
-                  this._emailField(),
-                  SizedBox(height: 25.0),
-                  this._passwordField(),
-                  SizedBox(height: 63.0),
-                  this._signUpButton(),
-                  SizedBox(height: 15.0),
-                  ErrorAuth(error),
-                  SizedBox(height: 15.0),
-                  AreaLink(Constants.continueWithSlackOrGithub,
-                      routeName: Routes.signWith),
-                  SizedBox(height: 10.0),
-                  AreaText(Constants.or, fontSize: 13),
-                  SizedBox(height: 10.0),
-                  AreaLink(Constants.signIn, routeName: Routes.signIn),
-                ],
-              )),
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(36.0),
+            width: 550,
+            child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    AreaTitle(Constants.signUp),
+                    SizedBox(height: 45.0),
+                    this._emailField(),
+                    SizedBox(height: 25.0),
+                    this._passwordField(),
+                    SizedBox(height: 63.0),
+                    this._signUpButton(),
+                    SizedBox(height: 15.0),
+                    ErrorAuth(error),
+                    SizedBox(height: 15.0),
+                    AreaLink(Constants.continueWithSlackOrGithub,
+                        routeName: Routes.signWith),
+                    SizedBox(height: 10.0),
+                    AreaText(Constants.or, fontSize: 13),
+                    SizedBox(height: 10.0),
+                    AreaLink(Constants.signIn, routeName: Routes.signIn),
+                  ],
+                )),
+          ),
         ),
       ),
     );
