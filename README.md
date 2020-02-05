@@ -1,6 +1,7 @@
 # AREA
 
 ## Services
+
 - Outlook Mail
 - Github
 - OpenWeather
@@ -9,7 +10,9 @@
 - [Intra Epitech]
 
 ## Actions / Reactions
+
 ### Actions
+
 - Recevoir un Mail
 - Recevoir une notif intra
 - Une note inférieur à telle valeur
@@ -23,6 +26,7 @@
 - la valeur d'une monnaie fluctu au dessus d'un seuil
 
 ### Reations
+
 - Notifications
 - Mails
 - Messages
@@ -40,18 +44,18 @@ Method : **`GET`**
 ```json
 [
   {
-    'id': 'ID'
-    'action': 'Intra GPA',
-    'reaction': 'Slack Message',
-    'title': 'Follow My Progression',
-    'description': 'Get a message when the GPA ',
-    'enable': false,
-    'valeurs': [
+    "id": "ID",
+    "action": "Intra GPA",
+    "reaction": "Slack Message",
+    "title": "Follow My Progression",
+    "description": "Get a message when the GPA ",
+    "enable": false,
+    "valeurs": [
       {
-        'name': 'nom du paramètre',
-        'type': 'string/int',
-        'value': '',
-        'category': 'action/reaction',
+        "name": "nom du paramètre",
+        "type": "string/int",
+        "value": "",
+        "category": "action/reaction",
       },
       ...
     ]
@@ -68,24 +72,23 @@ Method : **`GET`**
 
 ```json
 {
-  'id': 'ID'
-  'action': 'Intra GPA',
-  'reaction': 'Slack Message',
-  'title': 'Follow My Progression',
-  'description': 'Recevoir un messages lorsque mon GPA dépasse une certaines valeurs',
-  'enable': false,
-  'valeurs': [
+  "id": "ID",
+  "action": "Intra GPA",
+  "reaction": "Slack Message",
+  "title": "Follow My Progression",
+  "description": "Recevoir un messages lorsque mon GPA dépasse une certaines valeurs",
+  "enable": false,
+  "valeurs": [
     {
-      'name': 'nom du paramètre',
-      'type': 'string/int',
-      'value': '',
-      'category': 'action/reaction',
+      "name": "nom du paramètre",
+      "type": "string/int",
+      "value": "",
+      "category": "action/reaction",
     },
     ...
   ]
 }
 ```
-
 
 ### Activer un Applets
 
@@ -95,13 +98,13 @@ Method : **`GET`**
 
 ```json
 {
-  'user_id': 'ARYUHGFDSDFTRSJDS',
-  'valeurs': [
+  "user_id": "ARYUHGFDSDFTRSJDS",
+  "valeurs": [
     {
-      'name': 'nom du paramètre',
-      'type': 'string/int',
-      'value': '',
-      'category': 'action/reaction',
+      "name": "nom du paramètre",
+      "type": "string/int",
+      "value": "",
+      "category": "action/reaction",
     },
     ...
   ]
@@ -116,7 +119,7 @@ url : `API_URL/applets/${id}/desactivate`
 
 ```json
 {
-  'user_id': 'qnfkjsqnkndfsjnkjq'
+  "user_id": "qnfkjsqnkndfsjnkjq"
 }
 ```
 
@@ -127,6 +130,7 @@ Un url par services
 `API_URL/services/${serviceName}`
 
 Les services name peuvent être les suivants
+
 - github
 - intraepitech
 - slack
@@ -146,7 +150,7 @@ Method : **`POST`**
 
 For the refresh refresh:
 
-- `''` where there are no refresh-token
+- `""` where there are no refresh-token
 - otherwise the `token`
 
 ### Get les applets en fonction des actions
@@ -158,18 +162,18 @@ Method : **`GET`**
 ```json
 [
   {
-    'id': 'ID'
-    'action': 'Intra GPA',
-    'reaction': 'Slack Message',
-    'title': 'Follow My Progression',
-    'description': 'Recevoir un messages lorsque mon GPA dépasse une certaines valeurs',
-    'enable': false,
-    'valeurs': [
+    "id": "ID",
+    "action": "Intra GPA",
+    "reaction": "Slack Message",
+    "title": "Follow My Progression",
+    "description": "Recevoir un messages lorsque mon GPA dépasse une certaines valeurs",
+    "enable": false,
+    "valeurs": [
       {
-        'name': 'nom du paramètre',
-        'type': 'string/int',
-        'value': '',
-        'category': 'action/reaction',
+        "name": "nom du paramètre",
+        "type": "string/int",
+        "value": "",
+        "category": "action/reaction",
       },
       ...
     ]
@@ -187,18 +191,19 @@ Method : **`GET`**
 ```json
 [
   {
-    'id': 'ID'
-    'action': 'Intra GPA',
-    'reaction': 'Slack Message',
-    'title': 'Follow My Progression',
-    'description': 'Recevoir un messages lorsque mon GPA dépasse une certaines valeurs',
-    'enable': false,
-    'valeurs': [
+    "id": "ID",
+
+    "action": "Intra GPA",
+    "reaction": "Slack Message",
+    "title": "Follow My Progression",
+    "description": "Recevoir un messages lorsque mon GPA dépasse une certaines valeurs",
+    "enable": false,
+    "valeurs": [
       {
-        'name': 'nom du paramètre',
-        'type': 'string/int',
-        'value': '',
-        'category': 'action/reaction',
+        "name": "nom du paramètre",
+        "type": "string/int",
+        "value": "",
+        "category": "action/reaction",
       },
       ...
     ]
