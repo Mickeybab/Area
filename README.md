@@ -24,14 +24,13 @@
 - la température est inférieur à un seuil
 - la valeur d'une monnaie fluctu en dessous d'un seuil
 - la valeur d'une monnaie fluctu au dessus d'un seuil
+- recevoir une notification Slack
 
 ### Reations
 
 - Notifications
 - Mails
 - Messages
-- Si il y a un message comme "MERGE" dans un commit Dans une PR on peut merge automatiquement merge la PR
--
 
 ## Requests
 
