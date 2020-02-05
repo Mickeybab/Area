@@ -16,9 +16,6 @@ import 'package:area_front/static/Constants.dart';
 // Services
 import 'package:area_front/services/Auth.dart';
 
-// Widgets
-import 'package:area_front/widgets/AreaFlatButton.dart';
-
 class ResetPassword extends StatefulWidget {
   ResetPassword({this.toggleSignForm});
 

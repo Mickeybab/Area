@@ -16,9 +16,6 @@ import 'package:area_front/static/Constants.dart';
 // Services
 import 'package:area_front/services/Auth.dart';
 
-// Widgets
-import 'package:area_front/widgets/AreaFlatButton.dart';
-
 class SignInPage extends StatefulWidget {
   SignInPage({this.toggleSignForm});
 
@@ -49,17 +46,6 @@ class _SignInPageState extends State<SignInPage> {
           }
         }
       },
-    );
-  }
-
-  AreaFlatButton _forgotButton() {
-    return AreaFlatButton(
-      onPressed: () {
-
-      },
-      text: Constants.forgotYourPassword,
-      fontWeight: FontWeight.w400,
-      color: Colors.grey,
     );
   }
 
