@@ -109,7 +109,6 @@ class _SignInPageState extends State<SignInPage> {
                     SizedBox(height: 25.0),
                     this._passwordField(),
                     SizedBox(height: 5.0),
-                    // this._forgotButton(),
                     AreaLink(
                       Constants.forgotYourPassword,
                       routeName: Routes.resetPassword,
