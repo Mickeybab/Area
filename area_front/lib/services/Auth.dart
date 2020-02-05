@@ -59,16 +59,22 @@ class AuthService {
 
   /// Detect auth changes
   Stream<User> get user {
-    print("User change");
     return _auth.onAuthStateChanged
-        .map((FirebaseUser user) => _userFromFirebaseUser(user));
+        .map((FirebaseUser user)  {
+          print(user.toString());
+          if (user != null && user.isEmailVerified)
+            return _userFromFirebaseUser(user);
+          else
+            return null;
+        });
   }
 
   Future signUpWithEmail(String email, String password) async {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
-      return _userFromFirebaseUser(user);
+
+      await user.sendEmailVerification();
     } catch (error) {
       print(error.toString());
       throw new AuthException(error.code, error.message);
@@ -79,21 +85,31 @@ class AuthService {
     try {
       AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
-      return _userFromFirebaseUser(user);
+      if (user.isEmailVerified) {
+        _userFromFirebaseUser(user);
+      } else {
+        throw new AuthException("auth/is-email-verified-error", "Please validate your email via the link sent to your email address.");
+      }
     } catch (error) {
       print(error.toString());
       throw new AuthException(error.code, error.message);
     }
   }
 
-  Future signOut() async {
+  Future resetPassword(String email) async {
     try {
-      print("log out asked");
-      return await _auth.signOut();
+      return await _auth.sendPasswordResetEmail(email: email);
     } catch (error) {
-      print("log out failed");
       print(error.toString());
       return null;
+    }
+  }
+
+  Future signOut() async {
+    try {
+      await _auth.signOut();
+    } catch (error) {
+      print(error.toString());
     }
   }
 }

@@ -1,4 +1,5 @@
 // Core
+import 'package:area_front/backend/Navigation.dart';
 import 'package:flutter/material.dart';
 
 // Datas
@@ -8,6 +9,8 @@ import 'package:area_front/static/Routes.dart';
 // My Widgets
 
 class DisconnectTopBar extends StatelessWidget with PreferredSizeWidget {
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +21,11 @@ class DisconnectTopBar extends StatelessWidget with PreferredSizeWidget {
           Container(
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).pushReplacementNamed(Routes.wrapper);
+                Navigation.navigate(context, Routes.home);
               },
               child: Text(Constants.title,
-                style: Constants.style.copyWith(fontWeight: FontWeight.w600, fontSize: 40)
-              ),
+                  style: Constants.style
+                      .copyWith(fontWeight: FontWeight.w600, fontSize: 40)),
             ),
           ),
         ],
@@ -30,7 +33,4 @@ class DisconnectTopBar extends StatelessWidget with PreferredSizeWidget {
       backgroundColor: Colors.white,
     );
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }

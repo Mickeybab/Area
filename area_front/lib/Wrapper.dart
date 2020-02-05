@@ -1,24 +1,21 @@
 //Core
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+// Pages
+import 'package:area_front/pages/auth/SignIn.dart';
 
 // Models
 import 'package:area_front/models/User.dart';
 
-//Pages
-import 'package:area_front/pages/Home.dart';
-import 'package:area_front/pages/auth/Authenticate.dart';
+class CheckAuth extends StatelessWidget {
+  const CheckAuth(this.page, {Key key}) : super(key: key);
 
-class Wrapper extends StatelessWidget {
+  final Function page;
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-
-    if (user == null) {
-      return AuthPage();
-    } else {
-      return HomePage();
-    }
+    return (user == null ? SignInPage() : this.page());
   }
 }

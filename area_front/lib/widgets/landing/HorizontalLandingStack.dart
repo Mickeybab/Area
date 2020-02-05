@@ -1,7 +1,9 @@
 // Core
 import 'package:flutter/material.dart';
 
-import 'package:area_front/widgets/auth/SignInContainer.dart';
+import 'package:area_front/pages/auth/SignIn.dart';
+import 'package:area_front/static/Constants.dart';
+
 
 class HorizontalLandingStack extends StatelessWidget {
   @override
@@ -24,9 +26,9 @@ class HorizontalLandingStack extends StatelessWidget {
             width: 450,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(17.0),
-              color: Color.fromARGB(255, 237, 237, 237),
+              color: Constants.colorBorder,
             ),
-            child: SignInContainer()
+            child: SignInPage()
           )
         )
       ],
