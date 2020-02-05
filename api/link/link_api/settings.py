@@ -135,3 +135,7 @@ STATIC_URL = '/static/'
 FIREBASE_PATH = "area-a0d38-firebase-adminsdk-jw2de-59a95d0b6f.json"
 FIREBASE_CRED = firebase_admin.credentials.Certificate(FIREBASE_PATH)
 FIREBASE = firebase_admin.initialize_app(FIREBASE_CRED)
+
+## API ############
+
+INTRA_API = 'intra_api:9003'
