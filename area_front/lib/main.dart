@@ -1,5 +1,6 @@
 // Core
 import 'package:area_front/pages/Home.dart';
+import 'package:area_front/pages/auth/ResetPassword.dart';
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/pages/auth/SignUp.dart';
 import 'package:area_front/pages/auth/SignWith.dart';
@@ -52,9 +53,10 @@ class MyApp extends StatelessWidget {
             Routes.landing: (BuildContext context) =>
                 CheckAuth(() => LandingPage()),
             Routes.home: (BuildContext context) => CheckAuth(() => HomePage()),
-            Routes.signIn: (BuildContext context) => SignInPage(),
+            Routes.signIn: (BuildContext context) => CheckAuth(() => HomePage()),
             Routes.signUp: (BuildContext context) => SignUpPage(),
             Routes.signWith: (BuildContext context) => SignWithPage(),
+            Routes.resetPassword: (BuildContext context) => ResetPassword(),
             Routes.myApplets: (BuildContext context) =>
                 CheckAuth(() => MyApplets()),
             Routes.myServices: (BuildContext context) =>

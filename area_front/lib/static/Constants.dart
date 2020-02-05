@@ -24,7 +24,8 @@ class Constants {
   static const String errorMessageEmailEmpty = 'Enter a valid email';
   static const String hintPasswordField = 'Password';
   static const String hintEmailField = 'Email';
-  static const String forgotYourPassword = 'Forgot your password';
+  static const String forgotYourPassword = 'Forgot your password?';
+  static const String resetPassword = 'Reset password';
   static const String usePassword = 'Or use your password to';
   static const String continueWithGithub = 'Continue with Github';
   static const String continueWithSlack = 'Continue with Slack';

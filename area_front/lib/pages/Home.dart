@@ -22,26 +22,28 @@ class HomePage extends StatelessWidget {
     return Scaffold(
         appBar: TopBar(),
         body: Center(
-          child: Container(
-            padding: EdgeInsets.all(20),
-            child: Column(
-              children: <Widget>[
-                AreaTitle(Constants.connectYourWorld),
-                SizedBox(height: 50.0),
-                Image.asset(
-                  'assets/images/3.0x/services.png',
-                  width: 600,
-                ),
-                SizedBox(height: 150.0),
-                Container(
-                    width: 300,
-                    child: AreaLargeButton(
-                      text: Constants.getMore,
-                      onPressed: () {
-                        Navigation.navigate(context, Routes.explore);
-                      },
-                    )),
-              ],
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                children: <Widget>[
+                  AreaTitle(Constants.connectYourWorld),
+                  SizedBox(height: 50.0),
+                  Image.asset(
+                    'assets/images/3.0x/services.png',
+                    width: 600,
+                  ),
+                  SizedBox(height: 200.0),
+                  Container(
+                      width: 300,
+                      child: AreaLargeButton(
+                        text: Constants.getMore,
+                        onPressed: () {
+                          Navigation.navigate(context, Routes.explore);
+                        },
+                      )),
+                ],
+              ),
             ),
           ),
         ));
