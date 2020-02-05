@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import firebase_admin
+
 
 DEV = False
 if os.getenv("DEV", "") == 1:
@@ -127,3 +129,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+## FIREBASE #######
+
+FIREBASE_PATH = "area-a0d38-firebase-adminsdk-jw2de-59a95d0b6f.json"
+FIREBASE_CRED = firebase_admin.credentials.Certificate(FIREBASE_PATH)
+FIREBASE = firebase_admin.initialize_app(FIREBASE_CRED)
