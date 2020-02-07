@@ -9,7 +9,6 @@ import 'package:area_front/static/Constants.dart';
 import 'package:area_front/services/Auth.dart';
 
 // Widgets
-import 'package:area_front/widgets/AreaFlatButton.dart';
 import 'package:area_front/widgets/AreaText.dart';
 import 'package:area_front/widgets/AreaLargeButton.dart';
 import 'package:area_front/widgets/AreaTitle.dart';

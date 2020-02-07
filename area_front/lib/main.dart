@@ -25,7 +25,6 @@ import 'package:area_front/pages/Explore.dart';
 import 'package:area_front/pages/MyApplets.dart' show MyApplets;
 import 'package:area_front/pages/MyServices.dart' show MyServices;
 import 'package:area_front/pages/Landing.dart' show LandingPage;
-import 'package:area_front/pages/auth/SignIn.dart' show SignInPage;
 
 // Config
 import 'package:global_configuration/global_configuration.dart';
