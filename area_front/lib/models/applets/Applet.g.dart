@@ -8,12 +8,24 @@ part of 'Applet.dart';
 
 Applet _$AppletFromJson(Map<String, dynamic> json) {
   return Applet(
-    name: json['name'] as String,
-    services: (json['services'] as List).map((e) => e as String).toList(),
+    id: json['id'] as String,
+    title: json['title'] as String,
+    description: json['description'] as String,
+    action: json['action'] as String,
+    reaction: json['reaction'] as String,
+    enabled: json['enabled'] as bool,
+    params: (json['params'] as List)
+        .map((e) => AppletParam.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$AppletToJson(Applet instance) => <String, dynamic>{
-      'name': instance.name,
-      'services': instance.services,
+      'id': instance.id,
+      'title': instance.title,
+      'description': instance.description,
+      'action': instance.action,
+      'reaction': instance.reaction,
+      'enabled': instance.enabled,
+      'params': instance.params,
     };

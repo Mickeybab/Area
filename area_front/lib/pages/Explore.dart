@@ -17,43 +17,35 @@ class Explore extends StatelessWidget {
 
   final List<Applet> _suggestion = const [
     const Applet(
-        name: "Epitech Notification",
-        services: ["Epitech", "Notification"],
+        title: "Epitech Notification",
         description:
             "Lorsque je reçois une note je veux avoir une notification sur mon portable"),
     const Applet(
-        name: "Github Notification",
-        services: ["Github", "Notification"],
+        title: "Github Notification",
         description:
             "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
     const Applet(
-        name: "Epitech Notification",
-        services: ["Epitech", "Notification"],
+        title: "Epitech Notification",
         description:
             "Lorsque je reçois une note je veux avoir une notification sur mon portable"),
     const Applet(
-        name: "Github Notification",
-        services: ["Github", "Notification"],
+        title: "Github Notification",
         description:
             "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
     const Applet(
-        name: "Epitech Notification",
-        services: ["Epitech", "Notification"],
+        title: "Epitech Notification",
         description:
             "Lorsque je reçois une note je veux avoir une notification sur mon portable"),
     const Applet(
-        name: "Github Notification",
-        services: ["Github", "Notification"],
+        title: "Github Notification",
         description:
             "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
     const Applet(
-        name: "Epitech Notification",
-        services: ["Epitech", "Notification"],
+        title: "Epitech Notification",
         description:
             "Lorsque je reçois une note je veux avoir une notification sur mon portable"),
     const Applet(
-        name: "Github Notification",
-        services: ["Github", "Notification"],
+        title: "Github Notification",
         description:
             "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
   ];

@@ -29,7 +29,7 @@ class AppletCard extends StatelessWidget {
         child: Container(
           child: ListTile(
             leading: (mobile) ? null : Icon(Icons.access_time),
-            title: Text(this.data.name),
+            title: Text(this.data.title),
             subtitle: Text(this.data.description),
           ),
         ),
