@@ -13,7 +13,7 @@ class AppletParam {
   /// category can only have two value `action` or `reaction`
   final String category;
 
-  AppletParam({this.name, this.type, this.value, this.category});
+  const AppletParam({this.name, this.type, this.value, this.category});
 
   factory AppletParam.fromJson(Map<String, dynamic> json) => _$AppletParamFromJson(json);
   Map<String, dynamic> toJson() => _$AppletParamToJson(this);

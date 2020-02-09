@@ -1,4 +1,5 @@
 // Core
+import 'package:area_front/pages/Applet.dart';
 import 'package:flutter/material.dart';
 
 // Modals
@@ -35,6 +36,12 @@ class ListApplet extends StatelessWidget {
           color: _randomColor.randomColor(
               colorBrightness: ColorBrightness.primary),
           onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AppletsDetailsPage(applets[index]),
+              ),
+            );
             print('Card pressed');
           },
         );
