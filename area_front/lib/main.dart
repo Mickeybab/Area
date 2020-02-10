@@ -4,15 +4,13 @@ import 'package:area_front/pages/auth/ResetPassword.dart';
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/pages/auth/SignUp.dart';
 import 'package:area_front/pages/auth/SignWith.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // Services
 import 'package:area_front/services/Auth.dart';
 import 'package:area_front/backend/CheckAuth.dart';
-
-// Models
-import 'package:area_front/models/User.dart';
 
 // Data
 import 'package:area_front/static/Routes.dart' show Routes;
@@ -39,7 +37,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<User>.value(
+    return StreamProvider<FirebaseUser>.value(
       value: AuthService().user,
       child: MaterialApp(
           title: Constants.mainTitle,

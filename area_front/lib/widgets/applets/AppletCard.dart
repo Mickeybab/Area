@@ -1,12 +1,15 @@
 // Core
-import 'package:area_front/models/User.dart';
+
+import 'package:area_front/backend/Backend.dart' as B;
 import 'package:area_front/static/backend/BackendRoutes.dart';
 import 'package:area_front/widgets/AreaText.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../backend/Backend.dart' as Backend;
+
+
 // Models
 import 'package:area_front/models/applets/Applet.dart';
+import 'package:provider/provider.dart';
 
 class AppletCard extends StatefulWidget {
   const AppletCard(this.data,
@@ -25,8 +28,8 @@ class AppletCard extends StatefulWidget {
 class _AppletCardState extends State<AppletCard> {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
     final mobile = MediaQuery.of(context).size.width < 600;
+    final user = Provider.of<FirebaseUser>(context);
 
     bool value = false;
 
@@ -57,13 +60,13 @@ class _AppletCardState extends State<AppletCard> {
               SizedBox(height: 10),
               Switch(
                 value: value,
-                onChanged: (newValue) {
+                onChanged: (newValue) async  {
                   onSwitchChangeState(newValue);
-                  if (value == true) {
-                    // user.client.post(BackendRoutes.activateApplet(widget.data.id));
+                  if (newValue == true) {
+                    B.Backend.post(user, BackendRoutes.activateApplet(widget.data.id));
                     print("APPLET ACTIVATED");
                   } else {
-                    // user.client.post(BackendRoutes.desactivateApplet(widget.data.id));
+                    B.Backend.post(user, BackendRoutes.desactivateApplet(widget.data.id));
                     print("APPLET DESACTIVATED");
                   }
                 }

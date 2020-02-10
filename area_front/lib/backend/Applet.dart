@@ -1,7 +1,7 @@
 part of 'Backend.dart';
 
 class Applet {
-  static Future<Model.Applet> getApplet(Backend client, String id) async {
+  static Future<Model.Applet> getApplet(http.Client client, String id) async {
     final http.Response response =
         await client.get(BackendRoutes.specificApplet(id));
 
@@ -17,7 +17,7 @@ class Applet {
     }
   }
 
-  static Future<List<Model.Applet>> getApplets(Backend client) async {
+  static Future<List<Model.Applet>> getApplets(http.Client client) async {
     final http.Response response = await client.get(BackendRoutes.applets);
 
     switch (response.statusCode) {
