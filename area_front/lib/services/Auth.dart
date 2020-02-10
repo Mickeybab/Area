@@ -1,4 +1,7 @@
 // Auths Tools
+import 'dart:io';
+
+import 'package:area_front/backend/Backend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -53,17 +56,20 @@ class AuthService {
   }
 
   /// Create user object based on Firbase User
-  User _userFromFirebaseUser(FirebaseUser user) {
-    return user != null ? User(uid: user.uid) : null;
+  Future<User> _userFromFirebaseUser(FirebaseUser user) async {
+    final token = await user.getIdToken();
+
+    print("ACCESS TOKEN: $token");
+    return user != null ? User(uid: user.uid, client: Backend({HttpHeaders.authorizationHeader: token.toString()})) : null;
   }
 
   /// Detect auth changes
-  Stream<User> get user {
+  Stream<Future <User>> get user {
     return _auth.onAuthStateChanged
-        .map((FirebaseUser user)  {
+        .map((FirebaseUser user) async {
           print(user.toString());
           if (user != null && user.isEmailVerified)
-            return _userFromFirebaseUser(user);
+            return await _userFromFirebaseUser(user);
           else
             return null;
         });
