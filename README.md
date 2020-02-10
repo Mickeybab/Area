@@ -7,114 +7,167 @@
 - OpenWeather
 - ExchangeRateApi
 - Slack
-- [Intra Epitech]
+- Epitech intranet
 
 ## Actions / Reactions
 
 ### Actions
 
-- Recevoir un Mail
-- Recevoir une notif intra
-- Une note inférieur à telle valeur
-- Un total de credit qui dépasse un objectif
-- Un total de GPA qui fluctu en dessous un objectif
-- Un total de GPA qui fluctu au dessus un objectif
-- Un Commit à été réaliser sur un repo spécifique
-- la température Dépasse une certaine température
-- la température est inférieur à un seuil
-- la valeur d'une monnaie fluctu en dessous d'un seuil
-- la valeur d'une monnaie fluctu au dessus d'un seuil
-- recevoir une notification Slack
+- Receive an email
+- Receive an intranet notification
+- Report a mark below a limit
+- Report a credit number that exceeds a target
+- The GPA drops below a threshold
+- The GPA exceeds a threshold
+- A commit was made on a specific repo
+- The temperature exceeds a threshold
+- The temperature is below a threshold
+- The value of a currency drops below a threshold
+- The value of a currency exceeds a threshold
+- Receive a slack notification
 
-### Reations
+### Reactions
 
 - Notifications
-- Mails
+- Emails
 - Messages
 
 ## Requests
 
-### Get toutes les applets activer
+### Get all the activated applets
 
-url `API_URL/applets`
+Method: **`GET`**
 
-Method : **`GET`**
+URL: `API_URL/applets`
 
 ```json
 [
   {
     "id": "ID",
-    "action": "Intra GPA",
-    "reaction": "Slack Message",
     "title": "Follow My Progression",
-    "description": "Get a message when the GPA ",
+    "description": "Get a message when the GPA ...",
     "enable": false,
-    "valeurs": [
-      {
-        "name": "nom du paramètre",
-        "type": "string/int",
-        "value": "",
-        "category": "action/reaction",
-      },
-      ...
-    ]
+    "action": {
+      "service": "intranet",
+      "action": "get the GPA",
+      "param": [
+        {
+          "name": "parameter name",
+          "type": "string/int",
+          "value": "",
+        },
+        ...
+      ],
+    },
+    "reaction": {
+      "service": "slack",
+      "reaction": "message",
+      "param": [
+        {
+          "name": "parameter name",
+          "type": "string/int",
+          "value": "",
+        },
+        ...
+      ]
+    }
   },
   ...
 ]
 ```
 
-### Get une Applets
+### Get an applet
 
-url `API_URL/applets/${id}`
+Method: **`GET`**
 
-Method : **`GET`**
+URL: `API_URL/applets/${id}`
 
 ```json
 {
   "id": "ID",
-  "action": "Intra GPA",
-  "reaction": "Slack Message",
   "title": "Follow My Progression",
-  "description": "Recevoir un messages lorsque mon GPA dépasse une certaines valeurs",
+  "description": "Get a message when the GPA ...",
   "enable": false,
-  "valeurs": [
-    {
-      "name": "nom du paramètre",
-      "type": "string/int",
-      "value": "",
-      "category": "action/reaction",
-    },
-    ...
-  ]
+  "action": {
+    "service": "intranet",
+    "action": "get the GPA",
+    "param": [
+      {
+        "name": "parameter name",
+        "type": "string/int",
+        "value": "",
+      },
+      ...
+    ],
+  },
+  "reaction": {
+    "service": "slack",
+    "reaction": "message",
+    "param": [
+      {
+        "name": "parameter name",
+        "type": "string/int",
+        "value": "",
+      },
+      ...
+    ]
+  }
 }
 ```
 
-### Activer un Applets
+### Add an applet
 
-url : `API_URL/applets/${id}/activate`
+Method: **`POST`**
 
-Method : **`GET`**
+URL: `API_URL/applets/${id}/add`
 
 ```json
 {
   "user_id": "ARYUHGFDSDFTRSJDS",
-  "valeurs": [
-    {
-      "name": "nom du paramètre",
-      "type": "string/int",
-      "value": "",
-      "category": "action/reaction",
-    },
-    ...
-  ]
+  "action": {
+    "service": "intranet",
+    "action": "get the GPA",
+    "param": [
+      {
+        "name": "parameter name",
+        "type": "string/int",
+        "value": "",
+      },
+      ...
+    ],
+  },
+  "reaction": {
+    "service": "slack",
+    "reaction": "message",
+    "param": [
+      {
+        "name": "parameter name",
+        "type": "string/int",
+        "value": "",
+      },
+      ...
+    ]
+  }
 }
 ```
 
-### Désactiver un Applets
+### Activate an applet
 
-Method : **`POST`**
+Method: **`POST`**
 
-url : `API_URL/applets/${id}/desactivate`
+URL: `API_URL/applets/${id}/activate`
+
+```json
+{
+  "user_id": "qnfkjsqnkndfsjnkjq"
+}
+```
+
+### Desactivate an applet
+
+Method: **`POST`**
+
+url: `API_URL/applets/${id}/desactivate`
 
 ```json
 {
@@ -124,20 +177,20 @@ url : `API_URL/applets/${id}/desactivate`
 
 ### Sync Token
 
-Un url par services
+One URL per service.
 
-`API_URL/services/${serviceName}`
+Method: **`POST`**
 
-Les services name peuvent être les suivants
+URL: `API_URL/services/${serviceName}`
+
+Service names can be:
 
 - github
 - intraepitech
 - slack
 - microsoft
 
-par example : `API_URL`/services/`github`
-
-Method : **`POST`**
+For example : `API_URL`/services/`github`
 
 ```json
 {
@@ -147,65 +200,90 @@ Method : **`POST`**
 }
 ```
 
-For the refresh refresh:
+For the refresh token:
 
 - `""` where there are no refresh-token
 - otherwise the `token`
 
-### Get les applets en fonction des actions
+### Get applet by action
 
-`API_URL/applets/${Service}/${Actions}`
+Method: **`GET`**
 
-Method : **`GET`**
+URL: `API_URL/applets/${Service}/${actions}`
 
 ```json
 [
   {
     "id": "ID",
-    "action": "Intra GPA",
-    "reaction": "Slack Message",
     "title": "Follow My Progression",
-    "description": "Recevoir un messages lorsque mon GPA dépasse une certaines valeurs",
+    "description": "Get a message when the GPA ...",
     "enable": false,
-    "valeurs": [
-      {
-        "name": "nom du paramètre",
-        "type": "string/int",
-        "value": "",
-        "category": "action/reaction",
-      },
-      ...
-    ]
-  },
+    "action": {
+      "service": "intranet",
+      "action": "get the GPA",
+      "param": [
+        {
+          "name": "parameter name",
+          "type": "string/int",
+          "value": "",
+        },
+        ...
+      ],
+    },
+    "reaction": {
+      "service": "slack",
+      "reaction": "message",
+      "param": [
+        {
+          "name": "parameter name",
+          "type": "string/int",
+          "value": "",
+        },
+        ...
+      ]
+    },
+  }
   ...
 ]
 ```
 
-### Get les applets en fonction des Reactions
+### Get applet by reaction
 
-`API_URL/applets/${Service}/${Reaction}`
+Method: **`GET`**
 
-Method : **`GET`**
+URL: `API_URL/applets/${Service}/${reaction}`
 
 ```json
 [
   {
     "id": "ID",
-
-    "action": "Intra GPA",
-    "reaction": "Slack Message",
     "title": "Follow My Progression",
-    "description": "Recevoir un messages lorsque mon GPA dépasse une certaines valeurs",
+    "description": "Get a message when the GPA ...",
     "enable": false,
-    "valeurs": [
-      {
-        "name": "nom du paramètre",
-        "type": "string/int",
-        "value": "",
-        "category": "action/reaction",
-      },
-      ...
-    ]
+    "action": {
+      "service": "intranet",
+      "action": "get the GPA",
+      "param": [
+        {
+          "name": "parameter name",
+          "type": "string/int",
+          "value": "",
+        },
+        ...
+      ],
+    },
+    "reaction": {
+      "service": "slack",
+      "reaction": "message",
+      "param": [
+        {
+          "name": "parameter name",
+          "type": "string/int",
+          "value": "",
+        },
+        ...
+      ]
+    },
   },
   ...
 ]
