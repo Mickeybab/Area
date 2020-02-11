@@ -69,6 +69,15 @@ def get_applet(request, id):
 
 @require_http_methods(['POST'])
 def set_applet(request, id):
+
+    def fill_applet(param):
+        p = ParamApplet()
+        p.name = param['name']
+        p.type = False if param['type'] == 'int' else True
+        p.value = param['value']
+        p.applet_id = app.id
+        return p
+
     if request.method == 'POST':
         with transaction.atomic():
             app = Applet.objects.get(user_id=request.POST['user_id'], id_applet=int(id)).select_for_update()
@@ -83,20 +92,12 @@ def set_applet(request, id):
             param.delete()
 
         for param in request.POST['action']['param']:
-            p = ParamApplet()
-            p.name = param['name']
-            p.type = False if param['type'] == 'int' else True
-            p.value = param['value']
-            p.applet_id = app.id
+            p = fill_applet(param)
             p.side = True
             p.save()
 
         for param in request.POST['reaction']['param']:
-            p = ParamApplet()
-            p.name = param['name']
-            p.type = False if param['type'] == 'int' else True
-            p.value = param['value']
-            p.applet_id = app.id
+            p = fill_applet(param)
             p.side = False
             p.save()
 
