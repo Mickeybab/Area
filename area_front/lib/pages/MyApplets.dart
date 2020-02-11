@@ -60,7 +60,7 @@ class MyApplets extends StatelessWidget {
         body: Center(
           child: Container(
             padding: const EdgeInsets.all(36.0),
-            width: 900,
+            width: 600,
             margin: EdgeInsets.only(
               top: MediaQuery.of(context).size.height / 100 * 8,
               bottom: 30

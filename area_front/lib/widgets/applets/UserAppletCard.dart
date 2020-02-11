@@ -34,7 +34,9 @@ class UserAppletCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               AreaText(this.data.description, fontSize: 18, fontWeight: FontWeight.w500),
+              SizedBox(height: 40),
               AppletActionPreview(name: this.data.title, icon: Icon(Icons.wifi)),
+              SizedBox(height: 5),
               AppletReactionPreview(icon: Icon(Icons.widgets))
             ]
           ),
