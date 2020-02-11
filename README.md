@@ -125,7 +125,7 @@ URL: `API_URL/applets/${id}`
 
 Method: **`POST`**
 
-URL: `API_URL/applets/add`
+URL: `API_URL/applets/${id}/add`
 
 ```json
 {
