@@ -1,5 +1,4 @@
 // Core
-import 'package:area_front/models/applets/Params.dart';
 import 'package:area_front/widgets/applets/ListApplets.dart';
 import 'package:flutter/material.dart';
 
@@ -18,10 +17,10 @@ class Explore extends StatelessWidget {
 
   final List<Applet> _suggestion = const [
     const Applet(
-        title: "Epitech Notification",
-        description:
-            "Lorsque je reçois une note je veux avoir une notification sur mon portable",
-        params: [ AppletParam(name: 'toto', category: 'reaction', type: 'string', value: 'tutu')]),
+      title: "Epitech Notification",
+      description:
+          "Lorsque je reçois une note je veux avoir une notification sur mon portable",
+    ),
     const Applet(
         title: "Github Notification",
         description:

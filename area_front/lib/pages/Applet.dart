@@ -22,7 +22,6 @@ class AppletsDetailsPage extends StatelessWidget {
         children: <Widget>[
           AreaTitle(applet.title),
           AreaText(applet.description),
-          ListofParams(applet.params)
         ],
       )),
     );
@@ -32,7 +31,7 @@ class AppletsDetailsPage extends StatelessWidget {
 class ListofParams extends StatefulWidget {
   ListofParams(this.params, {Key key}) : super(key: key);
 
-  final List<AppletParam> params;
+  final List<Param> params;
 
   @override
   _ListofParamsState createState() => _ListofParamsState();
@@ -50,9 +49,8 @@ class _ListofParamsState extends State<ListofParams> {
           ParamColumn(
             title: 'Service',
             content: [
-              AppletParam(
+              Param(
                   name: 'toto',
-                  category: 'reaction',
                   type: 'string',
                   value: 'tutu')
             ],
@@ -70,7 +68,7 @@ class ParamColumn extends StatelessWidget {
       : super(key: key);
 
   final String title;
-  final List<AppletParam> content;
+  final List<Param> content;
   final Applet applet;
 
   @override
@@ -91,7 +89,7 @@ class ParamColumn extends StatelessWidget {
             shrinkWrap: true,
             itemCount: content.length,
             itemBuilder: (context, index) {
-              final AppletParam param = content[index];
+              final Param param = content[index];
               return Card(
                   child: ListTile(
                       title: Text(param.name),

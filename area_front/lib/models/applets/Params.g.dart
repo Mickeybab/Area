@@ -6,19 +6,16 @@ part of 'Params.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AppletParam _$AppletParamFromJson(Map<String, dynamic> json) {
-  return AppletParam(
+Param _$ParamFromJson(Map<String, dynamic> json) {
+  return Param(
     name: json['name'] as String,
     type: json['type'] as String,
     value: json['value'] as String,
-    category: json['category'] as String,
   );
 }
 
-Map<String, dynamic> _$AppletParamToJson(AppletParam instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ParamToJson(Param instance) => <String, dynamic>{
       'name': instance.name,
       'type': instance.type,
       'value': instance.value,
-      'category': instance.category,
     };
