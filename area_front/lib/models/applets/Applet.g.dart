@@ -28,6 +28,6 @@ Map<String, dynamic> _$AppletToJson(Applet instance) => <String, dynamic>{
       'description': instance.description,
       'color': instance.color,
       'enabled': instance.enabled,
-      'action': instance.action,
-      'reaction': instance.reaction,
+      'action': instance.action?.toJson(),
+      'reaction': instance.reaction?.toJson(),
     };

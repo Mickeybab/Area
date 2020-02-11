@@ -7,11 +7,11 @@ class Param {
   /// name of the param
   final String name;
   /// it can be `string` or `int`
-  final String type;
+  final String paramType;
   /// the value is always a string but you can find a phrase or a int inside
-  final String value;
+  String value;
 
-  const Param({this.name, this.type, this.value});
+  Param({this.name, this.paramType, this.value});
 
   factory Param.fromJson(Map<String, dynamic> json) => _$ParamFromJson(json);
   Map<String, dynamic> toJson() => _$ParamToJson(this);

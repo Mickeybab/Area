@@ -9,13 +9,13 @@ part of 'Params.dart';
 Param _$ParamFromJson(Map<String, dynamic> json) {
   return Param(
     name: json['name'] as String,
-    type: json['type'] as String,
+    paramType: json['paramType'] as String,
     value: json['value'] as String,
   );
 }
 
 Map<String, dynamic> _$ParamToJson(Param instance) => <String, dynamic>{
       'name': instance.name,
-      'type': instance.type,
+      'paramType': instance.paramType,
       'value': instance.value,
     };

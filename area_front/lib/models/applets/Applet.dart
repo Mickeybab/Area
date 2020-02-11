@@ -6,7 +6,7 @@ import 'package:area_front/models/Service.dart';
 part 'Applet.g.dart';
 
 /// Model of the Applet
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Applet {
   final String id;
 
@@ -17,15 +17,15 @@ class Applet {
   final String description;
 
   /// the color of the applet
-  final String color;
+  String color;
 
   /// the linked reactions
-  final bool enabled;
+  bool enabled;
 
-  final Service action;
-  final Service reaction;
+  Service action;
+  Service reaction;
 
-  const Applet({
+  Applet({
     this.id,
     this.title,
     this.description,

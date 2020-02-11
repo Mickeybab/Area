@@ -28,7 +28,6 @@ class AppletCard extends StatefulWidget {
 class _AppletCardState extends State<AppletCard> {
   @override
   Widget build(BuildContext context) {
-    final mobile = MediaQuery.of(context).size.width < 600;
     final user = Provider.of<FirebaseUser>(context);
 
     bool value = false;
@@ -71,7 +70,6 @@ class _AppletCardState extends State<AppletCard> {
                   }
                 }
               ),
-              (mobile) ? null : Icon(Icons.access_time),
             ]
           ),
         ),

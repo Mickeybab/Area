@@ -37,6 +37,8 @@ class Constants {
   static const String title = "AREA";
   static const String getMore = "Get More";
   static const String connectYourWorld = 'Connect your world.';
+  static const String submit = 'Submit';
+  static const String allOk = "All Ok";
 
   /// Styles
   static const String fontFamily = 'Montserrat';

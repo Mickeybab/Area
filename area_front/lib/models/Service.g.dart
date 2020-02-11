@@ -22,5 +22,5 @@ Map<String, dynamic> _$ServiceToJson(Service instance) => <String, dynamic>{
       'service': instance.service,
       'logo': instance.logo,
       'action': instance.action,
-      'param': instance.param,
+      'param': instance.param?.map((e) => e?.toJson())?.toList(),
     };

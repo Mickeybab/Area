@@ -5,13 +5,13 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'Service.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Service {
   final String service;
   final String logo;
   final String action;
-  final List<Param> param;
-  const Service({this.service, this.logo, this.action, this.param});
+  List<Param> param;
+  Service({this.service, this.logo, this.action, this.param});
 
   factory Service.fromJson(Map<String, dynamic> json) => _$ServiceFromJson(json);
   Map<String, dynamic> toJson() => _$ServiceToJson(this);

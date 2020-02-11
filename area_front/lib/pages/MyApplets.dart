@@ -14,37 +14,37 @@ import 'package:area_front/models/applets/Applet.dart';
 class MyApplets extends StatelessWidget {
   MyApplets({Key key}) : super(key: key);
 
-  final List<Applet> _suggestion = const [
-    const Applet(
+  List<Applet> _suggestion = [
+    Applet(
       title: "Epitech Notification",
       description:
           "Lorsque je reçois une note je veux avoir une notification sur mon portable",
     ),
-    const Applet(
+    Applet(
         title: "Github Notification",
         description:
             "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
-    const Applet(
+    Applet(
         title: "Epitech Notification",
         description:
             "Lorsque je reçois une note je veux avoir une notification sur mon portable"),
-    const Applet(
+    Applet(
         title: "Github Notification",
         description:
             "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
-    const Applet(
+    Applet(
         title: "Epitech Notification",
         description:
             "Lorsque je reçois une note je veux avoir une notification sur mon portable"),
-    const Applet(
+    Applet(
         title: "Github Notification",
         description:
             "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
-    const Applet(
+    Applet(
         title: "Epitech Notification",
         description:
             "Lorsque je reçois une note je veux avoir une notification sur mon portable"),
-    const Applet(
+    Applet(
         title: "Github Notification",
         description:
             "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
