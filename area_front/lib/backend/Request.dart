@@ -76,7 +76,7 @@ class Request {
     }
   }
 
-  static Future<Model.Applet> addApplet(
+  static Future<Model.Applet> addOrUpdateApplet(
       FirebaseUser user, Model.Applet applet) async {
     final http.Response response = await Backend.post(
         user, BackendRoutes.addApplet(applet.id),
