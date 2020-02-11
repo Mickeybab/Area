@@ -139,3 +139,12 @@ FIREBASE = firebase_admin.initialize_app(FIREBASE_CRED)
 ## API ############
 
 INTRA_API = 'intra_api:9003'
+
+
+## SERVICE NAME ###
+SERVICE_NAME = [
+    'github',
+    'intraepitech',
+    'slack',
+    'microsoft',
+]

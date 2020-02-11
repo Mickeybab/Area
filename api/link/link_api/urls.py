@@ -20,5 +20,11 @@ from link_api import api
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('link/', api.get_link),
+    path('applets/', api.get_applets),
+    path('applets/<int:id>', api.get_applet),
+    path('applets/<int:id>/add', api.set_applet),
+    path('applets/<int:id>/activate', api.activate_applet),
+    path('applets/<int:id>/desactivate', api.desactivate_applet),
+
+    path('services/<str:service>', api.sync_token),
 ]
