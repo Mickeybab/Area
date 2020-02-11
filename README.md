@@ -338,3 +338,52 @@ URL: `API_URL/applets/${Service}/${reaction}`
   ...
 ]
 ```
+
+
+### Search for an Applet
+
+
+Method: **`GET`**
+
+URL : `API_URL/applets/search?s=${stringTosearch}`
+
+```json
+[
+  {
+    "id": "ID",
+    "title": "Follow My Progression",
+    "description": "Get a message when the GPA ...",
+    "color" : "0xffb74093",
+    "enable": false,
+    "action": {
+      "service": "intranet",
+      "logo": "path",
+      "action": "get the GPA",
+      "param": [
+        {
+          "name": "parameter name",
+          "type": "string/int",
+          "value": "",
+        },
+        ...
+      ],
+    },
+    "reaction": {
+      "service": "slack",
+      "logo": "path",
+      "reaction": "message",
+      "param": [
+        {
+          "name": "parameter name",
+          "type": "string/int",
+          "value": "",
+        },
+        ...
+      ]
+    },
+  },
+  ...
+]
+```
+
+
