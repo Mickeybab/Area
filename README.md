@@ -158,43 +158,6 @@ URL: `API_URL/applets/${id}/add`
 }
 ```
 
-### Update an applet
-
-Method: **`PATCH`**
-
-URL: `API_URL/applets/${id}/add`
-
-```json
-{
-  "user_id": "ARYUHGFDSDFTRSJDS",
-  "action": {
-    "service": "intranet",
-    "action": "get the GPA",
-    "param": [
-      {
-        "name": "parameter name",
-        "type": "string/int",
-        "value": "",
-      },
-      ...
-    ],
-  },
-  "reaction": {
-    "service": "slack",
-    "logo": "path",
-    "reaction": "message",
-    "param": [
-      {
-        "name": "parameter name",
-        "type": "string/int",
-        "value": "",
-      },
-      ...
-    ]
-  }
-}
-```
-
 ### Activate an applet
 
 Method: **`POST`**
@@ -385,5 +348,3 @@ URL : `API_URL/applets/search?s=${stringTosearch}`
   ...
 ]
 ```
-
-
