@@ -15,5 +15,5 @@ import 'package:area_front/static/backend/BackendRoutes.dart';
 
 import '../models/applets/Applet.dart' as Model;
 
-part 'Applet.dart';
+part 'Request.dart';
 part 'Client.dart';

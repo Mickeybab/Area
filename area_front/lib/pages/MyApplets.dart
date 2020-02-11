@@ -1,5 +1,4 @@
 // Core
-import 'package:area_front/models/applets/Params.dart';
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/widgets/AreaTitle.dart';
 import 'package:area_front/widgets/applets/ListApplets.dart';
@@ -17,10 +16,10 @@ class MyApplets extends StatelessWidget {
 
   final List<Applet> _suggestion = const [
     const Applet(
-        title: "Epitech Notification",
-        description:
-            "Lorsque je reçois une note je veux avoir une notification sur mon portable",
-        params: [ AppletParam(name: 'toto', category: 'reaction', type: 'string', value: 'tutu')]),
+      title: "Epitech Notification",
+      description:
+          "Lorsque je reçois une note je veux avoir une notification sur mon portable",
+    ),
     const Applet(
         title: "Github Notification",
         description:
@@ -60,9 +59,7 @@ class MyApplets extends StatelessWidget {
           padding: const EdgeInsets.all(36.0),
           width: 900,
           margin: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height / 100 * 8,
-            bottom: 30
-          ),
+              top: MediaQuery.of(context).size.height / 100 * 8, bottom: 30),
           child: Column(
             children: <Widget>[
               AreaTitle(Constants.myApplets),

@@ -14,6 +14,12 @@ class BackendRoutes {
     return ('$applet/activate');
   }
 
+  /// return the url to `add` an applet from the applet `id` <-- did'nt make any sense for me neither
+  static String addApplet(String id) {
+    String applet = specificApplet(id);
+    return ('$applet/add');
+  }
+
   /// return the url to `desactivate` an applet from the applet `id`
   static String desactivateApplet(String id) {
     String applet = specificApplet(id);
@@ -22,13 +28,15 @@ class BackendRoutes {
 
   /// service `identifier` for Github
   static const String github = 'github';
+
   /// service `identifier` for Epitech intra
   static const String intraEpitech = 'intraepitech';
+
   /// service `identifier` for Slack
   static const String slack = 'slack';
+
   /// service `identifier` for Microsoft
   static const String microsoft = 'microsoft';
-
 
   /// All possible value of a `Service`
   static const List<String> possibleService = const [
