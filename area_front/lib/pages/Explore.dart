@@ -1,7 +1,5 @@
 // Core
 import 'package:area_front/backend/Backend.dart';
-import 'package:area_front/models/Service.dart';
-import 'package:area_front/models/applets/Params.dart';
 import 'package:area_front/widgets/applets/ListApplets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,40 +11,11 @@ import 'package:area_front/widgets/AreaTitle.dart';
 import 'package:area_front/widgets/LargeSearchBar.dart';
 
 // Datas
-import 'package:area_front/models/applets/Applet.dart';
 import 'package:provider/provider.dart';
 
 /// `Explores` Page of the Area Project
-class Explore extends StatefulWidget {
+class Explore extends StatelessWidget {
   Explore({Key key}) : super(key: key);
-
-  @override
-  _ExploreState createState() => _ExploreState();
-}
-
-class _ExploreState extends State<Explore> {
-  List<Applet> _suggestion = [
-    Applet(
-        title: "Epitech",
-        description:
-            "Lorsque je reçois une note je veux avoir une notification sur mon portable",
-        action: Service(
-            action: 'Service1 action',
-            logo: 'logo1',
-            param: [
-              Param(name: 'param11', paramType: 'string', value: 'SuperValue'),
-              Param(name: 'param12', paramType: 'int', value: '42'),
-            ],
-            service: "Service2"),
-        reaction: Service(
-            action: 'Service2 action',
-            logo: 'logo2',
-            param: [
-              Param(name: 'param21', paramType: 'string', value: 'SuperValue'),
-              Param(name: 'param21', paramType: 'int', value: '42'),
-            ],
-            service: "Service2")),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +35,6 @@ class _ExploreState extends State<Explore> {
           LargeSearchBar(autofocus: true),
           FutureBuilder(
             future: Request.getApplets(user),
-            initialData: _suggestion,
             builder: (context, snapshot) {
               if (snapshot.hasError == true) {
                 return Column(

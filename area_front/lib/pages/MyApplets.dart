@@ -13,45 +13,45 @@ import 'package:area_front/widgets/topbar/TopBar.dart';
 import 'package:area_front/models/applets/Applet.dart';
 import 'package:provider/provider.dart';
 
+List<Applet> _suggestion = [
+  Applet(
+    title: "Epitech Notification",
+    description:
+        "Lorsque je reçois une note je veux avoir une notification sur mon portable",
+  ),
+  Applet(
+      title: "Github Notification",
+      description:
+          "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
+  Applet(
+      title: "Epitech Notification",
+      description:
+          "Lorsque je reçois une note je veux avoir une notification sur mon portable"),
+  Applet(
+      title: "Github Notification",
+      description:
+          "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
+  Applet(
+      title: "Epitech Notification",
+      description:
+          "Lorsque je reçois une note je veux avoir une notification sur mon portable"),
+  Applet(
+      title: "Github Notification",
+      description:
+          "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
+  Applet(
+      title: "Epitech Notification",
+      description:
+          "Lorsque je reçois une note je veux avoir une notification sur mon portable"),
+  Applet(
+      title: "Github Notification",
+      description:
+          "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
+];
+
 /// `My Applets` Page of the Area Project
 class MyApplets extends StatelessWidget {
   MyApplets({Key key}) : super(key: key);
-
-  List<Applet> _suggestion = [
-    Applet(
-      title: "Epitech Notification",
-      description:
-          "Lorsque je reçois une note je veux avoir une notification sur mon portable",
-    ),
-    Applet(
-        title: "Github Notification",
-        description:
-            "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
-    Applet(
-        title: "Epitech Notification",
-        description:
-            "Lorsque je reçois une note je veux avoir une notification sur mon portable"),
-    Applet(
-        title: "Github Notification",
-        description:
-            "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
-    Applet(
-        title: "Epitech Notification",
-        description:
-            "Lorsque je reçois une note je veux avoir une notification sur mon portable"),
-    Applet(
-        title: "Github Notification",
-        description:
-            "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
-    Applet(
-        title: "Epitech Notification",
-        description:
-            "Lorsque je reçois une note je veux avoir une notification sur mon portable"),
-    Applet(
-        title: "Github Notification",
-        description:
-            "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
-  ];
 
   @override
   Widget build(BuildContext context) {
