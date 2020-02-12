@@ -19,7 +19,7 @@ class Explore extends StatelessWidget {
 
   List<Applet> _suggestion = [
     Applet(
-        title: "Epitech Notification",
+        title: "Epitech",
         description:
             "Lorsque je reçois une note je veux avoir une notification sur mon portable",
         action: Service(
@@ -43,22 +43,23 @@ class Explore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomPadding: false,
       appBar: TopBar(),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height / 100 * 8,
-                  bottom: 30),
-              child: AreaTitle(Constants.explore),
-            ),
-            LargeSearchBar(),
-            ListApplet(
-              applets: _suggestion,
-            )
-          ],
-        ),
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height / 100 * 8,
+                bottom: 30),
+            child: AreaTitle(Constants.explore),
+          ),
+          LargeSearchBar(autofocus: true),
+          ListApplet(
+            applets: _suggestion,
+          )
+        ],
       ),
     );
   }
