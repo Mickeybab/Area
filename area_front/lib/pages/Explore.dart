@@ -1,7 +1,9 @@
 // Core
+import 'package:area_front/backend/Backend.dart';
 import 'package:area_front/models/Service.dart';
 import 'package:area_front/models/applets/Params.dart';
 import 'package:area_front/widgets/applets/ListApplets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // My Widgets
@@ -12,11 +14,17 @@ import 'package:area_front/widgets/LargeSearchBar.dart';
 
 // Datas
 import 'package:area_front/models/applets/Applet.dart';
+import 'package:provider/provider.dart';
 
 /// `Explores` Page of the Area Project
-class Explore extends StatelessWidget {
+class Explore extends StatefulWidget {
   Explore({Key key}) : super(key: key);
 
+  @override
+  _ExploreState createState() => _ExploreState();
+}
+
+class _ExploreState extends State<Explore> {
   List<Applet> _suggestion = [
     Applet(
         title: "Epitech",
@@ -42,6 +50,7 @@ class Explore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<FirebaseUser>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       resizeToAvoidBottomPadding: false,
@@ -51,13 +60,26 @@ class Explore extends StatelessWidget {
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height / 100 * 8,
-                bottom: 30),
+                top: MediaQuery.of(context).size.height / 100 * 8, bottom: 30),
             child: AreaTitle(Constants.explore),
           ),
           LargeSearchBar(autofocus: true),
-          ListApplet(
-            applets: _suggestion,
+          FutureBuilder(
+            future: Request.getApplets(user),
+            initialData: _suggestion,
+            builder: (context, snapshot) {
+              if (snapshot.hasError == true) {
+                return Column(
+                  children: <Widget>[
+                    Icon(Icons.error_outline),
+                    Text(snapshot.error.toString())
+                  ],
+                );
+              } else if (snapshot.hasData) {
+                return ListApplet(applets: snapshot.data);
+              } else
+                return CircularProgressIndicator();
+            },
           )
         ],
       ),

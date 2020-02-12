@@ -18,6 +18,7 @@ class Request {
   }
 
   static Future<List<Model.Applet>> getApplets(FirebaseUser user) async {
+
     final http.Response response =
         await Backend.get(user, BackendRoutes.applets);
 

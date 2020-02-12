@@ -4,6 +4,7 @@ library backend;
 import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
+import 'package:area_front/static/Constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
