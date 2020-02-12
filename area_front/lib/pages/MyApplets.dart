@@ -1,7 +1,9 @@
 // Core
+import 'package:area_front/backend/Backend.dart';
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/widgets/AreaTitle.dart';
 import 'package:area_front/widgets/applets/ListApplets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // My Widgets
@@ -9,6 +11,7 @@ import 'package:area_front/widgets/topbar/TopBar.dart';
 
 // Data
 import 'package:area_front/models/applets/Applet.dart';
+import 'package:provider/provider.dart';
 
 /// `My Applets` Page of the Area Project
 class MyApplets extends StatelessWidget {
@@ -52,6 +55,7 @@ class MyApplets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<FirebaseUser>(context);
     return Scaffold(
       appBar: TopBar(),
       body: Center(
@@ -63,8 +67,22 @@ class MyApplets extends StatelessWidget {
           child: Column(
             children: <Widget>[
               AreaTitle(Constants.myApplets),
-              ListApplet(
-                applets: _suggestion,
+              FutureBuilder(
+                initialData: _suggestion,
+                future: Request.getApplets(user),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError == true) {
+                    return Column(
+                      children: <Widget>[
+                        Icon(Icons.error_outline),
+                        Text(snapshot.error.toString())
+                      ],
+                    );
+                  } else if (snapshot.hasData) {
+                    return ListApplet(applets: snapshot.data);
+                  } else
+                    return CircularProgressIndicator();
+                },
               )
             ],
           ),
