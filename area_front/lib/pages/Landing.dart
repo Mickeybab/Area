@@ -15,15 +15,13 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopBar(),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth < 800) {
-            return VerticalLandingStack();
-          } else {
-            return HorizontalLandingStack();
-          }
+      body: LayoutBuilder(builder: (context, constraints) {
+        if (constraints.maxWidth < 800) {
+          return VerticalLandingStack();
+        } else {
+          return HorizontalLandingStack();
         }
-      ),
+      }),
     );
   }
 }

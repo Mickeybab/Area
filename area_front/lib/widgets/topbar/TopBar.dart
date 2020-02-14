@@ -8,7 +8,6 @@ import 'package:area_front/widgets/topbar/ConnectTopBar.dart';
 import 'package:area_front/widgets/topbar/DisconnectTopBar.dart';
 
 class TopBar extends StatelessWidget with PreferredSizeWidget {
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<FirebaseUser>(context);

@@ -6,8 +6,10 @@ part 'Params.g.dart';
 class Param {
   /// name of the param
   final String name;
+
   /// it can be `string` or `int`
   final String paramType;
+
   /// the value is always a string but you can find a phrase or a int inside
   String value;
 

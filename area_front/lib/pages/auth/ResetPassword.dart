@@ -39,7 +39,8 @@ class _ResetPasswordState extends State<ResetPassword> {
         if (_formKey.currentState.validate()) {
           try {
             await _auth.resetPassword(email);
-            setState(() => msg = "An email has been sent to you to reset your password.");
+            setState(() =>
+                msg = "An email has been sent to you to reset your password.");
           } on AuthException catch (e) {
             setState(() => msg = e.message);
           }

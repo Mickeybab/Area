@@ -50,7 +50,8 @@ class MyApp extends StatelessWidget {
             Routes.landing: (BuildContext context) =>
                 CheckAuth(() => LandingPage()),
             Routes.home: (BuildContext context) => CheckAuth(() => HomePage()),
-            Routes.signIn: (BuildContext context) => CheckAuth(() => HomePage()),
+            Routes.signIn: (BuildContext context) =>
+                CheckAuth(() => HomePage()),
             Routes.signUp: (BuildContext context) => SignUpPage(),
             Routes.signWith: (BuildContext context) => SignWithPage(),
             Routes.resetPassword: (BuildContext context) => ResetPassword(),
