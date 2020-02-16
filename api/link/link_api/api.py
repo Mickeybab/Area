@@ -145,6 +145,23 @@ def get_applet_by_action(request, service, action):
     return JsonResponse([applet_to_json(a) for a in result])
 
 
+@csrf_exempt
+@require_http_methods(['GET'])
+def search_applets(request):
+    if not request.GET['user_id'] or not request.GET['stringTosearch']:
+        return HttpResponse('Ko, need user_id')
+    applets = []
+    for s in Applet.objects.filter(action_service__icontains=request.GET['stringTosearch']):
+        applets.append(s)
+    for s in Applet.objects.filter(reaction_service__icontains=request.GET['stringTosearch']):
+        applets.append(s)
+    for s in Applet.objects.filter(action__icontains=request.GET['stringTosearch']):
+        applets.append(s)
+    for s in Applet.objects.filter(reaction__icontains=request.GET['stringTosearch']):
+        applets.append(s)
+    return JsonResponse([applet_to_json(s) for s in applets])
+
+
 ## SERVICE ##
 @csrf_exempt
 @require_http_methods(['POST'])
