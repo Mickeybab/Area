@@ -133,6 +133,18 @@ def desactivate_applet(request, id):
     return HttpResponse('Ok')
 
 
+@csrf_exempt
+@require_http_methods(['GET'])
+def get_applet_by_action(request, service, action):
+    if not request.GET['user_id']:
+        return HttpResponse('Ko, need user_id')
+    result = []
+    for app in Applet.objects.filter(user_id=request.GET['user_id']):
+        if (app.action_service == service and app.action == action) or (app.reaction_service == service and app.reaction == action):
+            result.append(app)
+    return JsonResponse([applet_to_json(a) for a in result])
+
+
 ## SERVICE ##
 @csrf_exempt
 @require_http_methods(['POST'])
