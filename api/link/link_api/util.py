@@ -20,7 +20,7 @@ def applet_id_to_description(id):
             "HH"][id]
 
 
-def applet_id_to_description(id):
+def applet_id_to_color(id):
     return ["0xffb74093",
             "0xffb74093",
             "0xffb74093",

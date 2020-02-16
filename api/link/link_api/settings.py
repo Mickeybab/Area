@@ -147,4 +147,6 @@ SERVICE_NAME = [
     'intraepitech',
     'slack',
     'microsoft',
+    'weather',
+    'exchange',
 ]
