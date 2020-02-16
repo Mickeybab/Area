@@ -1,10 +1,12 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 import json
-from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Microsoft
+from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Microsoft, User
 from link_api import settings
 from link_api import util
 from django.db import transaction
 from django.views.decorators.http import require_http_methods
+from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 
 
 class JsonResponse(HttpResponse):
@@ -51,6 +53,7 @@ def applet_to_json(app):
 
 
 ##### APPLET #####
+@csrf_exempt
 @require_http_methods(['GET'])
 def get_applets(request):
     result = []
@@ -61,12 +64,14 @@ def get_applets(request):
     return JsonResponse(result)
 
 
+@csrf_exempt
 @require_http_methods(['GET'])
 def get_applet(request, id):
     app = Applet.objects.filter(user_id=request['user_id'], applet_id=id)
     return JsonResponse(applet_to_json(app))
 
 
+@csrf_exempt
 @require_http_methods(['POST'])
 def set_applet(request, id):
 
@@ -80,23 +85,23 @@ def set_applet(request, id):
 
     if request.method == 'POST':
         with transaction.atomic():
-            app = Applet.objects.get(user_id=request.POST['user_id'], id_applet=int(id)).select_for_update()
+            app = Applet.objects.get(user_id=request.POST.get('user_id'), id_applet=int(id)).select_for_update()
             app.enable = True
-            app.action_service = request.POST['action']['service']
-            app.action = request.POST['action']['action']
-            app.reaction_service = request.POST['reaction']['service']
-            app.reaction = request.POST['reaction']['reaction']
+            app.action_service = request.POST.get('action')['service']
+            app.action = request.POST.get('action')['action']
+            app.reaction_service = request.POST.get('reaction')['service']
+            app.reaction = request.POST.get('reaction')['reaction']
             app.save()
 
         for param in ParamApplet.objects.filter(applet_id=app.id):
             param.delete()
 
-        for param in request.POST['action']['param']:
+        for param in request.POST.get('action')['param']:
             p = fill_applet(param)
             p.side = True
             p.save()
 
-        for param in request.POST['reaction']['param']:
+        for param in request.POST.get('reaction')['param']:
             p = fill_applet(param)
             p.side = False
             p.save()
@@ -105,12 +110,14 @@ def set_applet(request, id):
     return HttpResponse('Ko')
 
 
+@csrf_exempt
 @require_http_methods(['POST'])
 def activate_applet(request, id):
     Applet.objects.filter(user_id=request['user_id'], applet_id=id).update(enable=True)
     return HttpResponse('Ok')
 
 
+@csrf_exempt
 @require_http_methods(['POST'])
 def desactivate_applet(request, id):
     Applet.objects.filter(user_id=request['user_id'], applet_id=id).update(enable=False)
@@ -118,14 +125,33 @@ def desactivate_applet(request, id):
 
 
 ## SERVICE ##
+@csrf_exempt
 @require_http_methods(['POST'])
 def sync_token(request, service):
     if service == settings.SERVICE_NAME[0]:
-        Github.objects.filter(user_id=request['user_id']).update(token=request['token'])
+        Github.objects.filter(user_id=request.POST.get('user_id')).update(token=request.POST['token'])
     elif service == settings.SERVICE_NAME[1]:
-        Intra.objects.filter(user_id=request['user_id']).update(token=request['token'])
+        Intra.objects.filter(user_id=request.POST.get('user_id')).update(token=request.POST['token'])
     elif service == settings.SERVICE_NAME[2]:
-        Slack.objects.filter(user_id=request['user_id']).update(token=request['token'])
+        Slack.objects.filter(user_id=request.POST.get('user_id')).update(token=request.POST['token'])
     elif service == settings.SERVICE_NAME[3]:
-        Microsoft.objects.filter(user_id=request['user_id']).update(token=request['token'])
+        Microsoft.objects.filter(user_id=request.POST.get('user_id')).update(token=request.POST['token'])
+    return HttpResponse('Ok')
+
+
+## USERS ##
+@csrf_exempt
+@require_http_methods(['POST'])
+def create_user(request):
+    User(user_id=request.POST.get('user_id')).save()
+    return HttpResponse('Ok')
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def update_user(request, user_id):
+    try:
+        user = get_object_or_404(User, user_id=user_id)
+    except User.DoesNotExist:
+        return Http404("User not found.")
     return HttpResponse('Ok')

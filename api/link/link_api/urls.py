@@ -26,5 +26,8 @@ urlpatterns = [
     path('applets/<int:id>/activate', api.activate_applet),
     path('applets/<int:id>/desactivate', api.desactivate_applet),
 
+    path('users/create', api.create_user),
+    path('users/<str:user_id>', api.update_user),
+
     path('services/<str:service>', api.sync_token),
 ]

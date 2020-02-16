@@ -301,3 +301,28 @@ URL: `API_URL/applets/${Service}/${reaction}`
   ...
 ]
 ```
+
+### Create new user
+
+Methode: **`POST`**
+
+URL: `API_URL/users/create`
+
+```json
+{
+  "user_id": "qnfkjsqnkndfsjnkjq"
+}
+```
+
+### Update new user
+
+Methode: **`POST`**
+
+URL: `API_URL/users/{user_id}`
+
+```json
+{
+  "name": "a",
+  "last_name": "b",
+}
+```
