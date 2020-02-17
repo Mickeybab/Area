@@ -8,6 +8,7 @@ import 'package:area_front/widgets/topbar/TopBar.dart';
 // Static
 import 'package:area_front/static/Constants.dart';
 
+/// `My Services` Pages of the Area Project
 class MyServices extends StatelessWidget {
   const MyServices({Key key}) : super(key: key);
 

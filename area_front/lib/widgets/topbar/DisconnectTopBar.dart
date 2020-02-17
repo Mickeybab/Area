@@ -15,6 +15,7 @@ class DisconnectTopBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      iconTheme: IconThemeData(color: Colors.black),
       elevation: 1,
       title: Row(
         children: <Widget>[

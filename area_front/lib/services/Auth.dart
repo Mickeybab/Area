@@ -1,4 +1,5 @@
 // Auths Tools
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -6,7 +7,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:global_configuration/global_configuration.dart';
 
 // Models
-import 'package:area_front/models/User.dart';
 
 /// Responsible of all Auth Process
 class AuthService {
@@ -14,7 +14,8 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   /// Google Handle the selection of the Google Account and ask for permission
-  final GoogleSignIn _googleSignIn = GoogleSignIn(clientId: GlobalConfiguration().getString('GoogleSignInClientId'));
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+      clientId: GlobalConfiguration().getString('GoogleSignInClientId'));
 
   /// Depending on the credential [FirebaseAuth] will sign In or Up the user
   ///
@@ -52,26 +53,17 @@ class AuthService {
     }
   }
 
-  /// Create user object based on Firbase User
-  User _userFromFirebaseUser(FirebaseUser user) {
-    return user != null ? User(uid: user.uid) : null;
-  }
-
   /// Detect auth changes
-  Stream<User> get user {
-    return _auth.onAuthStateChanged
-        .map((FirebaseUser user)  {
-          print(user.toString());
-          if (user != null && user.isEmailVerified)
-            return _userFromFirebaseUser(user);
-          else
-            return null;
-        });
+  Stream<FirebaseUser> get user {
+    return _auth.onAuthStateChanged.map((FirebaseUser user) {
+      return user;
+    });
   }
 
   Future signUpWithEmail(String email, String password) async {
     try {
-      AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      AuthResult result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       FirebaseUser user = result.user;
 
       await user.sendEmailVerification();
@@ -83,12 +75,12 @@ class AuthService {
 
   Future signInWithEmail(String email, String password) async {
     try {
-      AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      AuthResult result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
       FirebaseUser user = result.user;
-      if (user.isEmailVerified) {
-        _userFromFirebaseUser(user);
-      } else {
-        throw new AuthException("auth/is-email-verified-error", "Please validate your email via the link sent to your email address.");
+      if (!user.isEmailVerified) {
+        throw new AuthException("auth/is-email-verified-error",
+            "Please validate your email via the link sent to your email address.");
       }
     } catch (error) {
       print(error.toString());
