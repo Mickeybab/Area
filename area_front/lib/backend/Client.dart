@@ -14,7 +14,7 @@ class Backend {
   }
 
   static String getRouteAndParam(String path, FirebaseUser user) {
-    final String route = GlobalConfiguration().getString('API_URL') + path + "?user_id=${user.uid}";
+    final String route = GlobalConfiguration().getString('API_URL') + path;
     return route;
   }
 
