@@ -87,7 +87,7 @@ def set_applet(request, id):
         p.name = param['name']
         p.type = False if param['type'] == 'int' else True
         p.value = param['value']
-        p.applet_id = app.id
+        p.id_applet = app.id
         return p
 
     with transaction.atomic():
