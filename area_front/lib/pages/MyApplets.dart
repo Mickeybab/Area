@@ -94,6 +94,7 @@ class MyApplets extends StatelessWidget {
             ],
           ),
         ),
-      );
+      ),
+    );
   }
 }
