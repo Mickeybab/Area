@@ -8,7 +8,7 @@ part 'Applet.g.dart';
 /// Model of the Applet
 @JsonSerializable(explicitToJson: true)
 class Applet {
-  final String id;
+  final int id;
 
   /// id of the applet
   final String title;
