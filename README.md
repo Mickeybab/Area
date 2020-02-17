@@ -40,6 +40,10 @@ Method: **`GET`**
 
 URL: `API_URL/applets`
 
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
 ```json
 [
   {
@@ -85,6 +89,10 @@ Method: **`GET`**
 
 URL: `API_URL/applets/${id}`
 
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
 ```json
 {
   "id": "ID",
@@ -127,6 +135,10 @@ Method: **`POST`**
 
 URL: `API_URL/applets/${id}/add`
 
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
 ```json
 {
   "user_id": "ARYUHGFDSDFTRSJDS",
@@ -164,10 +176,8 @@ Method: **`POST`**
 
 URL: `API_URL/applets/${id}/activate`
 
-```json
-{
-  "user_id": "qnfkjsqnkndfsjnkjq"
-}
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
 ```
 
 ### Desactivate an applet
@@ -176,10 +186,8 @@ Method: **`POST`**
 
 url: `API_URL/applets/${id}/desactivate`
 
-```json
-{
-  "user_id": "qnfkjsqnkndfsjnkjq"
-}
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
 ```
 
 ### Search for an Applet
@@ -188,6 +196,10 @@ url: `API_URL/applets/${id}/desactivate`
 Method: **`GET`**
 
 URL : `API_URL/applets/search?s=${stringTosearch}`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
 
 ```json
 [
@@ -236,6 +248,10 @@ Method: **`POST`**
 
 URL: `API_URL/services/${serviceName}`
 
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
 Service names can be:
 
 - github
@@ -263,6 +279,10 @@ For the refresh token:
 Method: **`GET`**
 
 URL: `API_URL/applets/${Service}/${actions}`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
 
 ```json
 [
@@ -309,6 +329,10 @@ Method: **`GET`**
 
 URL: `API_URL/applets/${Service}/${reaction}`
 
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
 ```json
 [
   {
@@ -354,6 +378,10 @@ Methode: **`POST`**
 
 URL: `API_URL/users/create`
 
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
 ```json
 {
   "user_id": "qnfkjsqnkndfsjnkjq"
@@ -365,6 +393,10 @@ URL: `API_URL/users/create`
 Methode: **`POST`**
 
 URL: `API_URL/users/{user_id}`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
 
 ```json
 {

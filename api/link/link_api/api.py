@@ -52,6 +52,12 @@ def applet_to_json(app):
     }
 
 
+def request_to_json(request):
+    string = request.body.decode('utf8').replace("'", '"')
+    print(string)
+    return json.loads(string)
+
+
 ##### APPLET #####
 @csrf_exempt
 @require_http_methods(['GET'])
@@ -79,7 +85,8 @@ def get_applet(request, id):
 @require_http_methods(['POST'])
 def set_applet(request, id):
 
-    if not request.POST.get('user_id'):
+    data = request_to_json(request)
+    if not data['user_id']:
         return HttpResponse('Ko, need user_id')
     
     def fill_applet(param):
@@ -91,25 +98,27 @@ def set_applet(request, id):
         return p
 
     with transaction.atomic():
-        app = Applet.objects.get(user_id=request.POST.get('user_id'), id_applet=int(id)).select_for_update()
+        app = Applet.objects.select_for_update().get(user_id=data['user_id'], id_applet=int(id))
         app.enable = True
-        app.action_service = request.POST.get('action')['service']
-        app.action = request.POST.get('action')['action']
-        app.reaction_service = request.POST.get('reaction')['service']
-        app.reaction = request.POST.get('reaction')['reaction']
+        app.action_service = data['action']['service']
+        app.action = data['action']['action']
+        app.reaction_service = data['reaction']['service']
+        app.reaction = data['reaction']['reaction']
         app.save()
 
     for param in ParamApplet.objects.filter(applet_id=app.id):
         param.delete()
 
-    for param in request.POST.get('action')['param']:
+    for param in data['action']['param']:
         p = fill_applet(param)
         p.side = True
+        p.applet_id = app.id
         p.save()
 
-    for param in request.POST.get('reaction')['param']:
+    for param in data['reaction']['param']:
         p = fill_applet(param)
         p.side = False
+        p.applet_id = app.id
         p.save()
 
     return HttpResponse('Ok')
