@@ -1,12 +1,10 @@
 //Core
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // Pages
 import 'package:area_front/pages/auth/SignIn.dart';
-
-// Models
-import 'package:area_front/models/User.dart';
 
 
 /// If a [User] is connected the Widget will display the result of
@@ -18,7 +16,7 @@ class CheckAuth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
+    final user = Provider.of<FirebaseUser>(context);
     return (user == null ? SignInPage() : this.page());
   }
 }

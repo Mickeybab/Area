@@ -2,8 +2,10 @@
 import 'package:area_front/models/applets/Params.dart';
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/widgets/AreaTitle.dart';
+import 'package:area_front/widgets/applets/ListApplets.dart';
 import 'package:area_front/widgets/GetMore.dart';
 import 'package:area_front/widgets/applets/ListUserApplets.dart';
+
 import 'package:flutter/material.dart';
 
 // My Widgets
