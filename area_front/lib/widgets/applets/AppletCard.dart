@@ -64,11 +64,11 @@ class _AppletCardState extends State<AppletCard> {
                       onSwitchChangeState(newValue);
                       if (newValue == true) {
                         B.Backend.post(
-                            user, BackendRoutes.activateApplet(widget.data.id));
+                            user, BackendRoutes.activateApplet(widget.data.id.toString()));
                         print("APPLET ACTIVATED");
                       } else {
                         B.Backend.post(user,
-                            BackendRoutes.desactivateApplet(widget.data.id));
+                            BackendRoutes.desactivateApplet(widget.data.id.toString()));
                         print("APPLET DESACTIVATED");
                       }
                     }),
