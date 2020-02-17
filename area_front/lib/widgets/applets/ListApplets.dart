@@ -23,7 +23,7 @@ class ListApplet extends StatelessWidget {
     return Expanded(
         child: GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: (MediaQuery.of(context).size.width / 800).round(),
+        crossAxisCount: (MediaQuery.of(context).size.width / 800).round() + 1,
         childAspectRatio: 1.6,
       ),
       itemCount: applets.length,
