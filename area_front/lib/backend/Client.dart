@@ -13,10 +13,16 @@ class Backend {
     return headers;
   }
 
+  static String getRouteAndParam(String path, FirebaseUser user) {
+    final String route = GlobalConfiguration().getString('API_URL') + path + "?user_id=${user.uid}";
+    return route;
+  }
+
+
   static Future<http.Response> get(FirebaseUser user, dynamic path,
       {Map<String, String> headers}) async {
     headers = await addTokenToHeader(user, headers);
-    final String route = GlobalConfiguration().getString('API_URL') + path;
+    final String route = getRouteAndParam(path, user);
     try {
       return await http.get(route, headers: headers);
     } catch (e) {
@@ -28,7 +34,7 @@ class Backend {
   static Future<http.Response> post(FirebaseUser user, dynamic path,
       {Map<String, String> headers, body, Encoding encoding}) async {
     headers = await addTokenToHeader(user, headers);
-    final String route = GlobalConfiguration().getString('API_URL') + path;
+    final String route = getRouteAndParam(path, user);
     try {
       return await http.post(route,
           headers: headers, body: body, encoding: encoding);
@@ -41,7 +47,7 @@ class Backend {
   static Future<http.Response> put(FirebaseUser user, dynamic path,
       {Map<String, String> headers, body, Encoding encoding}) async {
     headers = await addTokenToHeader(user, headers);
-    final route = GlobalConfiguration().getString('API_URL') + path;
+    final String route = getRouteAndParam(path, user);
     try {
       return await http.put(route,
           headers: headers, body: body, encoding: encoding);
@@ -54,7 +60,7 @@ class Backend {
   static Future<http.Response> patch(FirebaseUser user, dynamic path,
       {Map<String, String> headers, body, Encoding encoding}) async {
     headers = await addTokenToHeader(user, headers);
-    final route = GlobalConfiguration().getString('API_URL') + path;
+    final String route = getRouteAndParam(path, user);
     try {
       return await http.patch(route,
           headers: headers, body: body, encoding: encoding);
@@ -67,7 +73,7 @@ class Backend {
   static Future<http.Response> delete(FirebaseUser user, dynamic path,
       {Map<String, String> headers}) async {
     headers = await addTokenToHeader(user, headers);
-    final route = GlobalConfiguration().getString('API_URL') + path;
+    final String route = getRouteAndParam(path, user);
     try {
       return await http.delete(route, headers: headers);
     } catch (e) {

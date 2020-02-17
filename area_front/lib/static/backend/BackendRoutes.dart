@@ -1,11 +1,11 @@
 /// BackendRoutes list all of the route we call the Backend API
 class BackendRoutes {
-  static const String applets = "/applets";
+  static const String applets = "/applets/";
   static const String services = '/services';
 
   /// return the url to `interact` with an applet from the applet `id`
   static String specificApplet(String id) {
-    return ('$applets/$id');
+    return ('$applets$id');
   }
 
   /// return the url to `activate` an applet from the applet `id`
