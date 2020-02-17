@@ -248,10 +248,6 @@ Method: **`POST`**
 
 URL: `API_URL/services/${serviceName}`
 
-```data
-  "user_id=qnfkjsqnkndfsjnkjq"
-```
-
 Service names can be:
 
 - github
@@ -261,12 +257,10 @@ Service names can be:
 
 For example : `API_URL`/services/`github`
 
-```json
-{
-  "user_id": "EZANKLZAZEKNFKL",
-  "token": "kjzankenfkjaaf...",
-  "refresh": ""
-}
+```data
+  "user_id"=EZANKLZAZEKNFKL",
+  "token=kjzankenfkjaaf...",
+  "refresh=zaertytedz"
 ```
 
 For the refresh token:
@@ -380,12 +374,6 @@ URL: `API_URL/users/create`
 
 ```data
   "user_id=qnfkjsqnkndfsjnkjq"
-```
-
-```json
-{
-  "user_id": "qnfkjsqnkndfsjnkjq"
-}
 ```
 
 ### Update new user
