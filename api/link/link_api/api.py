@@ -62,22 +62,19 @@ def request_to_json(request):
 @csrf_exempt
 @require_http_methods(['GET'])
 def get_applets(request):
-    if not request.GET['user_id']:
-        return HttpResponse('Ko, need user_id')
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
     result = []
-    for app in Applet.objects.filter(user_id=request.GET['user_id']):
+    for app in Applet.objects.filter(user_id=user_id):
         temp = applet_to_json(app)
         result.append(temp)
-    print(result)
     return JsonResponse(result)
 
 
 @csrf_exempt
 @require_http_methods(['GET'])
 def get_applet(request, id):
-    if not request.GET['user_id']:
-        return HttpResponse('Ko, need user_id')
-    app = Applet.objects.filter(user_id=request.GET['user_id'], id_applet=id).get()
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    app = Applet.objects.filter(user_id=user_id, id_applet=id).get()
     return JsonResponse(applet_to_json(app))
 
 
@@ -86,8 +83,7 @@ def get_applet(request, id):
 def set_applet(request, id):
 
     data = request_to_json(request)
-    if not data['user_id']:
-        return HttpResponse('Ko, need user_id')
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
     
     def fill_applet(param):
         p = ParamApplet()
@@ -98,7 +94,7 @@ def set_applet(request, id):
         return p
 
     with transaction.atomic():
-        app = Applet.objects.select_for_update().get(user_id=data['user_id'], id_applet=int(id))
+        app = Applet.objects.select_for_update().get(user_id=user_id, id_applet=int(id))
         app.enable = True
         app.action_service = data['action']['service']
         app.action = data['action']['action']
@@ -127,28 +123,25 @@ def set_applet(request, id):
 @csrf_exempt
 @require_http_methods(['POST'])
 def activate_applet(request, id):
-    if not request.POST.get('user_id'):
-        return HttpResponse('Ko, need user_id')
-    Applet.objects.filter(user_id=request.POST.get('user_id'), id_applet=id).update(enable=True)
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    Applet.objects.filter(user_id=user_id, id_applet=id).update(enable=True)
     return HttpResponse('Ok')
 
 
 @csrf_exempt
 @require_http_methods(['POST'])
 def desactivate_applet(request, id):
-    if not request.POST.get('user_id'):
-        return HttpResponse('Ko, need user_id')
-    Applet.objects.filter(user_id=request.POST.get('user_id'), id_applet=id).update(enable=False)
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    Applet.objects.filter(user_id=user_id, id_applet=id).update(enable=False)
     return HttpResponse('Ok')
 
 
 @csrf_exempt
 @require_http_methods(['GET'])
 def get_applet_by_action(request, service, action):
-    if not request.GET['user_id']:
-        return HttpResponse('Ko, need user_id')
     result = []
-    for app in Applet.objects.filter(user_id=request.GET['user_id']):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    for app in Applet.objects.filter(user_id=user_id):
         if (app.action_service == service and app.action == action) or (app.reaction_service == service and app.reaction == action):
             result.append(app)
     return JsonResponse([applet_to_json(a) for a in result])
@@ -157,16 +150,17 @@ def get_applet_by_action(request, service, action):
 @csrf_exempt
 @require_http_methods(['GET'])
 def search_applets(request):
-    if not request.GET['user_id'] or not request.GET['stringTosearch']:
-        return HttpResponse('Ko, need user_id')
+    if not request.GET['stringTosearch']:
+        return HttpResponse('Ko, need string search')
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
     applets = []
-    for s in Applet.objects.filter(action_service__icontains=request.GET['stringTosearch']):
+    for s in Applet.objects.filter(action_service__icontains=request.GET['stringTosearch'], user_id=user_id):
         applets.append(s)
-    for s in Applet.objects.filter(reaction_service__icontains=request.GET['stringTosearch']):
+    for s in Applet.objects.filter(reaction_service__icontains=request.GET['stringTosearch'], user_id=user_id):
         applets.append(s)
-    for s in Applet.objects.filter(action__icontains=request.GET['stringTosearch']):
+    for s in Applet.objects.filter(action__icontains=request.GET['stringTosearch'], user_id=user_id):
         applets.append(s)
-    for s in Applet.objects.filter(reaction__icontains=request.GET['stringTosearch']):
+    for s in Applet.objects.filter(reaction__icontains=request.GET['stringTosearch'], user_id=user_id):
         applets.append(s)
     return JsonResponse([applet_to_json(s) for s in applets])
 
@@ -175,16 +169,15 @@ def search_applets(request):
 @csrf_exempt
 @require_http_methods(['POST'])
 def sync_token(request, service):
-    if not request.POST.get('user_id'):
-        return HttpResponse('Ko, need user_id')
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
     if service == settings.SERVICE_NAME[0]:
-        Github.objects.filter(user_id=request.POST.get('user_id')).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
+        Github.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     elif service == settings.SERVICE_NAME[1]:
-        Intra.objects.filter(user_id=request.POST.get('user_id')).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
+        Intra.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     elif service == settings.SERVICE_NAME[2]:
-        Slack.objects.filter(user_id=request.POST.get('user_id')).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
+        Slack.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     elif service == settings.SERVICE_NAME[3]:
-        Microsoft.objects.filter(user_id=request.POST.get('user_id')).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
+        Microsoft.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     return HttpResponse('Ok')
 
 
@@ -192,28 +185,15 @@ def sync_token(request, service):
 @csrf_exempt
 @require_http_methods(['POST'])
 def create_user(request):
-    if not request.POST.get('user_id'):
-        return HttpResponse('Ko, need user_id')
-    user_id = request.POST.get('user_id')
-    User(user_id=user_id).save()
-    Applet(id_applet=0, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[0], action='test', action_logo='a', reaction_service=settings.SERVICE_NAME[5], reaction='test', reaction_logo='a').save()
-    Applet(id_applet=1, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='test', action_logo='a', reaction_service=settings.SERVICE_NAME[4], reaction='test', reaction_logo='a').save()
-    Applet(id_applet=2, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[2], action='test', action_logo='a', reaction_service=settings.SERVICE_NAME[3], reaction='test', reaction_logo='a').save()
-    Applet(id_applet=3, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='test', action_logo='a', reaction_service=settings.SERVICE_NAME[2], reaction='test', reaction_logo='a').save()
-    Applet(id_applet=4, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='test', action_logo='a', reaction_service=settings.SERVICE_NAME[1], reaction='test', reaction_logo='a').save()
-    Applet(id_applet=5, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[5], action='test', action_logo='a', reaction_service=settings.SERVICE_NAME[0], reaction='test', reaction_logo='a').save()
-    Github(user_id=user_id).save()
-    Intra(user_id=user_id).save()
-    Slack(user_id=user_id).save()
-    Microsoft(user_id=user_id).save()
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    util.create_user(user_id)
     return HttpResponse('Ok')
 
 
 @csrf_exempt
 @require_http_methods(['POST'])
 def update_user(request, user_id):
-    if not request.POST.get('user_id'):
-        return HttpResponse('Ko, need user_id')
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
     try:
         user = get_object_or_404(User, user_id=user_id)
     except User.DoesNotExist:
