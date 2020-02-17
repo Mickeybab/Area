@@ -4,6 +4,9 @@ import 'package:area_front/static/Constants.dart';
 import 'package:area_front/widgets/AreaTitle.dart';
 import 'package:area_front/widgets/applets/ListApplets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:area_front/widgets/GetMore.dart';
+import 'package:area_front/widgets/applets/ListUserApplets.dart';
+
 import 'package:flutter/material.dart';
 
 // My Widgets
@@ -79,7 +82,11 @@ class MyApplets extends StatelessWidget {
                       ],
                     );
                   } else if (snapshot.hasData) {
-                    return ListApplet(applets: snapshot.data);
+                    if (snapshot.data) {
+                      return ListApplet(applets: snapshot.data);
+                    } else {
+                      return GetMore();
+                    }
                   } else
                     return CircularProgressIndicator();
                 },
@@ -87,7 +94,6 @@ class MyApplets extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }
