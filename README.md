@@ -40,6 +40,10 @@ Method: **`GET`**
 
 URL: `API_URL/applets`
 
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
 ```json
 [
   {
@@ -85,6 +89,10 @@ Method: **`GET`**
 
 URL: `API_URL/applets/${id}`
 
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
 ```json
 {
   "id": "ID",
@@ -127,6 +135,10 @@ Method: **`POST`**
 
 URL: `API_URL/applets/${id}/add`
 
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
 ```json
 {
   "user_id": "ARYUHGFDSDFTRSJDS",
@@ -164,10 +176,8 @@ Method: **`POST`**
 
 URL: `API_URL/applets/${id}/activate`
 
-```json
-{
-  "user_id": "qnfkjsqnkndfsjnkjq"
-}
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
 ```
 
 ### Desactivate an applet
@@ -176,10 +186,58 @@ Method: **`POST`**
 
 url: `API_URL/applets/${id}/desactivate`
 
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
+### Search for an Applet
+
+
+Method: **`GET`**
+
+URL : `API_URL/applets/search?s=${stringTosearch}`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
 ```json
-{
-  "user_id": "qnfkjsqnkndfsjnkjq"
-}
+[
+  {
+    "id": "ID",
+    "title": "Follow My Progression",
+    "description": "Get a message when the GPA ...",
+    "color" : "0xffb74093",
+    "enable": false,
+    "action": {
+      "service": "intranet",
+      "logo": "path",
+      "action": "get the GPA",
+      "param": [
+        {
+          "name": "parameter name",
+          "type": "string/int",
+          "value": "",
+        },
+        ...
+      ],
+    },
+    "reaction": {
+      "service": "slack",
+      "logo": "path",
+      "reaction": "message",
+      "param": [
+        {
+          "name": "parameter name",
+          "type": "string/int",
+          "value": "",
+        },
+        ...
+      ]
+    },
+  },
+  ...
+]
 ```
 
 ### Sync Token
@@ -199,12 +257,10 @@ Service names can be:
 
 For example : `API_URL`/services/`github`
 
-```json
-{
-  "user_id": "EZANKLZAZEKNFKL",
-  "token": "kjzankenfkjaaf...",
-  "refresh": ""
-}
+```data
+  "user_id"=EZANKLZAZEKNFKL",
+  "token=kjzankenfkjaaf...",
+  "refresh=zaertytedz"
 ```
 
 For the refresh token:
@@ -217,6 +273,10 @@ For the refresh token:
 Method: **`GET`**
 
 URL: `API_URL/applets/${Service}/${actions}`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
 
 ```json
 [
@@ -263,6 +323,10 @@ Method: **`GET`**
 
 URL: `API_URL/applets/${Service}/${reaction}`
 
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
 ```json
 [
   {
@@ -302,49 +366,29 @@ URL: `API_URL/applets/${Service}/${reaction}`
 ]
 ```
 
+### Create new user
 
-### Search for an Applet
+Methode: **`POST`**
 
+URL: `API_URL/users/create`
 
-Method: **`GET`**
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
 
-URL : `API_URL/applets/search?s=${stringTosearch}`
+### Update new user
+
+Methode: **`POST`**
+
+URL: `API_URL/users/{user_id}`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
 
 ```json
-[
-  {
-    "id": "ID",
-    "title": "Follow My Progression",
-    "description": "Get a message when the GPA ...",
-    "color" : "0xffb74093",
-    "enable": false,
-    "action": {
-      "service": "intranet",
-      "logo": "path",
-      "action": "get the GPA",
-      "param": [
-        {
-          "name": "parameter name",
-          "type": "string/int",
-          "value": "",
-        },
-        ...
-      ],
-    },
-    "reaction": {
-      "service": "slack",
-      "logo": "path",
-      "reaction": "message",
-      "param": [
-        {
-          "name": "parameter name",
-          "type": "string/int",
-          "value": "",
-        },
-        ...
-      ]
-    },
-  },
-  ...
-]
+{
+  "name": "a",
+  "last_name": "b",
+}
 ```
