@@ -1,7 +1,6 @@
 // Core
 import 'package:area_front/models/applets/Params.dart';
 import 'package:area_front/widgets/AreaText.dart';
-import 'package:area_front/widgets/AreaTextField.dart';
 import 'package:area_front/widgets/AreaTitle.dart';
 import 'package:area_front/widgets/topbar/TopBar.dart';
 import 'package:flutter/material.dart';
