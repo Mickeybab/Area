@@ -103,7 +103,7 @@ Web Server  • web-server • web-javascript • Flutter Tools
 
 - Start the web server
 ```
-$ flutter run -d web-server --web-port 5000
+$ flutter run -d web-server --web-hostname localhost --web-port 5000
 
 Launching lib/main.dart on Web Server in debug mode...
 Building application for the web...                                16.7s
@@ -112,7 +112,7 @@ lib/main.dart is being served at http://localhost:5000/
 - Open the url displayed in a browser in this case `http://localhost:5000/` *(Google Chrome is advisor)*
 
 
-*We specify port **5000** because this **URI** is authorized by default by Google Sign In. To allow more URI check [here](https://console.developers.google.com/apis/credentials)*.
+*We specify port **5000** and hostname **localhost** because this **URI** is authorized by default by Google Sign In. To allow more URI check [here](https://console.developers.google.com/apis/credentials)*.
 
 ### **Android**
 
