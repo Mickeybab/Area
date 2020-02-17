@@ -1,10 +1,12 @@
 // Core
 import 'package:area_front/backend/Navigation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // Datas
 import 'package:area_front/static/Routes.dart';
 import 'package:area_front/static/Constants.dart';
+import 'package:provider/provider.dart';
 
 class UserControl extends StatelessWidget {
   const UserControl({Key key}) : super(key: key);
@@ -15,6 +17,8 @@ class UserControl extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<FirebaseUser>(context);
+
     return PopupMenuButton<String>(
       icon: Icon(
         Icons.account_circle,
@@ -34,7 +38,7 @@ class UserControl extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Text(
-                    "Named",
+                    user.email,
                   ),
                   Spacer(),
                   Icon(
