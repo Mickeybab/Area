@@ -20,7 +20,6 @@ import 'package:area_front/widgets/topbar/TopBar.dart';
 // Static
 import 'package:area_front/static/Routes.dart';
 
-
 class SignInPage extends StatefulWidget {
   SignInPage({this.toggleSignForm});
 

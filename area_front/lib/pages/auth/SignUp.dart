@@ -65,7 +65,8 @@ class _SignUpPageState extends State<SignUpPage> {
           try {
             await _auth.signUpWithEmail(email, password);
             await _auth.signOut();
-            setState(() => error = "A verification email has been sent to your email address. Please verify your address before logging in.");
+            setState(() => error =
+                "A verification email has been sent to your email address. Please verify your address before logging in.");
           } on AuthException catch (e) {
             setState(() => error = e.message);
           }
