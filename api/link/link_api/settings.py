@@ -18,6 +18,10 @@ DEV = False
 if os.getenv("DEV", "") == 1:
     DEV = True
 
+MY_IP = '1.2.3.4'
+if DEV:
+    MY_IP = 'localhost:9000/'
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
