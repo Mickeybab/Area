@@ -24,7 +24,7 @@ def applet_to_json(app):
         'title': util.applet_id_to_name(app.id_applet),
         'description': util.applet_id_to_description(app.id_applet),
         'color': util.applet_id_to_color(app.id_applet),
-        'enable': 'True' if app.enable else 'False',
+        'enable': True if app.enable else False,
         'action': {
             'service': app.action_service,
             'logo': app.action_logo,

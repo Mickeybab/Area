@@ -15,7 +15,7 @@ import firebase_admin
 
 
 DEV = False
-if os.getenv("DEV", "") == 1:
+if os.getenv("DEV"):
     DEV = True
 
 MY_IP = '1.2.3.4'
@@ -135,6 +135,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'statics'
 
 ## FIREBASE #######
 
