@@ -81,7 +81,7 @@ class MyApplets extends StatelessWidget {
                       ],
                     );
                   } else if (snapshot.hasData) {
-                    if (snapshot.data) {
+                    if (snapshot.data != null) {
                       return ListApplet(applets: snapshot.data);
                     } else {
                       return GetMore();
