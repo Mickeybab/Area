@@ -64,8 +64,7 @@ class MyApplets extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(36.0),
           width: 900,
-          margin: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height / 100 * 8, bottom: 30),
+          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 100 * 8, bottom: 30),
           child: Column(
             children: <Widget>[
               AreaTitle(Constants.myApplets),
