@@ -18,11 +18,6 @@ class SignWithPage extends StatelessWidget {
   const SignWithPage({Key key}) : super(key: key);
 
   Widget build(BuildContext context) {
-    final continueWithSlackButon = AreaLargeButton(
-      text: Constants.continueWithSlack,
-      onPressed: () {},
-    );
-
     final continueWithGithubButon = AreaLargeButton(
       text: Constants.continueWithGithub,
       onPressed: () {},
@@ -50,12 +45,10 @@ class SignWithPage extends StatelessWidget {
                   children: <Widget>[
                     AreaTitle(Constants.getStarted),
                     SizedBox(height: 45.0),
-                    continueWithSlackButon,
-                    SizedBox(height: 25.0),
                     continueWithGithubButon,
                     SizedBox(height: 15.0),
                     continueWithGoogle,
-                    SizedBox(height: 15.0),
+                    SizedBox(height: 25.0),
                     AreaText(Constants.usePassword, fontSize: 13),
                     SizedBox(height: 15.0),
                     AreaFlatButton(
