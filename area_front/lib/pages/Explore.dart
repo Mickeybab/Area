@@ -24,32 +24,37 @@ class Explore extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       resizeToAvoidBottomPadding: false,
       appBar: TopBar(),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height / 100 * 8, bottom: 30),
-            child: AreaTitle(Constants.explore),
+      body: Center(
+        child: Container(
+          padding: const EdgeInsets.all(36.0),
+          width: 900,
+          margin: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height / 100 * 8, bottom: 30),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              AreaTitle(Constants.explore),
+              SizedBox(height: 25),
+              LargeSearchBar(autofocus: true),
+              FutureBuilder(
+                future: Request.getApplets(user),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError == true) {
+                    return Column(
+                      children: <Widget>[
+                        Icon(Icons.error_outline),
+                        Text(snapshot.error.toString())
+                      ],
+                    );
+                  } else if (snapshot.hasData) {
+                    return ListApplet(applets: snapshot.data);
+                  } else
+                    return CircularProgressIndicator();
+                },
+              )
+            ],
           ),
-          LargeSearchBar(autofocus: true),
-          FutureBuilder(
-            future: Request.getApplets(user),
-            builder: (context, snapshot) {
-              if (snapshot.hasError == true) {
-                return Column(
-                  children: <Widget>[
-                    Icon(Icons.error_outline),
-                    Text(snapshot.error.toString())
-                  ],
-                );
-              } else if (snapshot.hasData) {
-                return ListApplet(applets: snapshot.data);
-              } else
-                return CircularProgressIndicator();
-            },
-          )
-        ],
+        ),
       ),
     );
   }
