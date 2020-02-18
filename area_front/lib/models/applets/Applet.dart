@@ -20,7 +20,7 @@ class Applet {
   String color;
 
   /// the linked reactions
-  bool enabled;
+  bool enable;
 
   Service action;
   Service reaction;
@@ -30,7 +30,7 @@ class Applet {
     this.title,
     this.description,
     this.color,
-    this.enabled,
+    this.enable,
     this.action,
     this.reaction,
   });
