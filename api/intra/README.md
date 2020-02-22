@@ -31,10 +31,8 @@ This API uses the Richardson Maturity Model, more info [here](https://martinfowl
 | Get the user's logtime | `GET` | `/v1/intra/netsoul` |
 | Get the user's last gares | `GET` | `/v1/intra/marks` |
 | Get the user's GPA and credits | `GET` | `/v1/intra/grade/:cycle` |
+| Get the user's notifications | `GET` | `/v1/intra/history` |
 
-### ***Production URL***
-
-- https://api.pedafy.com/v1/intra ...
 
 ### ***Development URL***
 
@@ -122,6 +120,26 @@ Here is an example of a **response**:
     "data": {
         "gpa": 3.76,
         "credits": 123
+    }
+}
+```
+
+____
+### **Get the user's notifications**
+
+Request type: `GET`.
+
+URL: `/v1/intra/history`.
+
+Get the latest notification of a user.
+
+Here is an example of a **response**:
+```json
+{
+    "status": "success",
+    "code": 200,
+    "data": {
+        // to be completed
     }
 }
 ```
