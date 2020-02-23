@@ -5,7 +5,7 @@ from link_api import settings
 
 
 def applet_id_to_name(id):
-    return ["A",
+    return ["Notifer son GPA sur Slack",
             "B",
             "C",
             "D",
@@ -16,7 +16,7 @@ def applet_id_to_name(id):
 
 
 def applet_id_to_description(id):
-    return ["AA",
+    return ["Envoyer un méssage sur slack en fonction de son GPA",
             "BB",
             "CC",
             "DD",
@@ -48,24 +48,9 @@ def firebase_get_user_id(token):
 def create_user(user_id):
     print("Create new user {}".format(user_id))
     User(user_id=user_id).save()
-    Applet(id_applet=0, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[0], action='test', action_logo=settings.MY_IP + 'static/logo.png', reaction_service=settings.SERVICE_NAME[5], reaction='test', reaction_logo=settings.MY_IP + 'static/logo.png').save()
-    ParamApplet(name="Param", type=True, side=True, value="1", applet_id=Applet.objects.filter(user_id=user_id, id_applet=0).get().id).save()
-    ParamApplet(name="Param2", type=True, side=False, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=0).get().id).save()
-    Applet(id_applet=1, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='test', action_logo=settings.MY_IP + 'static/logo.png', reaction_service=settings.SERVICE_NAME[4], reaction='test', reaction_logo=settings.MY_IP + 'static/logo.png').save()
-    ParamApplet(name="Param", type=True, side=True, value="1", applet_id=Applet.objects.filter(user_id=user_id, id_applet=1).get().id).save()
-    ParamApplet(name="Param2", type=True, side=False, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=1).get().id).save()
-    Applet(id_applet=2, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[2], action='test', action_logo=settings.MY_IP + 'static/logo.png', reaction_service=settings.SERVICE_NAME[3], reaction='test', reaction_logo=settings.MY_IP + 'static/logo.png').save()
-    ParamApplet(name="Param", type=True, side=True, value="1", applet_id=Applet.objects.filter(user_id=user_id, id_applet=2).get().id).save()
-    ParamApplet(name="Param2", type=True, side=False, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=2).get().id).save()
-    Applet(id_applet=3, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='test', action_logo=settings.MY_IP + 'static/logo.png', reaction_service=settings.SERVICE_NAME[2], reaction='test', reaction_logo=settings.MY_IP + 'static/logo.png').save()
-    ParamApplet(name="Param", type=True, side=True, value="1", applet_id=Applet.objects.filter(user_id=user_id, id_applet=3).get().id).save()
-    ParamApplet(name="Param2", type=True, side=False, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=3).get().id).save()
-    Applet(id_applet=4, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='test', action_logo=settings.MY_IP + 'static/logo.png', reaction_service=settings.SERVICE_NAME[1], reaction='test', reaction_logo=settings.MY_IP + 'static/logo.png').save()
-    ParamApplet(name="Param", type=True, side=True, value="1", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
-    ParamApplet(name="Param2", type=True, side=False, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
-    Applet(id_applet=5, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[5], action='test', action_logo=settings.MY_IP + 'static/logo.png', reaction_service=settings.SERVICE_NAME[0], reaction='test', reaction_logo=settings.MY_IP + 'static/logo.png').save()
-    ParamApplet(name="Param", type=True, side=True, value="1", applet_id=Applet.objects.filter(user_id=user_id, id_applet=5).get().id).save()
-    ParamApplet(name="Param2", type=True, side=False, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=5).get().id).save()
+    Applet(id_applet=0, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='get the GPA', action_logo=settings.MY_IP + 'static/logo.png', reaction_service=settings.SERVICE_NAME[2], reaction='message', reaction_logo=settings.MY_IP + 'static/logo.png').save()
+    ParamApplet(name="GPA", type=True, side=True, value=">2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=0).get().id).save()
+    ParamApplet(name="message", type=True, side=False, value="Mon GPA est passer au dessus de 2 !", applet_id=Applet.objects.filter(user_id=user_id, id_applet=0).get().id).save()
     Github(user_id=user_id).save()
     Intra(user_id=user_id).save()
     Slack(user_id=user_id).save()
