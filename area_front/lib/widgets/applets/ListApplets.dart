@@ -1,4 +1,5 @@
 // Core
+import 'package:area_front/pages/Applet.dart';
 import 'package:flutter/material.dart';
 
 // Modals
@@ -22,11 +23,11 @@ class ListApplet extends StatelessWidget {
     return Expanded(
         child: GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: (MediaQuery.of(context).size.width / 600).round(),
-        childAspectRatio: 3.0,
+        crossAxisCount: (MediaQuery.of(context).size.width / 800).round() + 1,
+        childAspectRatio: 1.6,
       ),
       itemCount: applets.length,
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(20.0),
       itemBuilder: (BuildContext context, int index) {
         return AppletCard(
           applets[index],
@@ -35,6 +36,12 @@ class ListApplet extends StatelessWidget {
           color: _randomColor.randomColor(
               colorBrightness: ColorBrightness.primary),
           onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AppletsDetailsPage(applets[index]),
+              ),
+            );
             print('Card pressed');
           },
         );

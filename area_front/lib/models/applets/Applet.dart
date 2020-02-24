@@ -1,15 +1,39 @@
+// Core
 import 'package:json_annotation/json_annotation.dart';
+
+import 'package:area_front/models/Service.dart';
 
 part 'Applet.g.dart';
 
-
-@JsonSerializable(nullable: false)
+/// Model of the Applet
+@JsonSerializable(explicitToJson: true)
 class Applet {
-	final String name;
-  final String description;
-	final List<String> services;
+  final int id;
 
-  const Applet({this.name, this.services, this.description});
+  /// id of the applet
+  final String title;
+
+  /// name of the applet
+  final String description;
+
+  /// the color of the applet
+  String color;
+
+  /// the linked reactions
+  bool enabled;
+
+  Service action;
+  Service reaction;
+
+  Applet({
+    this.id,
+    this.title,
+    this.description,
+    this.color,
+    this.enabled,
+    this.action,
+    this.reaction,
+  });
 
   factory Applet.fromJson(Map<String, dynamic> json) => _$AppletFromJson(json);
   Map<String, dynamic> toJson() => _$AppletToJson(this);

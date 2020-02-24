@@ -1,0 +1,20 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'Params.g.dart';
+
+@JsonSerializable()
+class Param {
+  /// name of the param
+  final String name;
+
+  /// it can be `string` or `int`
+  final String paramType;
+
+  /// the value is always a string but you can find a phrase or a int inside
+  String value;
+
+  Param({this.name, this.paramType, this.value});
+
+  factory Param.fromJson(Map<String, dynamic> json) => _$ParamFromJson(json);
+  Map<String, dynamic> toJson() => _$ParamToJson(this);
+}

@@ -7,7 +7,9 @@
         {
             "name": "Dart",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": ["--web-hostname", "localhost", "--web-port", "5000"],
+            "program": "./area_front/lib/main.dart"
         }
     ]
 }
