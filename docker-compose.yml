@@ -29,6 +29,24 @@ services:
       - 9000:9000
     restart: always
 
+  start_service_api:
+    build: 
+      context: ./api/link
+      dockerfile: Dockerfile
+    volumes:
+      - ./api/link:/link_api
+    environment:
+      DEV: 1
+      MYSQL_DATABASE: area
+      MYSQL_USER: user
+      MYSQL_PASSWORD: test
+    links:
+      - db
+    depends_on:
+      - db
+    command: "sh ./start_service_api.sh"
+    restart: always
+
   news_api:
     build: 
       context: ./api/news
