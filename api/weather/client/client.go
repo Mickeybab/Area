@@ -5,36 +5,31 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/frouioui/dashboard-epitech/api/currency/client/models"
+	"github.com/frouioui/AREA/api/weather/client/models"
 )
 
-var (
-	urlAPI = "https://api.exchangeratesapi.io"
+const (
+	urlAPI   = "http://api.openweathermap.org/data/2.5/weather?q="
+	tokenAPI = "&APPID=517b6fc349eb9f9db7ad4cae4162f0be"
 )
 
-// GetRateForOneCurrency returns the rate that correspond to the given
-// currency source
-//
-// For example: EUR = 1 / USD = 1.1
-// from = "EUR" and to = "USD", will return 1.1
-func GetRateForOneCurrency(from, to string) (rate models.Rates, err error) {
-	url := urlAPI + "/latest?symbols=" + to + "&base=" + from
+func GetTemperatureCity(city string) (info models.WeatherInfo, err error) {
+	url := urlAPI + city + tokenAPI
 
 	resp, err := http.Get(url)
 	if err != nil {
-		return rate, err
+		return info, err
 	}
 
 	defer resp.Body.Close()
 
 	respBody, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return rate, err
+		return info, err
 	}
-
-	err = json.Unmarshal(respBody, &rate)
+	err = json.Unmarshal(respBody, &info)
 	if err != nil {
-		return rate, err
+		return info, err
 	}
-	return rate, err
+	return info, err
 }
