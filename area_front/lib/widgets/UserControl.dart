@@ -1,19 +1,24 @@
 // Core
+import 'package:area_front/backend/Navigation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // Datas
 import 'package:area_front/static/Routes.dart';
 import 'package:area_front/static/Constants.dart';
+import 'package:provider/provider.dart';
 
 class UserControl extends StatelessWidget {
   const UserControl({Key key}) : super(key: key);
 
   _selected(BuildContext context, String choice) {
-    Navigator.of(context).pushReplacementNamed(choice);
+    Navigation.navigate(context, choice);
   }
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<FirebaseUser>(context);
+
     return PopupMenuButton<String>(
       icon: Icon(
         Icons.account_circle,
@@ -25,7 +30,7 @@ class UserControl extends StatelessWidget {
       itemBuilder: (BuildContext context) {
         return [
           PopupMenuItem(
-            value: Routes.home,
+            value: Routes.wrapper,
             child: Container(
               decoration: BoxDecoration(
                   border: Border(bottom: BorderSide(color: Colors.black))),
@@ -33,7 +38,7 @@ class UserControl extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Text(
-                    "Named",
+                    user.email,
                   ),
                   Spacer(),
                   Icon(
@@ -55,10 +60,6 @@ class UserControl extends StatelessWidget {
           PopupMenuItem(
             child: Text(Constants.myServices),
             value: Routes.myServices,
-          ),
-          PopupMenuItem(
-            child: Text(Constants.signOut),
-            value: Routes.signOut,
           ),
         ];
       },

@@ -1,54 +1,25 @@
 // Core
+import 'package:area_front/widgets/GetMore.dart';
 import 'package:flutter/material.dart';
 
+// Constants
+
 // My Widgets
-import 'package:area_front/widgets/TopBar.dart';
+import 'package:area_front/widgets/topbar/TopBar.dart';
 
 // Datas
-import 'package:area_front/static/Routes.dart';
 
+/// `Home` Page of the Area Project
 class HomePage extends StatelessWidget {
   const HomePage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: TopBar(),
-        body: Stack(
-          children: <Widget>[
-            Center(
-              child: LimitedBox(
-                maxHeight: 600,
-                maxWidth: 600,
-                child: Image.asset(
-                  'assets/images/home/IFTTT.png',
-                ),
-              ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                ButtonBar(
-                  alignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    RaisedButton(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Text(
-                          "Get More",
-                          style: TextStyle(fontSize: 24),
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(context, Routes.login);
-                        },
-                        color: Colors.black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(18.0),
-                        ))
-                  ],
-                ),
-              ],
-            )
-          ],
-        ));
+      appBar: TopBar(),
+      body: Center(
+        child: GetMore(),
+      )
+    );
   }
 }
