@@ -1,6 +1,7 @@
 from link_api.models import User, Applet, ParamApplet, Github, Intra, Slack, Microsoft
 from django.core.management.base import BaseCommand
 from time import sleep
+from link_api import settings
 
 
 class Command(BaseCommand):
@@ -9,6 +10,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         def verify_value(app, param):
+    
+            if app.action == settings.SERVICE_NAME[0]:
+                app
+    
             return False
 
 

@@ -154,10 +154,13 @@ SERVICE_NAME = [
     'github',
     'intraepitech',
     'slack',
-    'microsoft',
+    'currency',
     'weather',
-    'exchange',
+    'googlemail',
+    'notification',
 ]
+
+SERVICE_GIHUB = 'localhost:9004'
 
 
 CORS_ORIGIN_ALLOW_ALL = True
