@@ -7,7 +7,4 @@ done
 
 sleep 30
 
-while true; do
-    sleep 30
-    python3 -u manage.py services
-done
+python3 -u manage.py services
