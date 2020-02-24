@@ -12,7 +12,7 @@ Applet _$AppletFromJson(Map<String, dynamic> json) {
     title: json['title'] as String,
     description: json['description'] as String,
     color: json['color'] as String,
-    enabled: json['enabled'] as bool,
+    enable: json['enable'] as bool,
     action: json['action'] == null
         ? null
         : Service.fromJson(json['action'] as Map<String, dynamic>),
@@ -27,7 +27,7 @@ Map<String, dynamic> _$AppletToJson(Applet instance) => <String, dynamic>{
       'title': instance.title,
       'description': instance.description,
       'color': instance.color,
-      'enabled': instance.enabled,
+      'enable': instance.enable,
       'action': instance.action?.toJson(),
       'reaction': instance.reaction?.toJson(),
     };
