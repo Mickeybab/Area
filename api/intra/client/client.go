@@ -3,6 +3,7 @@ package client
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -13,6 +14,28 @@ import (
 var (
 	urlAPI = "https://intra.epitech.eu/"
 )
+
+func getHistoryBoard(authToken string) (board models.NotificationBoard, err error) {
+	url := urlAPI + authToken + "/?format=json"
+
+	resp, err := http.Get(url)
+	if err != nil {
+		return board, err
+	}
+
+	defer resp.Body.Close()
+
+	respBody, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return board, err
+	}
+
+	err = json.Unmarshal(respBody, &board)
+	if err != nil {
+		return board, err
+	}
+	return board, err
+}
 
 func getUserInfo(authToken string) (user models.User, err error) {
 	url := urlAPI + authToken + "/user/?format=json"
@@ -122,4 +145,13 @@ func GetLastMarks(authToken string) (marks []models.Note, err error) {
 		marks[i].Link = "https://intra.epitech.eu" + mark.Link
 	}
 	return marks, err
+}
+
+// GetHistory returns the history / notification array of the user
+func GetHistory(authToken string) (history []models.Notification, err error) {
+	if authToken == "" {
+		return history, errors.New("authToken is not set")
+	}
+	board, err := getHistoryBoard(authToken)
+	return board.History, err
 }

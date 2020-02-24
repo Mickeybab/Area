@@ -19,11 +19,34 @@ func Assign(r *mux.Router) {
 	r.HandleFunc("/v1/intra/grade/{cycle}", gpaAndCreditsRoute).Methods(http.MethodGet, http.MethodOptions)
 	r.HandleFunc("/v1/intra/netsoul", netsoulRoute).Methods(http.MethodGet, http.MethodOptions)
 	r.HandleFunc("/v1/intra/marks", markRoute).Methods(http.MethodGet, http.MethodOptions)
+	r.HandleFunc("/v1/intra/history", historyRoute).Methods(http.MethodGet, http.MethodOptions)
 	log.Println("Routes set.")
 }
 
 func homeRoute(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"status": "success", "code": 200}`))
+}
+
+func historyRoute(w http.ResponseWriter, r *http.Request) {
+	authToken := r.Header.Get("Authorization")
+	history, err := client.GetHistory(authToken)
+	if err != nil {
+		w.WriteHeader(400)
+		log.Println(err)
+		fmt.Fprintf(w, `{"status": "failure", "code": %d, "message": "%s"}`, 400, err)
+		return
+	}
+
+	historyB, err := json.Marshal(history)
+	if err != nil {
+		w.WriteHeader(500)
+		log.Println(err)
+		fmt.Fprintf(w, `{"status": "failure", "code": %d, "message": "%s"}`, 500, err)
+	}
+
+	w.WriteHeader(200)
+	fmt.Fprintf(w, `{"status": "success", "code": %d, "data": %s}`, 200, string(historyB))
+	return
 }
 
 func markRoute(w http.ResponseWriter, r *http.Request) {
