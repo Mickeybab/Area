@@ -2,9 +2,27 @@ var model = require('../models/models')
 
 
 module.exports = {
+    mergePullRequest,
     getRepoLastCommit,
     getRepoLastIssue,
     getRepoLastPull
+}
+
+function mergePullRequest(req, res) {
+    res.set('Content-Type', 'application/json');
+
+    let repo = req.params.repo
+    let owner = req.params.owner
+    let pr = req.params.pr
+    let auth = req.get('Authorization')
+
+    model.mergePullRequest(auth, owner, repo, pr).then(function (json) {
+        console.log(json)
+        res.status(200).json({ status: 'success', code: 200, data: json })
+    }).catch((err) => setImmediate(() => {
+        console.log(err)
+        res.status(400).json({ status: 'failure', code: 400, error: err })
+    }))
 }
 
 function getRepoLastCommit(req, res) {

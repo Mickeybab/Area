@@ -16,4 +16,7 @@ module.exports = function (app) {
 
     app.route('/v1/github/:owner/:repo/last/commit')
         .get(controllers.getRepoLastCommit)
+
+    app.route('/v1/github/:owner/:repo/merge/:pr')
+        .get(controllers.mergePullRequest)
 };
