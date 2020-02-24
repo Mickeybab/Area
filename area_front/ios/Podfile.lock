@@ -114,6 +114,14 @@ PODS:
   - PromisesObjC (1.2.8)
   - simple_auth_flutter (0.0.1):
     - Flutter
+  - uni_links (0.0.1):
+    - Flutter
+  - url_launcher (0.0.1):
+    - Flutter
+  - url_launcher_macos (0.0.1):
+    - Flutter
+  - url_launcher_web (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
@@ -124,6 +132,10 @@ DEPENDENCIES:
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - google_sign_in_web (from `.symlinks/plugins/google_sign_in_web/ios`)
   - simple_auth_flutter (from `.symlinks/plugins/simple_auth_flutter/ios`)
+  - uni_links (from `.symlinks/plugins/uni_links/ios`)
+  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
+  - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
+  - url_launcher_web (from `.symlinks/plugins/url_launcher_web/ios`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -164,6 +176,14 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_sign_in_web/ios"
   simple_auth_flutter:
     :path: ".symlinks/plugins/simple_auth_flutter/ios"
+  uni_links:
+    :path: ".symlinks/plugins/uni_links/ios"
+  url_launcher:
+    :path: ".symlinks/plugins/url_launcher/ios"
+  url_launcher_macos:
+    :path: ".symlinks/plugins/url_launcher_macos/ios"
+  url_launcher_web:
+    :path: ".symlinks/plugins/url_launcher_web/ios"
 
 SPEC CHECKSUMS:
   AppAuth: 73574f3013a1e65b9601a3ddc8b3158cce68c09d
@@ -193,6 +213,10 @@ SPEC CHECKSUMS:
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   simple_auth_flutter: ec585a6e96b415247120df0a33af43dc1d2a5839
+  uni_links: d97da20c7701486ba192624d99bffaaffcfc298a
+  url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
+  url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
+  url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
 
 PODFILE CHECKSUM: 025eae5b1fea6aaf1cbb1438df7b69c30f4c8f0b
 

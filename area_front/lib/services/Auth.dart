@@ -2,11 +2,44 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 // Config
 import 'package:global_configuration/global_configuration.dart';
 
 // Models
+
+//GITHUB REQUEST-RESPONSE MODELS
+class GitHubLoginRequest {
+  String clientId;
+  String clientSecret;
+  String code;
+
+  GitHubLoginRequest({this.clientId, this.clientSecret, this.code});
+
+  dynamic toJson() => {
+        "client_id": clientId,
+        "client_secret": clientSecret,
+        "code": code,
+      };
+}
+
+class GitHubLoginResponse {
+  String accessToken;
+  String tokenType;
+  String scope;
+
+  GitHubLoginResponse({this.accessToken, this.tokenType, this.scope});
+
+  factory GitHubLoginResponse.fromJson(Map<String, dynamic> json) =>
+      GitHubLoginResponse(
+        accessToken: json["access_token"],
+        tokenType: json["token_type"],
+        scope: json["scope"],
+      );
+}
 
 /// Responsible of all Auth Process
 class AuthService {
@@ -32,6 +65,33 @@ class AuthService {
     assert(user.uid == currentUser.uid);
 
     return currentUser;
+  }
+
+  Future<FirebaseUser> loginWithGitHub(String code) async {
+    //ACCESS TOKEN REQUEST
+    final response = await http.post(
+      "https://github.com/login/oauth/access_token",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: jsonEncode(GitHubLoginRequest(
+        clientId: "75fa20208cf4489b5540",
+        clientSecret: "e0913b3cbe81b0249301b4f1fc3ba600d9c00bd9",
+        code: code,
+      )),
+    );
+
+    GitHubLoginResponse loginResponse =
+        GitHubLoginResponse.fromJson(json.decode(response.body));
+
+    //FIREBASE STUFF
+    final AuthCredential credential = GithubAuthProvider.getCredential(
+      token: loginResponse.accessToken,
+    );
+
+    final AuthResult authResult = await FirebaseAuth.instance.signInWithCredential(credential);
+    return authResult.user;
   }
 
   /// SignIn with Google
