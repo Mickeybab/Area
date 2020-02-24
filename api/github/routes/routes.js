@@ -20,6 +20,6 @@ module.exports = function (app) {
     app.route('/v1/github/:owner/:repo/merge/:pr')
         .get(controllers.mergePullRequest)
 
-    app.route('/v1/github/:owner/:repo/:pr/comments')
+    app.route('/v1/github/:owner/:repo/:pr/last/commit')
         .get(controllers.getPullRequestCommits)
 };
