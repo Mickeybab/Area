@@ -2,7 +2,7 @@
 
 ## Services
 
-- Outlook Mail
+- Google Mail
 - Github
 - OpenWeather
 - ExchangeRateApi
