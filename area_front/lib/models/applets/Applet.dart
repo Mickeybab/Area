@@ -22,8 +22,8 @@ class Applet {
   /// the linked reactions
   bool enable;
 
-  Service action;
-  Service reaction;
+  AService action;
+  RService reaction;
 
   Applet({
     this.id,

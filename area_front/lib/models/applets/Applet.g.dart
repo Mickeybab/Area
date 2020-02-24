@@ -15,10 +15,10 @@ Applet _$AppletFromJson(Map<String, dynamic> json) {
     enable: json['enable'] as bool,
     action: json['action'] == null
         ? null
-        : Service.fromJson(json['action'] as Map<String, dynamic>),
+        : AService.fromJson(json['action'] as Map<String, dynamic>),
     reaction: json['reaction'] == null
         ? null
-        : Service.fromJson(json['reaction'] as Map<String, dynamic>),
+        : RService.fromJson(json['reaction'] as Map<String, dynamic>),
   );
 }
 

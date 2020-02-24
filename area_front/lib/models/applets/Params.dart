@@ -8,12 +8,12 @@ class Param {
   final String name;
 
   /// it can be `string` or `int`
-  final String paramType;
+  final String type;
 
   /// the value is always a string but you can find a phrase or a int inside
   String value;
 
-  Param({this.name, this.paramType, this.value});
+  Param({this.name, this.type, this.value});
 
   factory Param.fromJson(Map<String, dynamic> json) => _$ParamFromJson(json);
   Map<String, dynamic> toJson() => _$ParamToJson(this);
