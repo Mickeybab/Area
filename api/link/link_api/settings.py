@@ -165,7 +165,7 @@ SERVICE_NAME = [
 
 
 SERVICE_INTRA = 'http://intra_api:8080/'
-SERVICE_GIHUB = 'http://github_api:9000/'
+SERVICE_GITHUB = 'http://github_api:9000/'
 SERVICE_CURRENCY = 'http://currency_api:8080/'
 SERVICE_WEATHER = 'http://weather_api:8080/'
 

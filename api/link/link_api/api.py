@@ -99,6 +99,7 @@ def set_applet(request, id):
         app.action = data['action']['action']
         app.reaction_service = data['reaction']['service']
         app.reaction = data['reaction']['reaction']
+        app.data = None
         app.save()
 
     for param in ParamApplet.objects.filter(applet_id=app.id):
