@@ -27,11 +27,13 @@ urlpatterns = [
     path('applets/<int:id>/add', api.set_applet),
     path('applets/<int:id>/activate', api.activate_applet),
     path('applets/<int:id>/desactivate', api.desactivate_applet),
+    path('applets/<str:service>', api.get_applets_by_services),
     path('applets/<str:service>/<str:action>', api.get_applet_by_action),
     path('applets/search', api.search_applets),
 
     path('users/create', api.create_user),
     path('users/<str:user_id>', api.update_user),
 
+    path('services', api.get_services),
     path('services/<str:service>', api.sync_token),
 ]

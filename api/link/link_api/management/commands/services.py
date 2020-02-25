@@ -1,4 +1,4 @@
-from link_api.models import User, Applet, ParamApplet, Github, Intra, Slack, Microsoft
+from link_api.models import User, Applet, ParamApplet, Github, Intra, Slack, Google
 from django.core.management.base import BaseCommand
 from time import sleep
 from link_api import settings, util
