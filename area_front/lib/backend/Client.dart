@@ -18,7 +18,6 @@ class Backend {
     return route;
   }
 
-
   static Future<http.Response> get(FirebaseUser user, dynamic path,
       {Map<String, String> headers}) async {
     headers = await addTokenToHeader(user, headers);

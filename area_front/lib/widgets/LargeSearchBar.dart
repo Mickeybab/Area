@@ -5,15 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:area_front/static/Constants.dart';
 
 class LargeSearchBar extends StatelessWidget {
-  const LargeSearchBar({Key key, this.autofocus = false}) : super(key: key);
+  const LargeSearchBar(
+      {Key key, this.autofocus = false, this.controller, this.submit})
+      : super(key: key);
 
   final bool autofocus;
+  final TextEditingController controller;
+  final Function submit;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: TextField(
           autofocus: this.autofocus,
+          controller: this.controller,
+          onSubmitted: this.submit,
           decoration: const InputDecoration(
             contentPadding: EdgeInsets.only(right: 5),
             enabledBorder: const OutlineInputBorder(

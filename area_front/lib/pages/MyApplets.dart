@@ -12,44 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:area_front/widgets/topbar/TopBar.dart';
 
 // Data
-import 'package:area_front/models/applets/Applet.dart';
 import 'package:provider/provider.dart';
-
-List<Applet> _suggestion = [
-  Applet(
-    title: "Epitech Notification",
-    description:
-        "Lorsque je reçois une note je veux avoir une notification sur mon portable",
-  ),
-  Applet(
-      title: "Github Notification",
-      description:
-          "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
-  Applet(
-      title: "Epitech Notification",
-      description:
-          "Lorsque je reçois une note je veux avoir une notification sur mon portable"),
-  Applet(
-      title: "Github Notification",
-      description:
-          "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
-  Applet(
-      title: "Epitech Notification",
-      description:
-          "Lorsque je reçois une note je veux avoir une notification sur mon portable"),
-  Applet(
-      title: "Github Notification",
-      description:
-          "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
-  Applet(
-      title: "Epitech Notification",
-      description:
-          "Lorsque je reçois une note je veux avoir une notification sur mon portable"),
-  Applet(
-      title: "Github Notification",
-      description:
-          "Lorsque quelqu'un push sur un projet je veux avoir une notification sur mon portable"),
-];
 
 /// `My Applets` Page of the Area Project
 class MyApplets extends StatelessWidget {
@@ -64,12 +27,12 @@ class MyApplets extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(36.0),
           width: 900,
-          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 100 * 8, bottom: 30),
+          margin: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height / 100 * 8, bottom: 30),
           child: Column(
             children: <Widget>[
               AreaTitle(Constants.myApplets),
               FutureBuilder(
-                initialData: _suggestion,
                 future: Request.getApplets(user),
                 builder: (context, snapshot) {
                   if (snapshot.hasError == true) {

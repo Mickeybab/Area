@@ -20,29 +20,30 @@ class ListUserApplet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.separated(
-        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-        itemCount: applets.length,
-        itemBuilder: (BuildContext context, int index) {
-          return UserAppletCard(
-            applets[index],
-            splashColor: _randomColor.randomColor(colorBrightness: ColorBrightness.primary),
-            color: _randomColor.randomColor(colorBrightness: ColorBrightness.primary),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AppletsDetailsPage(applets[index]),
-                ),
-              );
-              print('Card pressed');
-            },
-          );
-        },
-        separatorBuilder: (context, index) {
-          return SizedBox(height: 8);
-        },
-      )
-    );
+        child: ListView.separated(
+      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      itemCount: applets.length,
+      itemBuilder: (BuildContext context, int index) {
+        return UserAppletCard(
+          applets[index],
+          splashColor: _randomColor.randomColor(
+              colorBrightness: ColorBrightness.primary),
+          color: _randomColor.randomColor(
+              colorBrightness: ColorBrightness.primary),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AppletsDetailsPage(applets[index]),
+              ),
+            );
+            print('Card pressed');
+          },
+        );
+      },
+      separatorBuilder: (context, index) {
+        return SizedBox(height: 8);
+      },
+    ));
   }
 }
