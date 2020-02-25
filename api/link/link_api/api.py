@@ -1,6 +1,6 @@
 from django.http import HttpResponse, Http404
 import json
-from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Microsoft, User
+from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User
 from link_api import settings
 from link_api import util
 from django.db import transaction
@@ -176,8 +176,8 @@ def sync_token(request, service):
         Intra.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     elif service == settings.SERVICE_NAME[2]:
         Slack.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
-    elif service == settings.SERVICE_NAME[3]:
-        Microsoft.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
+    elif service == settings.SERVICE_NAME[5]:
+        Google.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     return HttpResponse('Ok')
 
 

@@ -1,4 +1,4 @@
-from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Microsoft, User
+from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User
 from firebase_admin import auth
 from django.shortcuts import get_object_or_404
 from link_api import settings
@@ -379,11 +379,11 @@ def create_user(user_id):
     Github(user_id=user_id).save()
     Intra(user_id=user_id).save()
     Slack(user_id=user_id).save()
-    Microsoft(user_id=user_id).save()
+    Google(user_id=user_id).save()
 
 
 def request_create(user_id, url):
-    hed = {'Authorization': 'Bearer ' + user_id}
+    hed = {'Authorization': user_id}
     response = requests.get(url, headers=hed)
     return response
 
