@@ -95,7 +95,6 @@ def set_applet(request, id):
 
     with transaction.atomic():
         app = Applet.objects.select_for_update().get(user_id=user_id, id_applet=int(id))
-        app.enable = True
         app.action_service = data['action']['service']
         app.action = data['action']['action']
         app.reaction_service = data['reaction']['service']
@@ -194,17 +193,17 @@ def get_services(request):
         {
             "service": "Github",
             "color" : "0xffb74093",
-            "logo": settings.MY_IP + 'static/github.jpg',
+            "logo": settings.MY_IP + 'static/github.png',
         },
         {
             "service": "Intra Epitech",
             "color" : "0xffb74093",
-            "logo": settings.MY_IP + 'static/intra.jpg',
+            "logo": settings.MY_IP + 'static/intra.png',
         },
         {
             "service": "Slack",
             "color" : "0xffb74093",
-            "logo": settings.MY_IP + 'static/slack.jpg',
+            "logo": settings.MY_IP + 'static/slack.png',
         },
         {
             "service": "Currency",
@@ -219,7 +218,7 @@ def get_services(request):
         {
             "service": "Google Mail",
             "color" : "0xffb74093",
-            "logo": settings.MY_IP + 'static/googlemail.jpg',
+            "logo": settings.MY_IP + 'static/googlemail.png',
         },
     ]
     return JsonResponse(response)
