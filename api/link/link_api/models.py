@@ -13,6 +13,7 @@ class Applet(models.Model):
     reaction_service = models.CharField(max_length=50)
     reaction = models.CharField(max_length=50)
     reaction_logo = models.CharField(max_length=100)
+    data = models.CharField(max_length=255, null=True)
 
 
 class ParamApplet(models.Model):

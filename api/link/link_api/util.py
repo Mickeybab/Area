@@ -5,6 +5,7 @@ from link_api import settings
 import requests
 import urllib
 from sys import stderr
+import json
 
 
 def applet_id_to_name(id):
@@ -126,10 +127,16 @@ def firebase_get_user_id(token):
     return uid
 
 
-def firebase_get_token_id(token, service):
-    decoded_token = auth.verify_id_token(token.split(' ')[1])
-    print(decoded_token)
-    return decoded_token[service]
+def firebase_get_token_id(token, service, model):
+    try:
+        result = model.objects.get(user_id=token).token
+    except:
+        result = None
+    if not result:
+        decoded_token = auth.verify_id_token(token.split(' ')[1])
+        print(decoded_token)
+        return decoded_token[service]
+    return result
 
 
 def create_user(user_id):
@@ -386,9 +393,16 @@ def verify_github(app):
     if app.action == 'new commit':
         print("Start test Github", file=stderr)
         token = firebase_get_token_id(app.user_id, 'github')
-        owner = 'a'
-        repo = 'a'
-        r = request_create(app.user_id, SERVICE_GITHUB + 'v1/github/' + owner + '/' + repo + '/last/commit')
+        owner = ParamApplet.objects.filter(applet_id=app.id, name='Owner Name', side=True).get().value
+        repo = ParamApplet.objects.filter(applet_id=app.id, name='Repository Name', side=True).get().value
+        try:
+            r = request_create(app.user_id, SERVICE_GITHUB + 'v1/github/' + owner + '/' + repo + '/last/commit')
+            j = json.loads(r.data)
+        except:
+            return False
+        if j['commit'][-1] != app.data:
+            Applet.objects.get(id=app.id).update(data=j['commit'][-1])
+            return True
     return False
 
 
