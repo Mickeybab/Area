@@ -116,7 +116,7 @@ def set_applet(request, id):
         p.applet_id = app.id
         p.save()
 
-    return HttpResponse('Ok')
+    return JsonResponse(applet_to_json(Applet.objects.get(user_id=user_id, id_applet=int(id))))
 
 
 @csrf_exempt
