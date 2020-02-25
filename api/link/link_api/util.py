@@ -1,4 +1,4 @@
-from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User
+from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User, Notif
 from firebase_admin import auth
 from django.shortcuts import get_object_or_404
 from link_api import settings
@@ -484,3 +484,4 @@ def reaction_email(app):
 
 def reaction_notify(app):
     print("REACTION NOTIF !!!", file=stderr)
+    Notif(user_id=app.user_id, message=ParamApplet.objects.get(applet_id=app.id, side=False, name='Message').value).save()
