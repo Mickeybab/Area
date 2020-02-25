@@ -161,12 +161,14 @@ def create_user(user_id):
     Applet(id_applet=3, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='exceeds a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
         reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=3).get().id).save()
+    ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=3).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température dépasse ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=3).get().id).save()
 
     ## Exchange
     Applet(id_applet=4, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='exceeds a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
         reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
+    ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Température", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température dépasse ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
@@ -175,6 +177,7 @@ def create_user(user_id):
     Applet(id_applet=5, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='exceeds a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
         reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=5).get().id).save()
+    ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=5).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température dépasse ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=5).get().id).save()
 
     
@@ -183,12 +186,14 @@ def create_user(user_id):
     Applet(id_applet=6, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='below a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
         reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=6).get().id).save()
+    ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=6).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température est en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=6).get().id).save()
 
     ## Exchange
     Applet(id_applet=7, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='below a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
         reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=7).get().id).save()
+    ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=7).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=7).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Température", applet_id=Applet.objects.filter(user_id=user_id, id_applet=7).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température est en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=7).get().id).save()
@@ -197,6 +202,7 @@ def create_user(user_id):
     Applet(id_applet=8, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='below a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
         reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=8).get().id).save()
+    ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=8).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température est en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=8).get().id).save()
 
 
@@ -395,13 +401,10 @@ def verify_github(app):
         token = Github.objects.get(user_id=app.user_id).token
         owner = ParamApplet.objects.filter(applet_id=app.id, name='Owner Name', side=True).get().value
         repo = ParamApplet.objects.filter(applet_id=app.id, name='Repository Name', side=True).get().value
-        try:
-            r = request_create(token, SERVICE_GITHUB + 'v1/github/' + owner + '/' + repo + '/last/commit')
-            j = json.loads(r.data)
-        except:
-            return False
+        r = request_create(token, settings.SERVICE_GITHUB + 'v1/github/' + owner + '/' + repo + '/last/commit')
+        j = json.loads(r.text)
         if j['commit'][0] != app.data:
-            Applet.objects.get(id=app.id).update(data=j['commit'][-1])
+            Applet.objects.filter(id=app.id).update(data=j['commit'][-1])
             return True
     return False
 
@@ -411,75 +414,78 @@ def verify_intra(app):
     token = Intra.objects.get(user_id=app.user_id).token
     if app.action == 'mark below a limit':
         print('Start verif mark below a limit', file=stderr)
-        try:
-            r = request_create(token, SERVICE_INTRA + 'v1/intra/marks')
-            j = json.loads(r.data)
-        except:
-            return False
+        r = request_create(token, settings.SERVICE_INTRA + 'v1/intra/marks')
+        j = json.loads(r.text)
+        print(r.text, file=stderr)
         if j[0]['title_link'] != app.data:
-            Applet.objects.get(id=app.id).update(data=j[0]['title_link'])
+            Applet.objects.filter(id=app.id).update(data=j[0]['title_link'])
             return True
     elif app.action == 'credit number that exceeds':
         print('Start verif credit number that exceeds', file=stderr)
-        try:
-            r = request_create(token, SERVICE_INTRA + 'v1/intra/grade/bachelor')
-            j = json.loads(r.data)
-        except:
-            return False
+        r = request_create(token, settings.SERVICE_INTRA + 'v1/intra/grade/bachelor')
+        j = json.loads(r.text)
         if int(j['credits']) > int(app.data):
-            Applet.objects.get(id=app.id).update(data=j['credits'])
+            Applet.objects.filter(id=app.id).update(data=j['credits'])
             return True
     elif app.action == 'gpa drop below':
-        print('Start verif gpa drop below', fil=stderr)
-        try:
-            r = request_create(token, SERVICE_INTRA + 'v1/intra/grade/bachelor')
-            j = json.loads(r.data)
-        except:
-            return False
+        print('Start verif gpa drop below', file=stderr)
+        r = request_create(token, settings.SERVICE_INTRA + 'v1/intra/grade/bachelor')
+        j = json.loads(r.text)
         if int(j['gpa']) < int(app.data):
-            Applet.objects.get(id=app.id).update(data=j['gpa'])
+            Applet.objects.filter(id=app.id).update(data=j['gpa'])
             return True
     elif app.action == 'gpa exceeds':
         print('Start verif gpa exceeds', file=stderr)
-        try:
-            r = request_create(token, SERVICE_INTRA + 'v1/intra/grade/bachelor')
-            j = json.loads(r.data)
-        except:
-            return False
+        r = request_create(token, settings.SERVICE_INTRA + 'v1/intra/grade/bachelor')
+        j = json.loads(r.text)
         if int(j['credits']) > int(app.data):
-            Applet.objects.get(id=app.id).update(data=j['credits'])
+            Applet.objects.filter(id=app.id).update(data=j['credits'])
             return True
     return False
 
 
 def verify_slack(app):
-    a
+    app = app
 
 
 def verify_currency(app):
-    a
+    app = app
 
 
 def verify_weather(app):
+    temperature = ParamApplet.objects.get(applet_id=app.id, name='Temperature').value
+    city = ParamApplet.objects.get(applet_id=app.id, name='City').value
+    r = request_create('', settings.SERVICE_WEATHER + 'v1/weather/city?city=' + str(city))
+    j = json.loads(r.text)
     if app.action == 'exceeds a threshold':
         print("Start test Weather exceeds")
+        if float(j['data']['temp']) > float(temperature) and not app.data:
+            Applet.objects.filter(id=app.id).update(data=j['data']['temp'])
+            return True
+        elif app.data and float(j['data']['temp']) < float(temperature):
+            Applet.objects.filter(id=app.id).update(data=None)
     elif app.action == 'below a threshold':
         print("Start test Weather below")
+        if float(j['data']['temp']) < float(temperature) and not app.data:
+            Applet.objects.filter(id=app.id).update(data=j['data']['temp'])
+            return True
+        elif app.data and float(j['data']['temp']) > float(temperature):
+            Applet.objects.filter(id=app.id).update(data=None)
     return False
 
 
 def verify_googlemail(app):
-    a
+    app = app
 
 
 ######## REACTION ######
-def reaction_slack():
-    a
+def reaction_slack(app):
+    print("REACTION SLACK !!!", file=stderr)
 
 
-def reaction_email():
-    a
+def reaction_email(app):
+    print("REACTION EMAIL !!!", file=stderr)
 
 
-def reaction_notify():
-    a
+def reaction_notify(app):
+    print("REACTION NOTIF !!!", file=stderr)
