@@ -50,9 +50,30 @@ URL: `API_URL/services`
     "service": "Github",
     "color" : "0xffb74093",
     "logo": "path",
+    "enable": false
   },
   ...
 ]
+```
+
+### Activate a service
+
+Method: **`POST`**
+
+URL: `API_URL/services/${serviceName}/activate`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
+### Desactivate a service
+
+Method: **`POST`**
+
+URL: `API_URL/services/${serviceName}/desactivate`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
 ```
 
 ### Get all the applets
@@ -461,4 +482,23 @@ URL: `API_URL/users/{user_id}`
   "name": "a",
   "last_name": "b",
 }
+```
+
+Methode: **`GET`**
+
+URL: `API_URL/notif`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
+```json
+[{
+  "message": "salut le boss"
+},
+{
+  "message": "autre notif"
+},
+...
+]
 ```

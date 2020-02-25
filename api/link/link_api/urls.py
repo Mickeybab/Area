@@ -36,4 +36,8 @@ urlpatterns = [
 
     path('services', api.get_services),
     path('services/<str:service>', api.sync_token),
+    path('services/<str:service>/activate', api.activate_service),
+    path('services/<str:service>/desactivate', api.desactivate_service),
+
+    path('notif', api.get_notif),
 ]

@@ -1,6 +1,6 @@
 from django.http import HttpResponse, Http404
 import json
-from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User
+from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User, Notif, Service
 from link_api import settings
 from link_api import util
 from django.db import transaction
@@ -83,6 +83,13 @@ def get_applet(request, id):
 def set_applet(request, id):
 
     data = request_to_json(request)
+
+    if data['action']['service'] == settings.SERVICE_NAME[3]:
+        for p in data['action']['param']:
+            if p['name'] == 'Currency':
+                if not p['value'] in settings.CURRENCY_LIST:
+                    return HttpResponse('Currency is not valid')
+
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
 
     def fill_applet(param):
@@ -99,6 +106,7 @@ def set_applet(request, id):
         app.action = data['action']['action']
         app.reaction_service = data['reaction']['service']
         app.reaction = data['reaction']['reaction']
+        app.data = None
         app.save()
 
     for param in ParamApplet.objects.filter(applet_id=app.id):
@@ -189,39 +197,63 @@ def sync_token(request, service):
 @csrf_exempt
 @require_http_methods(['GET'])
 def get_services(request):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
     response = [
         {
             "service": "Github",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/github.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[0], user_id=user_id).enbale
         },
         {
             "service": "Intra Epitech",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/intra.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[1], user_id=user_id).enbale
         },
         {
             "service": "Slack",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/slack.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[2], user_id=user_id).enbale
         },
         {
             "service": "Currency",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/bitcoin.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[3], user_id=user_id).enbale
         },
         {
             "service": "Weather",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/weather.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[4], user_id=user_id).enbale
         },
         {
             "service": "Google Mail",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/googlemail.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[5], user_id=user_id).enbale
         },
     ]
     return JsonResponse(response)
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def activate_service(request, service):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    Service.objects.filter(name=service, user_id=user_id).update(enable=True)
+    return HttpResponse("Ok")
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def desactivate_service(request, service):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    Service.objects.filter(name=service, user_id=user_id).update(enable=False)
+    Applet.objects.filter(user_id=user_id, action_service=service).update(enbale=False)
+    return HttpResponse("Ok")
 
 
 ## USERS ##
@@ -242,3 +274,14 @@ def update_user(request, user_id):
     except User.DoesNotExist:
         return Http404("User not found.")
     return HttpResponse('Ok')
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def get_notif(request):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    result = []
+    for n in Notif.objects.filter(user_id=user_id, send=False):
+        result.append(n.message)
+        Notif.objects.filter(id=n.id).update(send=True)
+    return JsonResponse(result)
