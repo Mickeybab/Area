@@ -10,34 +10,25 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         def verify_value(app):
-            try:
-                if app.action_service == settings.SERVICE_NAME[0]:
-                    if util.verify_github(app):
-                        return True
-
-                if app.action_service == settings.SERVICE_NAME[1]:
-                    if util.verify_intra(app):
-                        return True
-
-                if app.action_service == settings.SERVICE_NAME[2]:
-                    if util.verify_slack(app):
-                        return True
-
-                if app.action_service == settings.SERVICE_NAME[3]:
-                    if util.verify_currency(app):
-                        return True
-
-                if app.action_service == settings.SERVICE_NAME[4]:
-                    if util.verify_weather(app):
-                        return True
-
-                if app.action_service == settings.SERVICE_NAME[5]:
-                    if util.verify_googlemail(app):
-                        return True
-
-                return False
-            except:
-                return False
+            if app.action_service == settings.SERVICE_NAME[0]:
+                if util.verify_github(app):
+                    return True
+            if app.action_service == settings.SERVICE_NAME[1]:
+                if util.verify_intra(app):
+                    return True
+            if app.action_service == settings.SERVICE_NAME[2]:
+                if util.verify_slack(app):
+                    return True
+            if app.action_service == settings.SERVICE_NAME[3]:
+                if util.verify_currency(app):
+                    return True
+            if app.action_service == settings.SERVICE_NAME[4]:
+                if util.verify_weather(app):
+                    return True
+            if app.action_service == settings.SERVICE_NAME[5]:
+                if util.verify_googlemail(app):
+                    return True
+            return False
 
 
         def start_reaction(app):

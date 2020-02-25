@@ -57,3 +57,7 @@ class Notif(models.Model):
     user_id = models.CharField(max_length=255)
     message = models.CharField(max_length=255, null=True)
     send = models.BooleanField(default=False)
+
+class Services(models.Model):
+    name = models.CharField(max_length=255)
+    activate = models.BooleanField(default=False)
