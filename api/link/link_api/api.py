@@ -252,7 +252,7 @@ def activate_service(request, service):
 def desactivate_service(request, service):
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
     Service.objects.filter(name=service, user_id=user_id).update(enable=False)
-    Applet.objects.filter(user_id=user_id, action_service=service).update(enbale=False)
+    Applet.objects.filter(user_id=user_id, action_service=service).update(enable=False)
     return HttpResponse("Ok")
 
 
