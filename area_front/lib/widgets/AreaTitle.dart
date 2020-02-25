@@ -13,7 +13,7 @@ class AreaTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return AreaText(
       this.title,
-      fontSize: 70.0,
+      fontSize: 60.0,
       fontWeight: FontWeight.w600,
       textAlign: TextAlign.center,
     );

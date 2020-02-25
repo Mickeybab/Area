@@ -1,12 +1,17 @@
 // Auths Tools
 
+import 'package:area_front/backend/Backend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 // Config
 import 'package:global_configuration/global_configuration.dart';
 
-// Models
+//Model
+import 'package:area_front/models/Github.dart';
 
 /// Responsible of all Auth Process
 class AuthService {
@@ -22,7 +27,7 @@ class AuthService {
   /// If the crédential are invalid, we throw an Exception
   Future signWithCredential(AuthCredential credential) async {
     final AuthResult authResult = await _auth.signInWithCredential(credential);
-    if (authResult == null) throw ("Look's like crédential are invalid");
+    if (authResult == null) throw ("Look's like credential are invalid");
     final FirebaseUser user = authResult.user;
 
     assert(!user.isAnonymous);
@@ -32,6 +37,42 @@ class AuthService {
     assert(user.uid == currentUser.uid);
 
     return currentUser;
+  }
+  /// SignIn with Github
+  Future signInWithGitHub(String code) async {
+    try {
+      final response = await http.post(
+        GlobalConfiguration().getString('GithubAccessTokenUrl'),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: jsonEncode(GitHubLoginRequest(
+          clientId: GlobalConfiguration().getString('GithubSignInClientId'),
+          clientSecret: GlobalConfiguration().getString('GithubSignInClientSecret'),
+          code: code,
+        )),
+      );
+
+      final GitHubLoginResponse loginResponse =
+          GitHubLoginResponse.fromJson(json.decode(response.body));
+
+      final AuthCredential credential = GithubAuthProvider.getCredential(
+        token: loginResponse.accessToken,
+      );
+      final FirebaseUser user = await this.signWithCredential(credential);
+      print('KBSIUABDJKBASKDJBAJSBFDKBSFKJBSADKJBAS');
+      Backend.post(user, '/services/github',
+        headers: {
+        }, body: {
+          "token": loginResponse.accessToken,
+          "refresh" : ""
+        });
+      return user;
+    } catch (e) {
+      print('Got error when sign in with Github: $e');
+      return null;
+    }
   }
 
   /// SignIn with Google
@@ -48,7 +89,7 @@ class AuthService {
       );
       return this.signWithCredential(credential);
     } catch (e) {
-      print('Got Error When Sign In : $e');
+      print('Got error when sign in with Google: $e');
       return null;
     }
   }
