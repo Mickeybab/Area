@@ -50,6 +50,7 @@ URL: `API_URL/services`
     "service": "Github",
     "color" : "0xffb74093",
     "logo": "path",
+    "enable": false
   },
   ...
 ]
