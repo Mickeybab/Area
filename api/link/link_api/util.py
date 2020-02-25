@@ -453,11 +453,11 @@ def verify_intra(app):
 
 
 def verify_slack(app):
-    a
+    app = app
 
 
 def verify_currency(app):
-    a
+    app = app
 
 
 def verify_weather(app):
@@ -469,17 +469,17 @@ def verify_weather(app):
 
 
 def verify_googlemail(app):
-    a
+    app = app
 
 
 ######## REACTION ######
-def reaction_slack():
-    a
+def reaction_slack(app):
+    app = app
 
 
-def reaction_email():
-    a
+def reaction_email(app):
+    app = app
 
 
-def reaction_notify():
-    a
+def reaction_notify(app):
+    app = app
