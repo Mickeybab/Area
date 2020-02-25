@@ -1,6 +1,6 @@
 from django.http import HttpResponse, Http404
 import json
-from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User, Notif
+from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User, Notif, Service
 from link_api import settings
 from link_api import util
 from django.db import transaction
@@ -202,31 +202,37 @@ def get_services(request):
             "service": "Github",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/github.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[0]).enbale
         },
         {
             "service": "Intra Epitech",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/intra.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[1]).enbale
         },
         {
             "service": "Slack",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/slack.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[2]).enbale
         },
         {
             "service": "Currency",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/bitcoin.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[3]).enbale
         },
         {
             "service": "Weather",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/weather.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[4]).enbale
         },
         {
             "service": "Google Mail",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/googlemail.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[5]).enbale
         },
     ]
     return JsonResponse(response)

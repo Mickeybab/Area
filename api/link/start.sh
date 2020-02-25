@@ -9,4 +9,6 @@ python3 manage.py migrate
 
 echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'bleemoe@bleemoe.com', 'admin')" | python3 manage.py shell 2> /dev/null || echo "Ok"
 
+python3 manage.py fill_default
+
 python3 -u manage.py runserver --verbosity 3 0.0.0.0:9000
