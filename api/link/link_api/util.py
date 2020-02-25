@@ -397,8 +397,8 @@ def verify_github(app):
         repo = ParamApplet.objects.filter(applet_id=app.id, name='Repository Name', side=True).get().value
         r = request_create(token, settings.SERVICE_GITHUB + 'v1/github/' + owner + '/' + repo + '/last/commit')
         j = json.loads(r.text)
-        if j['commit'][0] != app.data:
-            Applet.objects.filter(id=app.id).update(data=j['commit'][-1])
+        if j['data']['commit'][0] != app.data:
+            Applet.objects.filter(id=app.id).update(data=j['data']['commit'][-1])
             return True
     return False
 
