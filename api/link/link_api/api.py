@@ -54,7 +54,6 @@ def applet_to_json(app):
 
 def request_to_json(request):
     string = request.body.decode('utf8').replace("'", '"')
-    print(string)
     return json.loads(string)
 
 
