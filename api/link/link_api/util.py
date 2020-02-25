@@ -416,6 +416,7 @@ def verify_intra(app):
         print('Start verif mark below a limit', file=stderr)
         r = request_create(token, settings.SERVICE_INTRA + 'v1/intra/marks')
         j = json.loads(r.text)
+        print(r.text, file=stderr)
         if j[0]['title_link'] != app.data:
             Applet.objects.filter(id=app.id).update(data=j[0]['title_link'])
             return True
