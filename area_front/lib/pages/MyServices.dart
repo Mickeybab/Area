@@ -29,7 +29,7 @@ class MyServices extends StatelessWidget {
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(36.0),
-          width: 900,
+          width: 500,
           margin: EdgeInsets.only(
               top: MediaQuery.of(context).size.height / 100 * 8, bottom: 30),
           child: Column(
@@ -42,7 +42,7 @@ class MyServices extends StatelessWidget {
                     return Column(
                       children: <Widget>[
                         Icon(Icons.error_outline),
-                        AreaText(snapshot.error.toString())
+                        Expanded(child: AreaText(snapshot.error.toString()))
                       ],
                     );
                   } else if (snapshot.hasData) {
