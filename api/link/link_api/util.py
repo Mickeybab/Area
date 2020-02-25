@@ -33,12 +33,12 @@ def applet_id_to_name(id):
             "Notifier une augmentation de gpa sur slack", # 21
             "Notifier une augmentation de gpa sur email", # 22
             "Notifier une augmentation de gpa sur notification", #23
-            "Notifier la baise du bitcoin sur slack", # 24
-            "Notifier la baise du bitcoin sur email", # 25
-            "Notifier la baise du bitcoin sur notification", #26
-            "Notifier l'augmentation du bitcoin sur slack", # 27
-            "Notifier l'augmentation du bitcoin sur email", # 28
-            "Notifier l'augmentation du bitcoin sur notification", #29
+            "Notifier la baise d'une monnaie en fonction de l'euro sur slack", # 24
+            "Notifier la baise d'une monnaie en fonction de l'euro sur email", # 25
+            "Notifier la baise d'une monnaie en fonction de l'euro sur notification", #26
+            "Notifier l'augmentation d'une monnaie en fonction de l'euro sur slack", # 27
+            "Notifier l'augmentation d'une monnaie en fonction de l'euro sur email", # 28
+            "Notifier l'augmentation d'une monnaie en fonction de l'euro sur notification", #29
             "Notifier une notification slack sur slack", # 30
             "Notifier une notification slack sur email", # 31
             "Notifier une notification slack sur notification", #32
@@ -70,12 +70,12 @@ def applet_id_to_description(id):
             "Envoyer un méssage sur slack lors que le GPA de l'intra epitech au dessus d'un seuil donné", # 21
             "Envoyer un email via google mail lors que le GPA de l'intra epitech au dessus d'un seuil donné", # 22
             "Envoyer une notification lors que le GPA de l'intra epitech au dessus d'un seuil donné", # 23
-            "Envoyer un méssage sur slack lors que le bitcoin passe en dessous d'un seuil donné", # 24
-            "Envoyer un email via google mail lors que le bitcoin passe en dessous d'un seuil donné", # 25
-            "Envoyer une notification lors que le bitcoin passe en dessous d'un seuil donné", # 26
-            "Envoyer un méssage sur slack lors que le bitcoin passe au dessus d'un seuil donné", # 27
-            "Envoyer un email via google mail lors que le bitcoin passe au dessus d'un seuil donné", # 28
-            "Envoyer une notification lors que le bitcoin passe au dessus d'un seuil donné", # 29
+            "Envoyer un méssage sur slack lors qu'une monnaie passe en dessous d'un seuil donné en fonction de l'euro", # 24
+            "Envoyer un email via google mail lors qu'une monnaie passe en dessous d'un seuil donné en fonction de l'euro", # 25
+            "Envoyer une notification lors qu'une monnaie passe en dessous d'un seuil donné en fonction de l'euro", # 26
+            "Envoyer un méssage sur slack lors qu'une monnaie passe au dessus d'un seuil donné en fonction de l'euro", # 27
+            "Envoyer un email via google mail lors qu'une monnaie passe au dessus d'un seuil donné en fonction de l'euro", # 28
+            "Envoyer une notification lors qu'une monnaie passe au dessus d'un seuil donné en fonction de l'euro", # 29
             "Envoyer un méssage sur slack lors de la reception d'une nouvelle notification slack", # 30
             "Envoyer un email via google mail lors de la reception d'une nouvelle notification slack", # 31
             "Envoyer une notification lors de la reception d'une nouvelle notification slack", # 32
@@ -315,46 +315,52 @@ def create_user(user_id):
 
     #### The value of a currency drops below a threshold ####
     ## Slack
-    Applet(id_applet=24, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='bitcoin drop', action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
+    Applet(id_applet=24, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='money drop', action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
         reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
-    ParamApplet(name="Bitcoin value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=24).get().id).save()
-    ParamApplet(name="Message", type=True, side=False, value="La bitcoin est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=24).get().id).save()
+    ParamApplet(name="Currency", type=True, side=True, value="USD", applet_id=Applet.objects.filter(user_id=user_id, id_applet=24).get().id).save()
+    ParamApplet(name="Value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=24).get().id).save()
+    ParamApplet(name="Message", type=True, side=False, value="La money ... est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=24).get().id).save()
 
     ## Exchange
-    Applet(id_applet=25, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='bitcoin drop', action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
+    Applet(id_applet=25, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='money drop', action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
         reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo='http://' + settings.MY_IP + 'static/googlemail.png').save()
-    ParamApplet(name="Bitcoin value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
+    ParamApplet(name="Currency", type=True, side=True, value="USD", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
+    ParamApplet(name="Value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Bitcoin changement de valeur", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
-    ParamApplet(name="Message", type=True, side=False, value="La bitcoin est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
+    ParamApplet(name="Message", type=True, side=False, value="La money ... est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
 
     ## Notify
-    Applet(id_applet=26, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='bitcoin drop', action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
+    Applet(id_applet=26, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='money drop', action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
         reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
-    ParamApplet(name="Bitcoin value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=26).get().id).save()
-    ParamApplet(name="Message", type=True, side=False, value="La bitcoin est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=26).get().id).save()
+    ParamApplet(name="Currency", type=True, side=True, value="USD", applet_id=Applet.objects.filter(user_id=user_id, id_applet=26).get().id).save()
+    ParamApplet(name="Value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=26).get().id).save()
+    ParamApplet(name="Message", type=True, side=False, value="La money ... est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=26).get().id).save()
 
 
     #### The value of a currency exceeds a threshold ####
     ## Slack
-    Applet(id_applet=27, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='bitcoin up', action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
+    Applet(id_applet=27, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='money up', action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
         reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
-    ParamApplet(name="Bitcoin value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=27).get().id).save()
-    ParamApplet(name="Message", type=True, side=False, value="La bitcoin est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=27).get().id).save()
+    ParamApplet(name="Currency", type=True, side=True, value="USD", applet_id=Applet.objects.filter(user_id=user_id, id_applet=27).get().id).save()
+    ParamApplet(name="Value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=27).get().id).save()
+    ParamApplet(name="Message", type=True, side=False, value="La money ... est passé au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=27).get().id).save()
 
     ## Exchange
-    Applet(id_applet=28, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='bitcoin up', action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
+    Applet(id_applet=28, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='money up', action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
         reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo='http://' + settings.MY_IP + 'static/googlemail.png').save()
-    ParamApplet(name="Bitcoin value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
+    ParamApplet(name="Currency", type=True, side=True, value="USD", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
+    ParamApplet(name="Value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Bitcoin changement de valeur", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
-    ParamApplet(name="Message", type=True, side=False, value="La bitcoin est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
+    ParamApplet(name="Message", type=True, side=False, value="La money ... est passé au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
 
     ## Notify
-    Applet(id_applet=29, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='bitcoin up', action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
+    Applet(id_applet=29, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='money up', action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
         reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
-    ParamApplet(name="Bitcoin value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=29).get().id).save()
-    ParamApplet(name="Message", type=True, side=False, value="La bitcoin est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=29).get().id).save()
+    ParamApplet(name="Currency", type=True, side=True, value="USD", applet_id=Applet.objects.filter(user_id=user_id, id_applet=29).get().id).save()
+    ParamApplet(name="Value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=29).get().id).save()
+    ParamApplet(name="Message", type=True, side=False, value="La money ... est passé au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=29).get().id).save()
 
 
     #### Receive a slack notification ####
@@ -446,7 +452,21 @@ def verify_slack(app):
 
 
 def verify_currency(app):
-    app = app
+    currency = ParamApplet.objects.get(applet_id=app.id, side=True, name='Currency').value
+    ref = ParamApplet.objects.get(applet_id=app.id, side=True, name='Value').value
+    r = request_create('', settings.SERVICE_CURRENCY + 'v1/currency/convert?from=EUR&to=' + currency)
+    j = json.loads(r.text)
+    if app.action == 'money up':
+        print("Sart test money up")
+        if float(j['data']['rates'][currency]) > float(ref):
+            ParamApplet.objects.filter(applet_id=app.id, side=True, name='Value').update(value=j['data']['rates'][currency])
+            return True
+    elif app.action == 'money drop':
+        print("Sart test money drop")
+        if float(j['data']['rates'][currency]) < float(ref):
+            ParamApplet.objects.filter(applet_id=app.id, side=True, name='Value').update(value=j['data']['rates'][currency])
+            return True
+    return False
 
 
 def verify_weather(app):

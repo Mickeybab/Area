@@ -83,6 +83,13 @@ def get_applet(request, id):
 def set_applet(request, id):
 
     data = request_to_json(request)
+
+    if data['action']['service'] == settings.SERVICE_NAME[3]:
+        for p in data['action']['param']:
+            if p['name'] == 'Currency':
+                if not p['value'] in settings.CURRENCY_LIST:
+                    return HttpResponse('Currency is not valid')
+
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
 
     def fill_applet(param):
