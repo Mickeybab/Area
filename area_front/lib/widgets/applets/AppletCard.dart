@@ -40,7 +40,7 @@ class _AppletCardState extends State<AppletCard> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      color: hexToColor(widget.data.color),
+      color: hexToColor((widget.data.color == null) ? "xfxfxfxf" : widget.data.color),
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
         splashColor: hexToColor(widget.data.color),
@@ -51,14 +51,14 @@ class _AppletCardState extends State<AppletCard> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              AreaText(this.widget.data.description,
-                fontSize: 18,
-                fontWeight: FontWeight.w500
-              ),
               SizedBox(height: 10),
-              AreaText(this.widget.data.title,
+              AreaText((this.widget.data.title == null) ? "" : this.widget.data.title,
                 fontWeight: FontWeight.w500,
-                fontSize: 15
+                fontSize: 18
+              ),
+              AreaText((this.widget.data.description == null) ? "" : this.widget.data.description,
+                fontSize: 15,
+                fontWeight: FontWeight.w500
               ),
               SizedBox(height: 10),
               Switch(

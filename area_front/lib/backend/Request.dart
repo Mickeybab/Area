@@ -80,11 +80,12 @@ class Request {
       FirebaseUser user, Model.Applet applet) async {
     final http.Response response = await Backend.post(
         user, BackendRoutes.addApplet(applet.id.toString()),
-        body: applet.toJson());
+        body: applet.toJson().toString());
 
     switch (response.statusCode) {
       case 200:
         return compute((String body) {
+          print(body);
           final parsedJson = json.decode(body);
           return Model.Applet.fromJson(parsedJson);
         }, response.body);
