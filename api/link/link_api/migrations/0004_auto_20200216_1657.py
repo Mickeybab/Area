@@ -12,22 +12,22 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='github',
-            name='refres',
+            name='refresh',
             field=models.CharField(max_length=255, null=True),
         ),
         migrations.AddField(
             model_name='intra',
-            name='refres',
+            name='refresh',
             field=models.CharField(max_length=255, null=True),
         ),
         migrations.AddField(
             model_name='microsoft',
-            name='refres',
+            name='refresh',
             field=models.CharField(max_length=255, null=True),
         ),
         migrations.AddField(
             model_name='slack',
-            name='refres',
+            name='refresh',
             field=models.CharField(max_length=255, null=True),
         ),
         migrations.AlterField(
