@@ -396,7 +396,7 @@ def verify_github(app):
         owner = ParamApplet.objects.filter(applet_id=app.id, name='Owner Name', side=True).get().value
         repo = ParamApplet.objects.filter(applet_id=app.id, name='Repository Name', side=True).get().value
         try:
-            r = request_create(app.user_id, SERVICE_GITHUB + 'v1/github/' + owner + '/' + repo + '/last/commit')
+            r = request_create(token, SERVICE_GITHUB + 'v1/github/' + owner + '/' + repo + '/last/commit')
             j = json.loads(r.data)
         except:
             return False
@@ -412,7 +412,7 @@ def verify_intra(app):
     if app.action == 'mark below a limit':
         print('Start verif mark below a limit', file=stderr)
         try:
-            r = request_create(app.user_id, SERVICE_INTRA + 'v1/intra/marks')
+            r = request_create(token, SERVICE_INTRA + 'v1/intra/marks')
             j = json.loads(r.data)
         except:
             return False
@@ -422,7 +422,7 @@ def verify_intra(app):
     elif app.action == 'credit number that exceeds':
         print('Start verif credit number that exceeds', file=stderr)
         try:
-            r = request_create(app.user_id, SERVICE_INTRA + 'v1/intra/grade/bachelor')
+            r = request_create(token, SERVICE_INTRA + 'v1/intra/grade/bachelor')
             j = json.loads(r.data)
         except:
             return False
@@ -432,7 +432,7 @@ def verify_intra(app):
     elif app.action == 'gpa drop below':
         print('Start verif gpa drop below', fil=stderr)
         try:
-            r = request_create(app.user_id, SERVICE_INTRA + 'v1/intra/grade/bachelor')
+            r = request_create(token, SERVICE_INTRA + 'v1/intra/grade/bachelor')
             j = json.loads(r.data)
         except:
             return False
@@ -442,7 +442,7 @@ def verify_intra(app):
     elif app.action == 'gpa exceeds':
         print('Start verif gpa exceeds', file=stderr)
         try:
-            r = request_create(app.user_id, SERVICE_INTRA + 'v1/intra/grade/bachelor')
+            r = request_create(token, SERVICE_INTRA + 'v1/intra/grade/bachelor')
             j = json.loads(r.data)
         except:
             return False
