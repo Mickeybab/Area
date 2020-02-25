@@ -84,7 +84,7 @@ def set_applet(request, id):
 
     data = request_to_json(request)
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
-    
+
     def fill_applet(param):
         p = ParamApplet()
         p.name = param['name']
@@ -208,12 +208,12 @@ def get_services(request):
         {
             "service": "Currency",
             "color" : "0xffb74093",
-            "logo": 'http://' + settings.MY_IP + 'static/bitcoin.jpg',
+            "logo": 'http://' + settings.MY_IP + 'static/bitcoin.png',
         },
         {
             "service": "Weather",
             "color" : "0xffb74093",
-            "logo": 'http://' + settings.MY_IP + 'static/weather.jpg',
+            "logo": 'http://' + settings.MY_IP + 'static/weather.png',
         },
         {
             "service": "Google Mail",

@@ -158,14 +158,14 @@ def create_user(user_id):
 
     #### The temperature exceeds a threshold ####
     ## Slack
-    Applet(id_applet=3, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='exceeds a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
+    Applet(id_applet=3, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='exceeds a threshold', action_logo=settings.MY_IP + 'static/weather.png',
         reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=3).get().id).save()
     ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=3).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température dépasse ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=3).get().id).save()
 
     ## Exchange
-    Applet(id_applet=4, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='exceeds a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
+    Applet(id_applet=4, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='exceeds a threshold', action_logo=settings.MY_IP + 'static/weather.png',
         reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
     ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
@@ -174,23 +174,23 @@ def create_user(user_id):
     ParamApplet(name="Message", type=True, side=False, value="La température dépasse ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
 
     ## Notify
-    Applet(id_applet=5, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='exceeds a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
+    Applet(id_applet=5, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='exceeds a threshold', action_logo=settings.MY_IP + 'static/weather.png',
         reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=5).get().id).save()
     ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=5).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température dépasse ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=5).get().id).save()
 
-    
+
     #### The temperature is below a threshold ####
     ## Slack
-    Applet(id_applet=6, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='below a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
+    Applet(id_applet=6, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='below a threshold', action_logo=settings.MY_IP + 'static/weather.png',
         reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=6).get().id).save()
     ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=6).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température est en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=6).get().id).save()
 
     ## Exchange
-    Applet(id_applet=7, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='below a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
+    Applet(id_applet=7, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='below a threshold', action_logo=settings.MY_IP + 'static/weather.png',
         reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=7).get().id).save()
     ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=7).get().id).save()
@@ -199,7 +199,7 @@ def create_user(user_id):
     ParamApplet(name="Message", type=True, side=False, value="La température est en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=7).get().id).save()
 
     ## Notify
-    Applet(id_applet=8, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='below a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
+    Applet(id_applet=8, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='below a threshold', action_logo=settings.MY_IP + 'static/weather.png',
         reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=8).get().id).save()
     ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=8).get().id).save()
