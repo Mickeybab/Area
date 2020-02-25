@@ -15,6 +15,7 @@ import 'package:global_configuration/global_configuration.dart';
 import 'package:area_front/static/backend/BackendRoutes.dart';
 
 import '../models/applets/Applet.dart' as Model;
+import '../models/Service.dart' as Model;
 
 part 'Request.dart';
 part 'Client.dart';

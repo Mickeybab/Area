@@ -7,14 +7,18 @@ class Request {
 
     switch (response.statusCode) {
       case 200:
-        return compute((String body) {
-          final parsed = json.decode(body);
-          return Model.Applet.fromJson(parsed);
-        }, response.body);
+        return compute(parseApplet, response.body);
         break;
       default:
         throw ('An error occured when fetching the applet please try again later');
     }
+  }
+
+  static List<Model.Applet> parseApplets(String body) {
+    final parsed = json.decode(body);
+    return (parsed as List)
+        .map((e) => Model.Applet.fromJson((e as Map<String, dynamic>)))
+        .toList();
   }
 
   static Future<List<Model.Applet>> getApplets(FirebaseUser user) async {
@@ -23,17 +27,17 @@ class Request {
 
     switch (response.statusCode) {
       case 200:
-        return compute((String body) {
-          final parsed = json.decode(body);
-          return (parsed as List)
-              .map((e) => Model.Applet.fromJson((e as Map<String, dynamic>)))
-              .toList();
-        }, response.body);
+        return compute(parseApplets, response.body);
         break;
 
       default:
         throw ('An error occured when fetching all applet please try again later');
     }
+  }
+
+  static Model.Applet parseApplet(String body) {
+          final parsedJson = json.decode(body);
+          return Model.Applet.fromJson(parsedJson);
   }
 
   static Future<Model.Applet> activateApplet(
@@ -45,10 +49,7 @@ class Request {
 
     switch (response.statusCode) {
       case 200:
-        return compute((String body) {
-          final parsedJson = json.decode(body);
-          return Model.Applet.fromJson(parsedJson);
-        }, response.body);
+        return compute(parseApplet, response.body);
         break;
 
       default:
@@ -84,15 +85,32 @@ class Request {
 
     switch (response.statusCode) {
       case 200:
-        return compute((String body) {
-          print(body);
-          final parsedJson = json.decode(body);
-          return Model.Applet.fromJson(parsedJson);
-        }, response.body);
+        return compute(parseApplet, response.body);
         break;
 
       default:
         throw ('An error occured when adding a new Applet');
+    }
+  }
+
+  static List<Model.Service> parseServices(String body) {
+    final parsed = json.decode(body);
+    return (parsed as List)
+        .map((e) => Model.Service.fromJson((e as Map<String, dynamic>)))
+        .toList();
+  }
+
+  static Future<List<Model.Service>> getServices(FirebaseUser user) async {
+    final http.Response response =
+        await Backend.get(user, BackendRoutes.services);
+
+    switch (response.statusCode) {
+      case 200:
+        return compute(parseServices, response.body);
+        break;
+
+      default:
+        throw ('An error occured when fetching all services please try again later');
     }
   }
 }

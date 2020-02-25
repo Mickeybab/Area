@@ -1,13 +1,10 @@
 // Core
 import 'dart:async';
 
-import 'package:area_front/backend/Backend.dart';
 import 'package:area_front/services/Auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:area_front/backend/Navigation.dart';
 import 'package:global_configuration/global_configuration.dart';
-import 'package:provider/provider.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
 
