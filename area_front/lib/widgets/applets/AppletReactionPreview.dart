@@ -12,32 +12,31 @@ class AppletReactionPreview extends StatefulWidget {
 class _AppletReactionPreviewState extends State<AppletReactionPreview> {
   @override
   Widget build(BuildContext context) {
-  bool value = false;
+    bool value = false;
 
-  onSwitchChangeState(bool newValue) {
-    setState(() {
-      value = newValue;
-    });
-  }
+    onSwitchChangeState(bool newValue) {
+      setState(() {
+        value = newValue;
+      });
+    }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Switch(
-          value: value,
-          onChanged: (newValue) {
-            if (newValue == true) {
-              // user.client.post(BackendRoutes.activateApplet(widget.data.id));
-              onSwitchChangeState(newValue);
-              print("APPLET ACTIVATED");
-            } else {
-              // user.client.post(BackendRoutes.desactivateApplet(widget.data.id));
-              onSwitchChangeState(newValue);
-              print("APPLET DESACTIVATED");
-            }
-          }
-        ),
+            value: value,
+            onChanged: (newValue) {
+              if (newValue == true) {
+                // user.client.post(BackendRoutes.activateApplet(widget.data.id));
+                onSwitchChangeState(newValue);
+                print("APPLET ACTIVATED");
+              } else {
+                // user.client.post(BackendRoutes.desactivateApplet(widget.data.id));
+                onSwitchChangeState(newValue);
+                print("APPLET DESACTIVATED");
+              }
+            }),
         widget.icon
       ],
     );

@@ -74,8 +74,10 @@ class _FilterState extends State<Filter> {
   Widget build(BuildContext context) {
     final List<Applet> list = (this.textController.text == "")
         ? widget.list
-        : widget.list.where(
-            (element) => element.title.contains(this.textController.text)).toList();
+        : widget.list
+            .where(
+                (element) => element.title.contains(this.textController.text))
+            .toList();
     return Container(
         child: Expanded(
       child: Column(children: <Widget>[

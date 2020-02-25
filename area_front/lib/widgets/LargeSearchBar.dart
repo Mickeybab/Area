@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:area_front/static/Constants.dart';
 
 class LargeSearchBar extends StatelessWidget {
-  const LargeSearchBar({Key key, this.autofocus = false, this.controller, this.submit}) : super(key: key);
+  const LargeSearchBar(
+      {Key key, this.autofocus = false, this.controller, this.submit})
+      : super(key: key);
 
   final bool autofocus;
   final TextEditingController controller;
