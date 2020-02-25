@@ -193,32 +193,32 @@ def get_services(request):
         {
             "service": "Github",
             "color" : "0xffb74093",
-            "logo": settings.MY_IP + 'static/github.png',
+            "logo": 'http://' + settings.MY_IP + 'static/github.png',
         },
         {
             "service": "Intra Epitech",
             "color" : "0xffb74093",
-            "logo": settings.MY_IP + 'static/intra.png',
+            "logo": 'http://' + settings.MY_IP + 'static/intra.png',
         },
         {
             "service": "Slack",
             "color" : "0xffb74093",
-            "logo": settings.MY_IP + 'static/slack.png',
+            "logo": 'http://' + settings.MY_IP + 'static/slack.png',
         },
         {
             "service": "Currency",
             "color" : "0xffb74093",
-            "logo": settings.MY_IP + 'static/bitcoin.jpg',
+            "logo": 'http://' + settings.MY_IP + 'static/bitcoin.jpg',
         },
         {
             "service": "Weather",
             "color" : "0xffb74093",
-            "logo": settings.MY_IP + 'static/weather.jpg',
+            "logo": 'http://' + settings.MY_IP + 'static/weather.jpg',
         },
         {
             "service": "Google Mail",
             "color" : "0xffb74093",
-            "logo": settings.MY_IP + 'static/googlemail.png',
+            "logo": 'http://' + settings.MY_IP + 'static/googlemail.png',
         },
     ]
     return JsonResponse(response)
