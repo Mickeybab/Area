@@ -1,4 +1,4 @@
-module github.com/frouioui/dashboard-epitech/api/currency
+module github.com/frouioui/AREA/api/weather
 
 go 1.12
 

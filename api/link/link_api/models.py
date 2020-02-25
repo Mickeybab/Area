@@ -13,6 +13,7 @@ class Applet(models.Model):
     reaction_service = models.CharField(max_length=50)
     reaction = models.CharField(max_length=50)
     reaction_logo = models.CharField(max_length=100)
+    data = models.CharField(max_length=255, null=True)
 
 
 class ParamApplet(models.Model):
@@ -26,25 +27,25 @@ class ParamApplet(models.Model):
 class Github(models.Model):
     user_id = models.CharField(max_length=255)
     token = models.CharField(max_length=255, null=True)
-    refres = models.CharField(max_length=255, null=True)
+    refresh = models.CharField(max_length=255, null=True)
 
 
 class Intra(models.Model):
     user_id = models.CharField(max_length=255)
     token = models.CharField(max_length=255, null=True)
-    refres = models.CharField(max_length=255, null=True)
+    refresh = models.CharField(max_length=255, null=True)
 
 
 class Slack(models.Model):
     user_id = models.CharField(max_length=255)
     token = models.CharField(max_length=255, null=True)
-    refres = models.CharField(max_length=255, null=True)
+    refresh = models.CharField(max_length=255, null=True)
 
 
-class Microsoft(models.Model):
+class Google(models.Model):
     user_id = models.CharField(max_length=255)
     token = models.CharField(max_length=255, null=True)
-    refres = models.CharField(max_length=255, null=True)
+    refresh = models.CharField(max_length=255, null=True)
 
 
 class User(models.Model):

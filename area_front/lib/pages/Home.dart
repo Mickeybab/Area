@@ -16,10 +16,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopBar(),
-      body: Center(
-        child: GetMore(),
-      )
-    );
+        appBar: TopBar(),
+        body: Center(
+          child: GetMore(),
+        ));
   }
 }

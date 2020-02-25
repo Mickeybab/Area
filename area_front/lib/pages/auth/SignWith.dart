@@ -1,7 +1,15 @@
 // Core
+import 'dart:async';
+
+import 'package:area_front/backend/Backend.dart';
 import 'package:area_front/services/Auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:area_front/backend/Navigation.dart';
+import 'package:global_configuration/global_configuration.dart';
+import 'package:provider/provider.dart';
+import 'package:uni_links/uni_links.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Widgets
 import 'package:area_front/widgets/AreaFlatButton.dart';
@@ -14,13 +22,70 @@ import 'package:area_front/widgets/topbar/TopBar.dart';
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/static/Routes.dart';
 
-class SignWithPage extends StatelessWidget {
+class SignWithPage extends StatefulWidget {
   const SignWithPage({Key key}) : super(key: key);
+
+  @override
+  _SignWithPageState createState() => _SignWithPageState();
+}
+
+class _SignWithPageState extends State<SignWithPage> {
+  StreamSubscription _subs;
+
+  @override
+  void initState() {
+    _initDeepLinkListener();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _disposeDeepLinkListener();
+    super.dispose();
+  }
+
+  void _initDeepLinkListener() async {
+    _subs = getLinksStream().listen((String link) {
+      _checkDeepLink(link);
+    }, cancelOnError: true);
+  }
+
+  void _checkDeepLink(String link) {
+    if (link != null) {
+      String code = link.substring(link.indexOf(RegExp('code=')) + 5);
+      AuthService().signInWithGitHub(code);
+      Navigation.navigate(context, Routes.home);
+    }
+  }
+
+  void _disposeDeepLinkListener() {
+    if (_subs != null) {
+      _subs.cancel();
+      _subs = null;
+    }
+  }
+
 
   Widget build(BuildContext context) {
     final continueWithGithubButon = AreaLargeButton(
       text: Constants.continueWithGithub,
-      onPressed: () {},
+      onPressed: () async {
+        String authorizeUrl = GlobalConfiguration().getString('GithubAuthorizeUrl');
+        String clientId = GlobalConfiguration().getString('GithubSignInClientId');
+        String url = authorizeUrl +
+            "?client_id=" + clientId +
+            "&scope=public_repo%20read:user%20user:email";
+
+        if (await canLaunch(url)) {
+          await launch(
+            url,
+            forceSafariVC: false,
+            forceWebView: false,
+          );
+        } else {
+          print("Cannot launch Github authorization URL");
+        }
+      },
     );
 
     final continueWithGoogle = AreaLargeButton(

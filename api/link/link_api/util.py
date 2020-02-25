@@ -1,7 +1,11 @@
-from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Microsoft, User
+from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User
 from firebase_admin import auth
 from django.shortcuts import get_object_or_404
 from link_api import settings
+import requests
+import urllib
+from sys import stderr
+import json
 
 
 def applet_id_to_name(id):
@@ -123,6 +127,18 @@ def firebase_get_user_id(token):
     return uid
 
 
+def firebase_get_token_id(token, service, model):
+    try:
+        result = model.objects.get(user_id=token).token
+    except:
+        result = None
+    if not result:
+        decoded_token = auth.verify_id_token(token.split(' ')[1])
+        print(decoded_token)
+        return decoded_token[service]
+    return result
+
+
 def create_user(user_id):
     print("Create new user {}".format(user_id))
     User(user_id=user_id).save()
@@ -219,11 +235,13 @@ def create_user(user_id):
     ## Slack
     Applet(id_applet=12, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='mark below a limit', action_logo=settings.MY_IP + 'static/intra.png',
         reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Limit", type=True, side=True, value='B', applet_id=Applet.objects.filter(user_id=user_id, id_applet=12).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Une note a était ajouté en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=12).get().id).save()
 
     ## Exchange
     Applet(id_applet=13, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='mark below a limit', action_logo=settings.MY_IP + 'static/intra.png',
         reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
+    ParamApplet(name="Limit", type=True, side=True, value='B', applet_id=Applet.objects.filter(user_id=user_id, id_applet=13).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=13).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Une note a etait ajouté", applet_id=Applet.objects.filter(user_id=user_id, id_applet=13).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Une note a était ajouté en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=13).get().id).save()
@@ -231,6 +249,7 @@ def create_user(user_id):
     ## Notify
     Applet(id_applet=14, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='mark below a limit', action_logo=settings.MY_IP + 'static/intra.png',
         reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Limit", type=True, side=True, value='B', applet_id=Applet.objects.filter(user_id=user_id, id_applet=14).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Une note a était ajouté en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=14).get().id).save()
 
 
@@ -238,11 +257,13 @@ def create_user(user_id):
     ## Slack
     Applet(id_applet=15, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='credit number that exceeds', action_logo=settings.MY_IP + 'static/intra.png',
         reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Limit", type=True, side=True, value='B', applet_id=Applet.objects.filter(user_id=user_id, id_applet=15).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Un crédit à était ajouté au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=15).get().id).save()
 
     ## Exchange
     Applet(id_applet=16, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='credit number that exceeds', action_logo=settings.MY_IP + 'static/intra.png',
         reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
+    ParamApplet(name="Limit", type=True, side=True, value='B', applet_id=Applet.objects.filter(user_id=user_id, id_applet=16).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=16).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Nouveau crédit", applet_id=Applet.objects.filter(user_id=user_id, id_applet=16).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Un crédit à était ajouté au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=16).get().id).save()
@@ -250,6 +271,7 @@ def create_user(user_id):
     ## Notify
     Applet(id_applet=17, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='credit number that exceeds', action_logo=settings.MY_IP + 'static/intra.png',
         reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Limit", type=True, side=True, value='B', applet_id=Applet.objects.filter(user_id=user_id, id_applet=17).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Un crédit à était ajouté au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=17).get().id).save()
 
 
@@ -257,12 +279,14 @@ def create_user(user_id):
     ## Slack
     Applet(id_applet=18, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='gpa drop below', action_logo=settings.MY_IP + 'static/intra.png',
         reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Limit", type=True, side=True, value='B', applet_id=Applet.objects.filter(user_id=user_id, id_applet=18).get().id).save()
     ParamApplet(name="GPA", type=False, side=True, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=18).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=18).get().id).save()
 
     ## Exchange
     Applet(id_applet=19, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='gpa drop below', action_logo=settings.MY_IP + 'static/intra.png',
         reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
+    ParamApplet(name="Limit", type=True, side=True, value='B', applet_id=Applet.objects.filter(user_id=user_id, id_applet=19).get().id).save()
     ParamApplet(name="GPA", type=False, side=True, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=19).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=19).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Nouveau GPA", applet_id=Applet.objects.filter(user_id=user_id, id_applet=19).get().id).save()
@@ -271,6 +295,7 @@ def create_user(user_id):
     ## Notify
     Applet(id_applet=20, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='gpa drop below', action_logo=settings.MY_IP + 'static/intra.png',
         reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Limit", type=True, side=True, value='B', applet_id=Applet.objects.filter(user_id=user_id, id_applet=20).get().id).save()
     ParamApplet(name="GPA", type=False, side=True, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=20).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=20).get().id).save()
 
@@ -279,12 +304,14 @@ def create_user(user_id):
     ## Slack
     Applet(id_applet=21, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='gpa exceeds', action_logo=settings.MY_IP + 'static/intra.png',
         reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Limit", type=True, side=True, value='B', applet_id=Applet.objects.filter(user_id=user_id, id_applet=21).get().id).save()
     ParamApplet(name="GPA", type=False, side=True, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=21).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=21).get().id).save()
 
     ## Exchange
     Applet(id_applet=22, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='gpa exceeds', action_logo=settings.MY_IP + 'static/intra.png',
         reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
+    ParamApplet(name="Limit", type=True, side=True, value='B', applet_id=Applet.objects.filter(user_id=user_id, id_applet=22).get().id).save()
     ParamApplet(name="GPA", type=False, side=True, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=22).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=22).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Nouveau GPA", applet_id=Applet.objects.filter(user_id=user_id, id_applet=22).get().id).save()
@@ -293,6 +320,7 @@ def create_user(user_id):
     ## Notify
     Applet(id_applet=23, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='gpa exceeds', action_logo=settings.MY_IP + 'static/intra.png',
         reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Limit", type=True, side=True, value='B', applet_id=Applet.objects.filter(user_id=user_id, id_applet=23).get().id).save()
     ParamApplet(name="GPA", type=False, side=True, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=23).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=23).get().id).save()
 
@@ -363,4 +391,74 @@ def create_user(user_id):
     Github(user_id=user_id).save()
     Intra(user_id=user_id).save()
     Slack(user_id=user_id).save()
-    Microsoft(user_id=user_id).save()
+    Google(user_id=user_id).save()
+
+
+def request_create(user_id, url):
+    hed = {'Authorization': user_id}
+    response = requests.get(url, headers=hed)
+    return response
+
+
+######## ACTION ########
+def verify_github(app):
+    if app.action == 'new commit':
+        print("Start test Github", file=stderr)
+        token = firebase_get_token_id(app.user_id, 'github')
+        owner = ParamApplet.objects.filter(applet_id=app.id, name='Owner Name', side=True).get().value
+        repo = ParamApplet.objects.filter(applet_id=app.id, name='Repository Name', side=True).get().value
+        try:
+            r = request_create(app.user_id, SERVICE_GITHUB + 'v1/github/' + owner + '/' + repo + '/last/commit')
+            j = json.loads(r.data)
+        except:
+            return False
+        if j['commit'][-1] != app.data:
+            Applet.objects.get(id=app.id).update(data=j['commit'][-1])
+            return True
+    return False
+
+
+def verify_intra(app):
+    limit = ParamApplet.objects.filter(applet_id=app.id, side=True, name="Limit").get().value
+    if app.action == 'mark below a limit':
+        print('Start verif mark below a limit', file=stderr)
+    elif app.action == 'credit number that exceeds':
+        print('Start verif credit number that exceeds', file=stderr)
+    elif app.action == 'gpa drop below':
+        print('Start verif gpa drop below')
+    elif app.action == 'gpa exceeds':
+        print('Start verif gpa exceeds')
+    return False
+
+
+def verify_slack(app):
+    a
+
+
+def verify_currency(app):
+    a
+
+
+def verify_weather(app):
+    if app.action == 'exceeds a threshold':
+        print("Start test Weather exceeds")
+    elif app.action == 'below a threshold':
+        print("Start test Weather below")
+    return False
+
+
+def verify_googlemail(app):
+    a
+
+
+######## REACTION ######
+def reaction_slack():
+    a
+
+
+def reaction_email():
+    a
+
+
+def reaction_notify():
+    a
