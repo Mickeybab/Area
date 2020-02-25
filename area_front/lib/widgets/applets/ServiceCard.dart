@@ -23,28 +23,30 @@ class _ServiceCardState extends State<ServiceCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120,
+      height: 90,
         child: Card(
         elevation: 0,
         color: Theme.of(context).scaffoldBackgroundColor,
         child: InkWell(
           onTap: this.widget.onPressed,
           child: Container(
-            padding: EdgeInsets.all(10.0),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Image.network(this.widget.data.logo),
-                  SizedBox(height: 20),
+                  Image.network(
+                    this.widget.data.logo,
+                    height: 50,
+                    width: 50,
+                  ),
+                  SizedBox(width: 20),
                   AreaText(
                       (this.widget.data.service == null)
                           ? ""
                           : this.widget.data.service,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 25
+                      fontWeight: FontWeight.w500,
+                      fontSize: 36
                   ),
-                  Icon(Icons.chevron_right)
                 ]),
           ),
         ),

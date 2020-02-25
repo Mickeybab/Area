@@ -51,19 +51,25 @@ class _AppletCardState extends State<AppletCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SizedBox(height: 20),
-                AreaText(
+                Expanded(
+                  child: AreaText(
                     (this.widget.data.title == null)
                         ? ""
                         : this.widget.data.title,
                     fontWeight: FontWeight.w500,
-                    fontSize: 18),
+                    fontSize: 18
+                  ),
+                ),
                 SizedBox(height: 20),
-                AreaText(
+                Expanded(
+                  child: AreaText(
                     (this.widget.data.action.service == null)
                         ? ""
                         : this.widget.data.action.service,
                     fontSize: 15,
-                    fontWeight: FontWeight.w500),
+                    fontWeight: FontWeight.w500
+                  ),
+                ),
                 SizedBox(height: 20),
                 Switch(
                     value: widget.data.enable,
