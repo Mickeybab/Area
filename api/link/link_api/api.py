@@ -217,7 +217,7 @@ def get_services(request):
             "logo": settings.MY_IP + 'static/weather.jpg',
         },
         {
-            "service": "GoogleMail",
+            "service": "Google Mail",
             "color" : "0xffb74093",
             "logo": settings.MY_IP + 'static/googlemail.jpg',
         },
