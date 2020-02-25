@@ -92,4 +92,25 @@ class Request {
         throw ('An error occured when adding a new Applet');
     }
   }
+
+  static List<Model.Service> parseServices(String body) {
+    final parsed = json.decode(body);
+    return (parsed as List)
+        .map((e) => Model.Service.fromJson((e as Map<String, dynamic>)))
+        .toList();
+  }
+
+  static Future<List<Model.Service>> getServices(FirebaseUser user) async {
+    final http.Response response =
+        await Backend.get(user, BackendRoutes.services);
+
+    switch (response.statusCode) {
+      case 200:
+        return compute(parseServices, response.body);
+        break;
+
+      default:
+        throw ('An error occured when fetching all services please try again later');
+    }
+  }
 }

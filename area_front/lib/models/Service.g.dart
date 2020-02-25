@@ -43,3 +43,17 @@ Map<String, dynamic> _$RServiceToJson(RService instance) => <String, dynamic>{
       'reaction': instance.reaction,
       'param': instance.param?.map((e) => e?.toJson())?.toList(),
     };
+
+Service _$ServiceFromJson(Map<String, dynamic> json) {
+  return Service(
+    service: json['service'] as String,
+    logo: json['logo'] as String,
+    color: json['color'] as String,
+  );
+}
+
+Map<String, dynamic> _$ServiceToJson(Service instance) => <String, dynamic>{
+      'service': instance.service,
+      'logo': instance.logo,
+      'color': instance.color,
+    };
