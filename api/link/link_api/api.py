@@ -1,6 +1,6 @@
 from django.http import HttpResponse, Http404
 import json
-from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User
+from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User, Notif
 from link_api import settings
 from link_api import util
 from django.db import transaction
@@ -242,3 +242,14 @@ def update_user(request, user_id):
     except User.DoesNotExist:
         return Http404("User not found.")
     return HttpResponse('Ok')
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def get_notif(request):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    result = []
+    for n in Notif.objects.filter(user_id=user_id, send=False):
+        result.append(n.message)
+        Notif.objects.filter(id=n.id).update(send=True)
+    return JsonResponse(result)

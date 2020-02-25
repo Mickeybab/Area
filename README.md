@@ -462,3 +462,22 @@ URL: `API_URL/users/{user_id}`
   "last_name": "b",
 }
 ```
+
+Methode: **`GET`**
+
+URL: `API_URL/notif`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
+```json
+[{
+  "message": "salut le boss"
+},
+{
+  "message": "autre notif"
+},
+...
+]
+```
