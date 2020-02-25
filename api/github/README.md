@@ -38,6 +38,18 @@ This API uses the Richardson Maturity Model, more info [here](https://martinfowl
 
 - http://localhost:9004/v1/github ...
 
+## **OAuth 2**
+
+In order to use this API you need the OAuth Token.
+
+Add this in the header of each request to our API :
+
+```json
+{
+    "Authorization": "$MY_TOKEN"
+}
+```
+
 ## **Routes description**
 
 ### **Get the last issues of a repo**
