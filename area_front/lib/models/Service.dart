@@ -17,7 +17,6 @@ class AService {
   Map<String, dynamic> toJson() => _$AServiceToJson(this);
 }
 
-
 @JsonSerializable(explicitToJson: true)
 class RService {
   final String service;

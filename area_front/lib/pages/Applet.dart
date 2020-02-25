@@ -111,8 +111,12 @@ class ActionInfo extends StatelessWidget {
       child: Card(
         child: Column(
           children: <Widget>[
-            Text((widget.applet.action.service == null) ? "" : widget.applet.action.service),
-            Text((widget.applet.action.action == null) ? "" : widget.applet.action.action),
+            Text((widget.applet.action.service == null)
+                ? ""
+                : widget.applet.action.service),
+            Text((widget.applet.action.action == null)
+                ? ""
+                : widget.applet.action.action),
             Padding(padding: EdgeInsets.all(10.0)),
             ListView.builder(
                 shrinkWrap: true,
@@ -179,10 +183,9 @@ class ActionParam extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textInputType =
-        (widget.applet.action.param[index].type == "string")
-            ? TextInputType.text
-            : TextInputType.number;
+    final textInputType = (widget.applet.action.param[index].type == "string")
+        ? TextInputType.text
+        : TextInputType.number;
     final textInputFormatter =
         (widget.applet.action.param[index].type == "string")
             ? BlacklistingTextInputFormatter.singleLineFormatter
@@ -191,7 +194,9 @@ class ActionParam extends StatelessWidget {
     return Row(
       children: <Widget>[
         Text(
-          (widget.applet.action.param[index].name == null) ? "" : widget.applet.action.action,
+          (widget.applet.action.param[index].name == null)
+              ? ""
+              : widget.applet.action.action,
           textAlign: TextAlign.center,
         ),
         Expanded(
@@ -223,10 +228,9 @@ class ReactionParam extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textInputType =
-        (widget.applet.reaction.param[index].type == "string")
-            ? TextInputType.text
-            : TextInputType.number;
+    final textInputType = (widget.applet.reaction.param[index].type == "string")
+        ? TextInputType.text
+        : TextInputType.number;
     final textInputFormatter =
         (widget.applet.reaction.param[index].type == "string")
             ? BlacklistingTextInputFormatter.singleLineFormatter
