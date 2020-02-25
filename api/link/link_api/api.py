@@ -203,37 +203,37 @@ def get_services(request):
             "service": "Github",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/github.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[0], user_id=user_id).enbale
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[0], user_id=user_id).enable
         },
         {
             "service": "Intra Epitech",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/intra.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[1], user_id=user_id).enbale
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[1], user_id=user_id).enable
         },
         {
             "service": "Slack",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/slack.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[2], user_id=user_id).enbale
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[2], user_id=user_id).enable
         },
         {
             "service": "Currency",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/bitcoin.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[3], user_id=user_id).enbale
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[3], user_id=user_id).enable
         },
         {
             "service": "Weather",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/weather.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[4], user_id=user_id).enbale
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[4], user_id=user_id).enable
         },
         {
             "service": "Google Mail",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/googlemail.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[5], user_id=user_id).enbale
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[5], user_id=user_id).enable
         },
     ]
     return JsonResponse(response)
