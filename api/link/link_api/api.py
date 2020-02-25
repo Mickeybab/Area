@@ -197,45 +197,63 @@ def sync_token(request, service):
 @csrf_exempt
 @require_http_methods(['GET'])
 def get_services(request):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
     response = [
         {
             "service": "Github",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/github.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[0]).enbale
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[0], user_id=user_id).enbale
         },
         {
             "service": "Intra Epitech",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/intra.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[1]).enbale
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[1], user_id=user_id).enbale
         },
         {
             "service": "Slack",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/slack.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[2]).enbale
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[2], user_id=user_id).enbale
         },
         {
             "service": "Currency",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/bitcoin.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[3]).enbale
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[3], user_id=user_id).enbale
         },
         {
             "service": "Weather",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/weather.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[4]).enbale
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[4], user_id=user_id).enbale
         },
         {
             "service": "Google Mail",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/googlemail.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[5]).enbale
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[5], user_id=user_id).enbale
         },
     ]
     return JsonResponse(response)
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def activate_service(request, service):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    Service.objects.filter(name=service, user_id=user_id).update(enable=True)
+    return HttpResponse("Ok")
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def desactivate_service(request, service):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    Service.objects.filter(name=service, user_id=user_id).update(enable=False)
+    Applet.objects.filter(user_id=user_id, action_service=service).update(enbale=False)
+    return HttpResponse("Ok")
 
 
 ## USERS ##

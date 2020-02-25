@@ -1,4 +1,4 @@
-from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User, Notif
+from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User, Notif, Service
 from firebase_admin import auth
 from django.shortcuts import get_object_or_404
 from link_api import settings
@@ -386,6 +386,13 @@ def create_user(user_id):
     Intra(user_id=user_id).save()
     Slack(user_id=user_id).save()
     Google(user_id=user_id).save()
+
+    Service(user_id=user_id, name=settings.SERVICE_NAME[0]).save()
+    Service(user_id=user_id, name=settings.SERVICE_NAME[1]).save()
+    Service(user_id=user_id, name=settings.SERVICE_NAME[2]).save()
+    Service(user_id=user_id, name=settings.SERVICE_NAME[3]).save()
+    Service(user_id=user_id, name=settings.SERVICE_NAME[4]).save()
+    Service(user_id=user_id, name=settings.SERVICE_NAME[5]).save()
 
 
 def request_create(user_id, url):
