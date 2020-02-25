@@ -50,9 +50,30 @@ URL: `API_URL/services`
     "service": "Github",
     "color" : "0xffb74093",
     "logo": "path",
+    "enable": false
   },
   ...
 ]
+```
+
+### Activate a service
+
+Method: **`POST`**
+
+URL: `API_URL/services/${serviceName}/activate`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
+### Desactivate a service
+
+Method: **`POST`**
+
+URL: `API_URL/services/${serviceName}/desactivate`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
 ```
 
 ### Get all the applets
