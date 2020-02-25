@@ -61,4 +61,4 @@ class Notif(models.Model):
 class Service(models.Model):
     user_id = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
-    activate = models.BooleanField(default=False)
+    enable = models.BooleanField(default=False)
