@@ -160,7 +160,11 @@ SERVICE_NAME = [
     'notification',
 ]
 
+
+SERVICE_INTRA = 'localhost:9003/'
 SERVICE_GIHUB = 'localhost:9004/'
+SERVICE_CURRENCY = 'localhost:9005/'
+SERVICE_WEATHER = 'localhost:9006/'
 
 
 CORS_ORIGIN_ALLOW_ALL = True

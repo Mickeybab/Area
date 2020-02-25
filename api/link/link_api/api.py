@@ -1,6 +1,6 @@
 from django.http import HttpResponse, Http404
 import json
-from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Microsoft, User
+from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User
 from link_api import settings
 from link_api import util
 from django.db import transaction
@@ -54,7 +54,6 @@ def applet_to_json(app):
 
 def request_to_json(request):
     string = request.body.decode('utf8').replace("'", '"')
-    print(string)
     return json.loads(string)
 
 
@@ -165,6 +164,12 @@ def search_applets(request):
     return JsonResponse([applet_to_json(s) for s in applets])
 
 
+@csrf_exempt
+@require_http_methods(['GET'])
+def get_applets_by_services(request, service):
+    return JsonResponse([applet_to_json(a) for a in Applet.objects.filter(user_id=user_id, action=service)])
+
+
 ## SERVICE ##
 @csrf_exempt
 @require_http_methods(['POST'])
@@ -176,9 +181,47 @@ def sync_token(request, service):
         Intra.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     elif service == settings.SERVICE_NAME[2]:
         Slack.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
-    elif service == settings.SERVICE_NAME[3]:
-        Microsoft.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
+    elif service == settings.SERVICE_NAME[5]:
+        Google.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     return HttpResponse('Ok')
+
+
+@csrf_exempt
+@require_http_methods(['GET'])
+def get_services(request):
+    response = [
+        {
+            "service": "Github",
+            "color" : "0xffb74093",
+            "logo": settings.MY_IP + 'static/github.jpg',
+        },
+        {
+            "service": "Intra Epitech",
+            "color" : "0xffb74093",
+            "logo": settings.MY_IP + 'static/intra.jpg',
+        },
+        {
+            "service": "Slack",
+            "color" : "0xffb74093",
+            "logo": settings.MY_IP + 'static/slack.jpg',
+        },
+        {
+            "service": "Currency",
+            "color" : "0xffb74093",
+            "logo": settings.MY_IP + 'static/bitcoin.jpg',
+        },
+        {
+            "service": "Weather",
+            "color" : "0xffb74093",
+            "logo": settings.MY_IP + 'static/weather.jpg',
+        },
+        {
+            "service": "GoogleMail",
+            "color" : "0xffb74093",
+            "logo": settings.MY_IP + 'static/googlemail.jpg',
+        },
+    ]
+    return JsonResponse(response)
 
 
 ## USERS ##
