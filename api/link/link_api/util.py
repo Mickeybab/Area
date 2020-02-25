@@ -127,18 +127,6 @@ def firebase_get_user_id(token):
     return uid
 
 
-def firebase_get_token_id(token, service, model):
-    try:
-        result = model.objects.get(user_id=token).token
-    except:
-        result = None
-    if not result:
-        decoded_token = auth.verify_id_token(token.split(' ')[1])
-        print(decoded_token)
-        return decoded_token[service]
-    return result
-
-
 def create_user(user_id):
     print("Create new user {}".format(user_id))
     User(user_id=user_id).save()
@@ -404,15 +392,15 @@ def request_create(user_id, url):
 def verify_github(app):
     if app.action == 'new commit':
         print("Start test Github", file=stderr)
-        token = firebase_get_token_id(app.user_id, 'github')
+        token = Github.objects.get(user_id=app.user_id).token
         owner = ParamApplet.objects.filter(applet_id=app.id, name='Owner Name', side=True).get().value
         repo = ParamApplet.objects.filter(applet_id=app.id, name='Repository Name', side=True).get().value
         try:
-            r = request_create(app.user_id, SERVICE_GITHUB + 'v1/github/' + owner + '/' + repo + '/last/commit')
+            r = request_create(token, SERVICE_GITHUB + 'v1/github/' + owner + '/' + repo + '/last/commit')
             j = json.loads(r.data)
         except:
             return False
-        if j['commit'][-1] != app.data:
+        if j['commit'][0] != app.data:
             Applet.objects.get(id=app.id).update(data=j['commit'][-1])
             return True
     return False
@@ -420,14 +408,47 @@ def verify_github(app):
 
 def verify_intra(app):
     limit = ParamApplet.objects.filter(applet_id=app.id, side=True, name="Limit").get().value
+    token = Intra.objects.get(user_id=app.user_id).token
     if app.action == 'mark below a limit':
         print('Start verif mark below a limit', file=stderr)
+        try:
+            r = request_create(token, SERVICE_INTRA + 'v1/intra/marks')
+            j = json.loads(r.data)
+        except:
+            return False
+        if j[0]['title_link'] != app.data:
+            Applet.objects.get(id=app.id).update(data=j[0]['title_link'])
+            return True
     elif app.action == 'credit number that exceeds':
         print('Start verif credit number that exceeds', file=stderr)
+        try:
+            r = request_create(token, SERVICE_INTRA + 'v1/intra/grade/bachelor')
+            j = json.loads(r.data)
+        except:
+            return False
+        if int(j['credits']) > int(app.data):
+            Applet.objects.get(id=app.id).update(data=j['credits'])
+            return True
     elif app.action == 'gpa drop below':
-        print('Start verif gpa drop below')
+        print('Start verif gpa drop below', fil=stderr)
+        try:
+            r = request_create(token, SERVICE_INTRA + 'v1/intra/grade/bachelor')
+            j = json.loads(r.data)
+        except:
+            return False
+        if int(j['gpa']) < int(app.data):
+            Applet.objects.get(id=app.id).update(data=j['gpa'])
+            return True
     elif app.action == 'gpa exceeds':
-        print('Start verif gpa exceeds')
+        print('Start verif gpa exceeds', file=stderr)
+        try:
+            r = request_create(token, SERVICE_INTRA + 'v1/intra/grade/bachelor')
+            j = json.loads(r.data)
+        except:
+            return False
+        if int(j['credits']) > int(app.data):
+            Applet.objects.get(id=app.id).update(data=j['credits'])
+            return True
     return False
 
 

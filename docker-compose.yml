@@ -1,15 +1,6 @@
 version: "3"
 
 services:
-  server:
-    build: 
-      context: ./api/server
-      dockerfile: Dockerfile
-    environment:
-      DEV_ENV: "TRUE"
-    ports:
-      - 8080:8080
-
   link_api:
     build: 
       context: ./api/link
@@ -46,15 +37,6 @@ services:
       - db
     command: "sh ./start_service_api.sh"
     restart: always
-
-  news_api:
-    build: 
-      context: ./api/news
-      dockerfile: Dockerfile
-    environment:
-      DEV_ENV: "TRUE"
-    ports:
-      - 9002:5000
 
   intra_api:
     build: 

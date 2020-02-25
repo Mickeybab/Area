@@ -7,6 +7,7 @@ from django.db import transaction
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+from sys import stderr
 
 
 class JsonResponse(HttpResponse):
@@ -53,8 +54,8 @@ def applet_to_json(app):
 
 
 def request_to_json(request):
-    string = request.body.decode('utf8').replace("'", '"')
-    return json.loads(string)
+    print(request.body.decode(), file=stderr)
+    return json.loads(request.body.decode())
 
 
 ##### APPLET #####
@@ -116,7 +117,7 @@ def set_applet(request, id):
         p.applet_id = app.id
         p.save()
 
-    return HttpResponse('Ok')
+    return JsonResponse(applet_to_json(Applet.objects.get(user_id=user_id, id_applet=int(id))))
 
 
 @csrf_exempt
