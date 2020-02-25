@@ -253,7 +253,7 @@ Service names can be:
 - github
 - intraepitech
 - slack
-- microsoft
+- googlemail
 
 For example : `API_URL`/services/`github`
 
