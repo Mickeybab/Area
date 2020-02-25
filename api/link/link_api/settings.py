@@ -147,11 +147,6 @@ FIREBASE_PATH = "area-a0d38-firebase-adminsdk-jw2de-59a95d0b6f.json"
 FIREBASE_CRED = firebase_admin.credentials.Certificate(FIREBASE_PATH)
 FIREBASE = firebase_admin.initialize_app(FIREBASE_CRED)
 
-## API ############
-
-INTRA_API = 'intra_api:9003'
-
-
 ## SERVICE NAME ###
 SERVICE_NAME = [
     'github',
@@ -164,10 +159,19 @@ SERVICE_NAME = [
 ]
 
 
+## API ############
 SERVICE_INTRA = 'http://intra_api:8080/'
-SERVICE_GIHUB = 'http://github_api:9000/'
+SERVICE_GITHUB = 'http://github_api:9000/'
 SERVICE_CURRENCY = 'http://currency_api:8080/'
 SERVICE_WEATHER = 'http://weather_api:8080/'
 
+CURRENCY_LIST = [
+    'EUR',
+    'USD',
+    'CAD',
+    'CHF',
+    'GBP',
+    'SEK',
+]
 
 CORS_ORIGIN_ALLOW_ALL = True

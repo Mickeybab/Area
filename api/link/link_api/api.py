@@ -1,6 +1,6 @@
 from django.http import HttpResponse, Http404
 import json
-from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User
+from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User, Notif
 from link_api import settings
 from link_api import util
 from django.db import transaction
@@ -83,6 +83,13 @@ def get_applet(request, id):
 def set_applet(request, id):
 
     data = request_to_json(request)
+
+    if data['action']['service'] == settings.SERVICE_NAME[3]:
+        for p in data['action']['param']:
+            if p['name'] == 'Currency':
+                if not p['value'] in settings.CURRENCY_LIST:
+                    return HttpResponse('Currency is not valid')
+
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
 
     def fill_applet(param):
@@ -99,6 +106,7 @@ def set_applet(request, id):
         app.action = data['action']['action']
         app.reaction_service = data['reaction']['service']
         app.reaction = data['reaction']['reaction']
+        app.data = None
         app.save()
 
     for param in ParamApplet.objects.filter(applet_id=app.id):
@@ -242,3 +250,14 @@ def update_user(request, user_id):
     except User.DoesNotExist:
         return Http404("User not found.")
     return HttpResponse('Ok')
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def get_notif(request):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    result = []
+    for n in Notif.objects.filter(user_id=user_id, send=False):
+        result.append(n.message)
+        Notif.objects.filter(id=n.id).update(send=True)
+    return JsonResponse(result)
