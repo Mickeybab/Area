@@ -19,7 +19,7 @@ class GetMore extends StatelessWidget {
               'assets/images/3.0x/services.png',
               width: 600,
             ),
-            SizedBox(height: 200.0),
+            SizedBox(height: 100.0),
             Container(
                 width: 300,
                 child: AreaLargeButton(

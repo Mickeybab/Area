@@ -1,9 +1,13 @@
 // Core
 import 'dart:async';
 
+import 'package:area_front/backend/Backend.dart';
 import 'package:area_front/services/Auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:area_front/backend/Navigation.dart';
+import 'package:global_configuration/global_configuration.dart';
+import 'package:provider/provider.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -49,12 +53,8 @@ class _SignWithPageState extends State<SignWithPage> {
   void _checkDeepLink(String link) {
     if (link != null) {
       String code = link.substring(link.indexOf(RegExp('code=')) + 5);
-      AuthService().loginWithGitHub(code)
-        .then((firebaseUser) {
-          print("LOGGED IN AS: " + firebaseUser.displayName);
-        }).catchError((e) {
-          print("LOGIN ERROR: " + e.toString());
-        });
+      AuthService().signInWithGitHub(code);
+      Navigation.navigate(context, Routes.home);
     }
   }
 
@@ -70,8 +70,10 @@ class _SignWithPageState extends State<SignWithPage> {
     final continueWithGithubButon = AreaLargeButton(
       text: Constants.continueWithGithub,
       onPressed: () async {
-        const String url = "https://github.com/login/oauth/authorize" +
-            "?client_id=" + "75fa20208cf4489b5540" +
+        String authorizeUrl = GlobalConfiguration().getString('GithubAuthorizeUrl');
+        String clientId = GlobalConfiguration().getString('GithubSignInClientId');
+        String url = authorizeUrl +
+            "?client_id=" + clientId +
             "&scope=public_repo%20read:user%20user:email";
 
         if (await canLaunch(url)) {
@@ -81,7 +83,7 @@ class _SignWithPageState extends State<SignWithPage> {
             forceWebView: false,
           );
         } else {
-          print("CANNOT LAUNCH THIS URL!");
+          print("Cannot launch Github authorization URL");
         }
       },
     );
