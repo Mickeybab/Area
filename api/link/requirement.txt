@@ -1,0 +1,4 @@
+django
+firebase-admin
+mysqlclient
+django-cors-headers

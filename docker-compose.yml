@@ -7,41 +7,45 @@ services:
       dockerfile: Dockerfile
     environment:
       DEV_ENV: "TRUE"
-    image: server-dashboard
     ports:
       - 8080:8080
 
-  users_api:
+  link_api:
     build: 
-      context: ./api/users
+      context: ./api/link
       dockerfile: Dockerfile
+    volumes:
+      - ./api/link:/link_api
     environment:
-      DEV_ENV: "TRUE"
-      PORT: "9000"
-    image: users_api_dashboard
+      DEV: 1
+      MYSQL_DATABASE: area
+      MYSQL_USER: user
+      MYSQL_PASSWORD: test
     links:
-      - db:database
+      - db
     depends_on:
       - db
     ports:
       - 9000:9000
+    restart: always
 
-  widget_api:
+  start_service_api:
     build: 
-      context: ./api/widget
+      context: ./api/link
       dockerfile: Dockerfile
+    volumes:
+      - ./api/link:/link_api
     environment:
-      DEV_ENV: "TRUE"
-      PORT: "9001"
-    image: widget_api_dashboard
+      DEV: 1
+      MYSQL_DATABASE: area
+      MYSQL_USER: user
+      MYSQL_PASSWORD: test
     links:
-      - db:database
+      - db
     depends_on:
       - db
-      - users_api
-    ports:
-      - 9001:9001
-    restart: unless-stopped
+    command: "sh ./start_service_api.sh"
+    restart: always
 
   news_api:
     build: 
@@ -49,7 +53,6 @@ services:
       dockerfile: Dockerfile
     environment:
       DEV_ENV: "TRUE"
-    image: news_api_dashboard
     ports:
       - 9002:5000
 
@@ -59,10 +62,9 @@ services:
       dockerfile: Dockerfile
     environment:
       DEV_ENV: "TRUE"
-    image: intra_api_dashboard
     ports:
       - 9003:8080
-    restart: unless-stopped
+    restart: always
 
   github_api:
     build: 
@@ -71,10 +73,9 @@ services:
     environment:
       DEV_ENV: "TRUE"
       PORT: 9000
-    image: github_api_dashboard
     ports:
       - 9004:9000
-    restart: unless-stopped
+    restart: always
 
   currency_api:
     build: 
@@ -82,26 +83,26 @@ services:
       dockerfile: Dockerfile
     environment:
       DEV_ENV: "TRUE"
-    image: currency_api_dashboard
     ports:
       - 9005:8080
-    restart: unless-stopped
+    restart: always
 
   db:
     image: mysql:5.7
     ports: 
       - "3306:3306"
     environment:
+      MYSQL_DATABASE: area
       MYSQL_USER: user
       MYSQL_PASSWORD: test
       MYSQL_ROOT_PASSWORD: test
     volumes:
-      - db-data:/var/lib/mysql
+      - ./db-data:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     links: 
-      - db:db
+      - db
     depends_on:
       - db
     ports:
@@ -112,6 +113,10 @@ services:
       MYSQL_ROOT_PASSWORD: test
     volumes:
       - /sessions
-
-volumes:
-  db-data:
+    
+  front:
+    build:
+      context: ./area_front
+      dockerfile: Dockerfile
+    ports:
+      - 80:80

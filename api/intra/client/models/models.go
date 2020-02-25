@@ -46,3 +46,16 @@ type AllSubInfo struct {
 type AllInfo struct {
 	All AllSubInfo `json:"board"`
 }
+
+// Notification represents a single notification in the history
+// array
+type Notification struct {
+	Title   string `json:"title"`
+	Content string `json:"content"`
+	ID      string `json:"id"`
+}
+
+// NotificationBoard represents the history array
+type NotificationBoard struct {
+	History []Notification `json:"history"`
+}
