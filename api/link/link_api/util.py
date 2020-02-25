@@ -2,6 +2,9 @@ from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Mi
 from firebase_admin import auth
 from django.shortcuts import get_object_or_404
 from link_api import settings
+import requests
+import urllib
+from sys import stderr
 
 
 def applet_id_to_name(id):
@@ -121,6 +124,12 @@ def firebase_get_user_id(token):
     if not User.objects.filter(user_id=uid).exists():
         create_user(uid)
     return uid
+
+
+def firebase_get_token_id(token, service):
+    decoded_token = auth.verify_id_token(token.split(' ')[1])
+    print(decoded_token)
+    return decoded_token[service]
 
 
 def create_user(user_id):
@@ -364,3 +373,53 @@ def create_user(user_id):
     Intra(user_id=user_id).save()
     Slack(user_id=user_id).save()
     Microsoft(user_id=user_id).save()
+
+
+def request_create(user_id, url):
+    hed = {'Authorization': 'Bearer ' + user_id}
+    response = requests.get(url, headers=hed)
+    return response
+
+
+######## ACTION ########
+def verify_github(app):
+    if app.action == 'new commit':
+        print("Start test Github", file=stderr)
+        token = firebase_get_token_id(app.user_id, 'github')
+        owner = 'a'
+        repo = 'a'
+        r = request_create(app.user_id, SERVICE_GITHUB + 'v1/github/' + owner + '/' + repo + '/last/commit')
+    return False
+
+
+def verify_intra(app):
+    a
+
+
+def verify_slack(app):
+    a
+
+
+def verify_currency(app):
+    a
+
+
+def verify_weather(app):
+    a
+
+
+def verify_googlemail(app):
+    a
+
+
+######## REACTION ######
+def reaction_slack():
+    a
+
+
+def reaction_email():
+    a
+
+
+def reaction_notify():
+    a

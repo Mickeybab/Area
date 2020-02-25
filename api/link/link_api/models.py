@@ -26,25 +26,25 @@ class ParamApplet(models.Model):
 class Github(models.Model):
     user_id = models.CharField(max_length=255)
     token = models.CharField(max_length=255, null=True)
-    refres = models.CharField(max_length=255, null=True)
+    refresh = models.CharField(max_length=255, null=True)
 
 
 class Intra(models.Model):
     user_id = models.CharField(max_length=255)
     token = models.CharField(max_length=255, null=True)
-    refres = models.CharField(max_length=255, null=True)
+    refresh = models.CharField(max_length=255, null=True)
 
 
 class Slack(models.Model):
     user_id = models.CharField(max_length=255)
     token = models.CharField(max_length=255, null=True)
-    refres = models.CharField(max_length=255, null=True)
+    refresh = models.CharField(max_length=255, null=True)
 
 
 class Microsoft(models.Model):
     user_id = models.CharField(max_length=255)
     token = models.CharField(max_length=255, null=True)
-    refres = models.CharField(max_length=255, null=True)
+    refresh = models.CharField(max_length=255, null=True)
 
 
 class User(models.Model):

@@ -160,7 +160,7 @@ SERVICE_NAME = [
     'notification',
 ]
 
-SERVICE_GIHUB = 'localhost:9004'
+SERVICE_GIHUB = 'localhost:9004/'
 
 
 CORS_ORIGIN_ALLOW_ALL = True
