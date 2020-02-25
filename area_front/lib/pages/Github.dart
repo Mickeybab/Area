@@ -1,6 +1,8 @@
 // Core
-import 'package:area_front/backend/Backend.dart';
+import 'package:area_front/backend/Backend.dart' as B;
+import 'package:area_front/models/Service.dart';
 import 'package:area_front/static/Constants.dart';
+import 'package:area_front/static/backend/BackendRoutes.dart';
 import 'package:area_front/widgets/AreaTitle.dart';
 import 'package:area_front/widgets/applets/ListApplets.dart';
 import 'package:area_front/widgets/utils/Color.dart';
@@ -17,17 +19,26 @@ import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:provider/provider.dart';
 
 /// `My Applets` Page of the Area Project
-class GithubPage extends StatelessWidget {
-  GithubPage({Key key, this.service, this.logo, this.color}) : super(key: key);
+class GithubPage extends StatefulWidget {
+  GithubPage({Key key, this.data}) : super(key: key);
 
-  final String service;
-  final String color;
-  final String logo;
+  final Service data;
 
+  @override
+  _GithubPageState createState() => _GithubPageState();
+}
+
+class _GithubPageState extends State<GithubPage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<FirebaseUser>(context);
-    print(color);
+
+    onSwitchChangeState(bool newValue) {
+      setState(() {
+        widget.data.enable = newValue;
+      });
+    }
+
     return Scaffold(
       appBar: TopBar(),
       body: Center(
@@ -39,7 +50,7 @@ class GithubPage extends StatelessWidget {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 150,
-                color: hexToColor(this.color),
+                color: hexToColor(this.widget.data.color),
                 child: Container(
                   padding: const EdgeInsets.all(36.0),
                   child: Row(
@@ -47,12 +58,12 @@ class GithubPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Image.network(
-                        logo,
+                        widget.data.logo,
                         height: 80,
                         width: 80,
                       ),
                       SizedBox(width: 20),
-                      AreaTitle(service)
+                      AreaTitle(widget.data.service)
                     ]
                   ),
                 ),
@@ -62,14 +73,28 @@ class GithubPage extends StatelessWidget {
                 value: true,
                 textOn: 'ON',
                 textOff: 'OFF',
-                colorOn: hexToColor(this.color),
+                colorOn: hexToColor(this.widget.data.color),
                 colorOff: Colors.grey[700],
                 iconOn: Icons.done,
                 iconOff: Icons.remove_circle_outline,
                 textSize: 25.0,
-                onChanged: (bool state) async {
+                onChanged: (newValue) async {
+                  onSwitchChangeState(newValue);
+                  if (newValue == true) {
+                    B.Backend.post(
+                        user,
+                        BackendRoutes.activateService(
+                            widget.data.service.toLowerCase()));
+                    print("SERVICE ACTIVATED");
+                  } else {
+                    B.Backend.post(
+                        user,
+                        BackendRoutes.desactivateApplet(
+                            widget.data.service.toLowerCase()));
+                    print("SERVICE DESACTIVATED");
+                  }
                   //Use it to manage the different states
-                  print('Current State of SWITCH IS: $state');
+                  print('Current State of SWITCH IS: $newValue');
                 },
               )
             ],

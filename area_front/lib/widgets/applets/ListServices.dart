@@ -33,11 +33,7 @@ class ListServices extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GithubPage(
-                        service: services[index].service,
-                        logo: services[index].logo,
-                        color: services[index].color
-                      ),
+                      builder: (context) => GithubPage(data: services[index]),
                     ),
                   );
                   break;

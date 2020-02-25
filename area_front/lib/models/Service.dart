@@ -35,7 +35,9 @@ class Service {
   final String service;
   final String logo;
   final String color;
-  Service({this.service, this.logo, this.color});
+  bool enable;
+
+  Service({this.service, this.logo, this.color, this.enable});
 
   factory Service.fromJson(Map<String, dynamic> json) =>
       _$ServiceFromJson(json);
