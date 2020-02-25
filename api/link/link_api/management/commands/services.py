@@ -38,9 +38,12 @@ class Command(BaseCommand):
 
 
         def start_reaction(app):
-            util.reaction_slack(app)
-            util.reaction_email(app)
-            util.reaction_notify(app)
+            if app.reaction_service == settings.SERVICE_NAME[2]:
+                util.reaction_slack(app)
+            elif app.reaction_service == settings.SERVICE_NAME[5]:
+                util.reaction_email(app)
+            elif app.reaction_service == settings.SERVICE_NAME[6]:
+                util.reaction_notify(app)
 
 
         def choose_service(app):

@@ -95,7 +95,6 @@ def set_applet(request, id):
 
     with transaction.atomic():
         app = Applet.objects.select_for_update().get(user_id=user_id, id_applet=int(id))
-        app.enable = True
         app.action_service = data['action']['service']
         app.action = data['action']['action']
         app.reaction_service = data['reaction']['service']

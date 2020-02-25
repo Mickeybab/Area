@@ -35,7 +35,10 @@ SECRET_KEY = 'gsay@k-dmi!6^s6gg5@p^cd5s!t6c33z-!vzv-!q_pys#8-k^7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '10.15.191.66',
+    'localhost'
+    ]
 
 
 # Application definition
@@ -161,10 +164,10 @@ SERVICE_NAME = [
 ]
 
 
-SERVICE_INTRA = 'localhost:9003/'
-SERVICE_GIHUB = 'localhost:9004/'
-SERVICE_CURRENCY = 'localhost:9005/'
-SERVICE_WEATHER = 'localhost:9006/'
+SERVICE_INTRA = 'http://intra_api:8080/'
+SERVICE_GIHUB = 'http://github_api:9000/'
+SERVICE_CURRENCY = 'http://currency_api:8080/'
+SERVICE_WEATHER = 'http://weather_api:8080/'
 
 
 CORS_ORIGIN_ALLOW_ALL = True
