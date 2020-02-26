@@ -8,6 +8,8 @@ from django.views.decorators.http import require_http_methods
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from sys import stderr
+from datetime import datetime
+
 
 
 class JsonResponse(HttpResponse):
@@ -203,37 +205,43 @@ def get_services(request):
             "service": "Github",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/github.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[0], user_id=user_id).enable
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[0], user_id=user_id).enable,
+            "sync": True if Github.object.get(user_id=user_id).token else False
         },
         {
             "service": "Intra Epitech",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/intra.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[1], user_id=user_id).enable
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[1], user_id=user_id).enable,
+            "sync": True if Intra.object.get(user_id=user_id).token else False
         },
         {
             "service": "Slack",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/slack.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[2], user_id=user_id).enable
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[2], user_id=user_id).enable,
+            "sync": True if Slack.object.get(user_id=user_id).token else False
         },
         {
             "service": "Currency",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/bitcoin.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[3], user_id=user_id).enable
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[3], user_id=user_id).enable,
+            "sync": True if Currency.object.get(user_id=user_id).token else False
         },
         {
             "service": "Weather",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/weather.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[4], user_id=user_id).enable
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[4], user_id=user_id).enable,
+            "sync": True if Weather.object.get(user_id=user_id).token else False
         },
         {
             "service": "Google Mail",
             "color" : "0xffb74093",
             "logo": 'http://' + settings.MY_IP + 'static/googlemail.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[5], user_id=user_id).enable
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[5], user_id=user_id).enable,
+            "sync": True if Google.object.get(user_id=user_id).token else False
         },
     ]
     return JsonResponse(response)
@@ -277,11 +285,75 @@ def update_user(request, user_id):
 
 
 @csrf_exempt
-@require_http_methods(['POST'])
+@require_http_methods(['GET'])
 def get_notif(request):
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
     result = []
     for n in Notif.objects.filter(user_id=user_id, send=False):
         result.append(n.message)
         Notif.objects.filter(id=n.id).update(send=True)
+    return JsonResponse(result)
+
+
+#### ABOUT.JSON ####
+def get_about_json(request):
+
+    def get_client_ip(request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+
+    result = {
+        "client": {
+            "host": get_client_ip(request)
+        },
+        "server": {
+            "current_time": int(datetime.timestamp(datetime.now())),
+            "services": [{
+                "name": settings.SERVICE_NAME[0],
+                "actions": [{
+                    "name": util.applet_id_to_name(i),
+                    "description": util.applet_id_to_description(i)
+                } for i in settings.GITHUB_NUMBER]
+            },
+            {
+                "name": settings.SERVICE_NAME[1],
+                "actions": [{
+                    "name": util.applet_id_to_name(i),
+                    "description": util.applet_id_to_description(i)
+                } for i in settings.INTRA_NUMBER]
+            },
+            {
+                "name": settings.SERVICE_NAME[2],
+                "actions": [{
+                    "name": util.applet_id_to_name(i),
+                    "description": util.applet_id_to_description(i)
+                } for i in settings.SLACK_NUMBER]
+            },
+            {
+                "name": settings.SERVICE_NAME[3],
+                "actions": [{
+                    "name": util.applet_id_to_name(i),
+                    "description": util.applet_id_to_description(i)
+                } for i in settings.CURRENCY_NUMBER]
+            },
+            {
+                "name": settings.SERVICE_NAME[4],
+                "actions": [{
+                    "name": util.applet_id_to_name(i),
+                    "description": util.applet_id_to_description(i)
+                } for i in settings.WEATHER_NUMBER]
+            },
+            {
+                "name": settings.SERVICE_NAME[5],
+                "actions": [{
+                    "name": util.applet_id_to_name(i),
+                    "description": util.applet_id_to_description(i)
+                } for i in settings.GOOGLE_NUMBER]
+            }]
+        }
+    }
     return JsonResponse(result)
