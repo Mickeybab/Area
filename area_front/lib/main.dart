@@ -1,5 +1,4 @@
 // Core
-import 'package:area_front/pages/GithubService.dart';
 import 'package:area_front/pages/Home.dart';
 import 'package:area_front/pages/auth/ResetPassword.dart';
 import 'package:area_front/static/Constants.dart';
@@ -62,8 +61,6 @@ class MyApp extends StatelessWidget {
                 CheckAuth(() => MyServices()),
             Routes.explore: (BuildContext context) =>
                 CheckAuth(() => Explore()),
-            Routes.githubService: (BuildContext context) =>
-                CheckAuth(() => GithubServicePage()),
           }),
     );
   }

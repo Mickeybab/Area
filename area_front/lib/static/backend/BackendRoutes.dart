@@ -4,6 +4,11 @@ class BackendRoutes {
   static const String services = '/services';
 
 
+  /// return the url to `sync` a service from the service name
+  static String syncService(String id) {
+    return ('$services/$id/sync');
+  }
+
    /// return the url to `activate` a service from the service name
   static String activateService(String id) {
     return ('$services/$id/activate');

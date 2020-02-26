@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show Platform;
+import 'package:area_front/backend/Backend.dart';
 import 'package:area_front/models/Github.dart';
 import 'package:flutter/foundation.dart';
 
@@ -40,13 +41,15 @@ class _GithubServicePageState extends State<GithubServicePage> {
   FirebaseUser firebaseUser;
 
   Future<void> registerGithubToken(String code) async {
+    print('registerGithubToken');
     try {
       String clientSecret;
 
-      if (Platform.isAndroid || Platform.isIOS) {
-        clientSecret = GlobalConfiguration().getString('GithubSignInMobileClientSecret');
-      } else {
+      if (kIsWeb) {
         clientSecret = GlobalConfiguration().getString('GithubSignInWebClientSecret');
+      }
+      else if (Platform.isAndroid || Platform.isIOS) {
+        clientSecret = GlobalConfiguration().getString('GithubSignInMobileClientSecret');
       }
       final response = await http.post(
         GlobalConfiguration().getString('GithubAccessTokenUrl'),
@@ -66,7 +69,7 @@ class _GithubServicePageState extends State<GithubServicePage> {
       print('user ID: ${firebaseUser.uid}');
       print('github token: ${loginResponse.accessToken}');
 
-      B.Backend.post(firebaseUser, '/services/github/sync',
+      B.Backend.post(firebaseUser, BackendRoutes.syncService('github'),
         body: {
           "token": loginResponse.accessToken,
           "refresh" : ""
@@ -111,7 +114,7 @@ class _GithubServicePageState extends State<GithubServicePage> {
 
   @override
   Widget build(BuildContext context) {
-    final Service data = ModalRoute.of(context).settings.arguments;
+    Service data;
 
     final user = Provider.of<FirebaseUser>(context);
     this.firebaseUser = user;
@@ -122,82 +125,98 @@ class _GithubServicePageState extends State<GithubServicePage> {
       });
     }
 
-
-
     return Scaffold(
       appBar: TopBar(),
       body: Center(
         child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 150,
-                color: hexToColor(data.color),
-                child: Container(
-                  padding: const EdgeInsets.all(36.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Image.network(
-                        data.logo,
-                        height: 80,
-                        width: 80,
+          child: FutureBuilder(
+            future: Request.getService(user, 'github'),
+            builder: (context, snapshot) {
+              if (snapshot.hasError == true) {
+                return Column(
+                  children: <Widget>[
+                    Icon(Icons.error_outline),
+                    Text(snapshot.error.toString())
+                  ],
+                );
+              } else if (snapshot.hasData == true) {
+                data = snapshot.data;
+                // updateServiceData(snapshot.data);
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 150,
+                      color: hexToColor(data.color),
+                      child: Container(
+                        padding: const EdgeInsets.all(36.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Image.network(
+                              data.logo,
+                              height: 80,
+                              width: 80,
+                            ),
+                            SizedBox(width: 20),
+                            AreaTitle(data.service)
+                          ]
+                        ),
                       ),
-                      SizedBox(width: 20),
-                      AreaTitle(data.service)
-                    ]
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              LiteRollingSwitch(
-                value: data.enable,
-                textOn: 'On',
-                textOff: 'Off',
-                colorOn: hexToColor(data.color),
-                colorOff: Colors.grey[700],
-                iconOn: Icons.done,
-                iconOff: Icons.remove_circle_outline,
-                textSize: 25.0,
-                onChanged: (newValue) async {
-                  onSwitchChangeState(newValue);
-                  if (newValue == true) {
-                    print(data.service.toLowerCase().replaceAll(new RegExp(r"\s+\b|\b\s"), ""));
-                    await B.Backend.post(
-                        user,
-                        BackendRoutes.activateService(
-                          data.service
-                          .toLowerCase()
-                          .replaceAll(new RegExp(r"\s+\b|\b\s"), "")
-                        )
-                    );
-
-                    if (!data.sync) {
-                      await AuthService().signInWithGithub();
-                      data.sync = true;
-                    }
-                  } else {
-                    print(data.service.toLowerCase().replaceAll(new RegExp(r"\s+\b|\b\s"), ""));
-                    B.Backend.post(
-                      user,
-                      BackendRoutes.desactivateService(
-                        data.service
-                        .toLowerCase()
-                        .replaceAll(new RegExp(r"\s+\b|\b\s"), "")
-                      )
-                    );
-                  }
-                },
-              ),
-              AreaTitle('Test')
-            ],
-          ),
-        ),
-       ),
+                    ),
+                    SizedBox(height: 20),
+                    LiteRollingSwitch(
+                      value: data.enable,
+                      textOn: 'On',
+                      textOff: 'Off',
+                      colorOn: hexToColor(data.color),
+                      colorOff: Colors.grey[700],
+                      iconOn: Icons.done,
+                      iconOff: Icons.remove_circle_outline,
+                      textSize: 25.0,
+                      onChanged: (newValue) async {
+                        onSwitchChangeState(newValue);
+                        if (newValue == true) {
+                          print(data.service.toLowerCase().replaceAll(new RegExp(r"\s+\b|\b\s"), ""));
+                          await B.Backend.post(
+                              user,
+                              BackendRoutes.activateService(
+                                data.service
+                                .toLowerCase()
+                                .replaceAll(new RegExp(r"\s+\b|\b\s"), "")
+                              )
+                          );
+                          print('data.sync: ${data.sync}');
+                          if (!data.sync) {
+                            print('going to sync');
+                            await AuthService().signInWithGithub();
+                            data = await Request.getService(user, 'github');
+                          }
+                        } else {
+                          print(data.service.toLowerCase().replaceAll(new RegExp(r"\s+\b|\b\s"), ""));
+                          B.Backend.post(
+                            user,
+                            BackendRoutes.desactivateService(
+                              data.service
+                              .toLowerCase()
+                              .replaceAll(new RegExp(r"\s+\b|\b\s"), "")
+                            )
+                          );
+                        }
+                      },
+                    ),
+                    AreaTitle('Test')
+                  ],
+                );
+              } else
+                return CircularProgressIndicator();
+            }
+          )
+        )
+      )
     );
   }
 }

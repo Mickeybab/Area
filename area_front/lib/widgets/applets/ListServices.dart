@@ -1,5 +1,5 @@
 // Core
-import 'package:area_front/static/Routes.dart';
+import 'package:area_front/pages/GithubService.dart';
 import 'package:flutter/material.dart';
 
 // Modals
@@ -28,15 +28,10 @@ class ListServices extends StatelessWidget {
             onPressed: () {
               switch (services[index].service) {
                 case 'Github':
-                  Navigator.pushNamed(
+                  Navigator.push(
                     context,
-                    Routes.githubService,
-                    arguments: Service(
-                      service: services[index].service,
-                      logo: services[index].logo,
-                      color: services[index].color,
-                      enable: services[index].enable,
-                      sync: services[index].sync
+                    MaterialPageRoute(
+                      builder: (context) => GithubServicePage(),
                     ),
                   );
                   break;
