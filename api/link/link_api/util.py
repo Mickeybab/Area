@@ -406,20 +406,16 @@ def verify_github(app):
     if app.action == 'new commit':
         print("Start test Github", file=stderr)
         token = Github.objects.get(user_id=app.user_id).token
-        print(token, file=stderr)
-#        if not token:
-#            return False
+        if not token:
+            return False
         owner = ParamApplet.objects.filter(applet_id=app.id, name='Owner Name', side=True).get().value
         repo = ParamApplet.objects.filter(applet_id=app.id, name='Repository Name', side=True).get().value
-        print(owner, file=stderr)
-        print(repo, file=stderr)
+        if owner == '' or repo == '':
+            return False
         r = request_create(token, settings.SERVICE_GITHUB + 'v1/github/' + owner + '/' + repo + '/last/commit')
-        print(r, file=stderr)
-        print(r.text, file=stderr)
         j = json.loads(r.text)
-        print(j, file=stderr)
-        if j['data']['commit'][0] != app.data:
-            Applet.objects.filter(id=app.id).update(data=j['data']['commit'][0])
+        if j['data']['commits'][0]['date'] != app.data:
+            Applet.objects.filter(id=app.id).update(data=j['data']['commits'][0]['date'])
             return True
     return False
 
