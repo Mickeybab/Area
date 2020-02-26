@@ -1,4 +1,5 @@
 // Core
+import 'package:area_front/Notification.dart';
 import 'package:area_front/pages/Home.dart';
 import 'package:area_front/pages/auth/ResetPassword.dart';
 import 'package:area_front/static/Constants.dart';
@@ -26,15 +27,25 @@ import 'package:area_front/pages/Landing.dart' show LandingPage;
 
 // Config
 import 'package:global_configuration/global_configuration.dart';
+import 'package:flutter/foundation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  if (!kIsWeb) await initializeNotif();
+
   GlobalConfiguration().loadFromMap(config);
   runApp(MyApp());
+
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
   @override
   Widget build(BuildContext context) {
     return StreamProvider<FirebaseUser>.value(

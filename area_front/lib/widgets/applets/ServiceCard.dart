@@ -1,6 +1,4 @@
 // Core
-import 'dart:io';
-
 import 'package:area_front/widgets/AreaText.dart';
 import 'package:flutter/material.dart';
 

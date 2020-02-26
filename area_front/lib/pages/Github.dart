@@ -1,11 +1,6 @@
 // Core
-import 'package:area_front/backend/Backend.dart';
-import 'package:area_front/static/Constants.dart';
 import 'package:area_front/widgets/AreaTitle.dart';
-import 'package:area_front/widgets/applets/ListApplets.dart';
 import 'package:area_front/widgets/utils/Color.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:area_front/widgets/GetMore.dart';
 
 import 'package:flutter/material.dart';
 
@@ -14,7 +9,6 @@ import 'package:area_front/widgets/topbar/TopBar.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
 // Data
-import 'package:provider/provider.dart';
 
 /// `My Applets` Page of the Area Project
 class GithubPage extends StatelessWidget {
@@ -26,7 +20,6 @@ class GithubPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<FirebaseUser>(context);
     print(color);
     return Scaffold(
       appBar: TopBar(),

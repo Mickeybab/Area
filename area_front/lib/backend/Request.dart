@@ -113,4 +113,20 @@ class Request {
         throw ('An error occured when fetching all services please try again later');
     }
   }
+
+  static Future<List<dynamic>> notif(FirebaseUser user) async {
+    final http.Response response = await Backend.get(user, BackendRoutes.notif);
+
+    switch (response.statusCode) {
+      case 200:
+        print(json.decode(response.body));
+        return json.decode(response.body);
+        break;
+
+      default:
+
+        throw ('An error occured when fecthing Notif');
+    }
+
+  }
 }

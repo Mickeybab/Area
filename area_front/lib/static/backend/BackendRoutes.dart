@@ -2,6 +2,7 @@
 class BackendRoutes {
   static const String applets = "/applets/";
   static const String services = '/services';
+  static const String notif = '/notif';
 
   /// return the url to `interact` with an applet from the applet `id`
   static String specificApplet(String id) {
@@ -45,6 +46,7 @@ class BackendRoutes {
     slack,
     microsoft
   ];
+
 
   /// return the url to interact with a `Service`
   static String specificService(String service) {

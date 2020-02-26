@@ -1,7 +1,5 @@
 // Core
-import 'package:area_front/backend/Navigation.dart';
 import 'package:area_front/pages/Github.dart';
-import 'package:area_front/static/Routes.dart';
 import 'package:flutter/material.dart';
 
 // Modals
