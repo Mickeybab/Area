@@ -320,7 +320,7 @@ One URL per service.
 
 Method: **`POST`**
 
-URL: `API_URL/services/${serviceName}`
+URL: `API_URL/services/${serviceName}/sync`
 
 Service names can be:
 
