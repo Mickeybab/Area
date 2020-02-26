@@ -70,9 +70,9 @@ class _GithubPageState extends State<GithubPage> {
               ),
               SizedBox(height: 20),
               LiteRollingSwitch(
-                value: true,
-                textOn: 'ON',
-                textOff: 'OFF',
+                value: widget.data.enable,
+                textOn: 'On',
+                textOff: 'Off',
                 colorOn: hexToColor(this.widget.data.color),
                 colorOff: Colors.grey[700],
                 iconOn: Icons.done,
@@ -81,16 +81,26 @@ class _GithubPageState extends State<GithubPage> {
                 onChanged: (newValue) async {
                   onSwitchChangeState(newValue);
                   if (newValue == true) {
+                    print(widget.data.service.toLowerCase().replaceAll(new RegExp(r"\s+\b|\b\s"), ""));
                     B.Backend.post(
                         user,
                         BackendRoutes.activateService(
-                            widget.data.service.toLowerCase()));
+                          widget.data.service
+                          .toLowerCase()
+                          .replaceAll(new RegExp(r"\s+\b|\b\s"), "")
+                        )
+                    );
                     print("SERVICE ACTIVATED");
                   } else {
+                    print(widget.data.service.toLowerCase().replaceAll(new RegExp(r"\s+\b|\b\s"), ""));
                     B.Backend.post(
-                        user,
-                        BackendRoutes.desactivateApplet(
-                            widget.data.service.toLowerCase()));
+                      user,
+                      BackendRoutes.desactivateService(
+                        widget.data.service
+                        .toLowerCase()
+                        .replaceAll(new RegExp(r"\s+\b|\b\s"), "")
+                      )
+                    );
                     print("SERVICE DESACTIVATED");
                   }
                   //Use it to manage the different states
