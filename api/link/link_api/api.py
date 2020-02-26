@@ -331,7 +331,11 @@ def get_about_json(request):
                 "actions": [{
                     "name": util.applet_id_to_name(i),
                     "description": util.applet_id_to_description(i)
-                } for i in settings.SLACK_NUMBER]
+                } for i in settings.SLACK_NUMBER],
+                "reactions": [{
+                    "name": i,
+                    "description": "Send slack message for reaction"
+                } for i in settings.SLACK_REACTION]
             },
             {
                 "name": settings.SERVICE_NAME[3],
@@ -353,6 +357,20 @@ def get_about_json(request):
                     "name": util.applet_id_to_name(i),
                     "description": util.applet_id_to_description(i)
                 } for i in settings.GOOGLE_NUMBER]
+            },
+            {
+                "name": settings.SERVICE_NAME[7],
+                "reactions": [{
+                    "name": i,
+                    "description": "Send a mail for reaction"
+                } for i in settings.GOOGLE_REACTION]
+            },
+            {
+                "name": settings.SERVICE_NAME[6],
+                "reactions": [{
+                    "name": "Send notification",
+                    "description": "Send a notification for reaction"
+                }]
             }]
         }
     }
