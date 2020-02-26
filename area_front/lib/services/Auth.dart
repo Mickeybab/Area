@@ -1,17 +1,15 @@
 // Auths Tools
-
-import 'package:area_front/backend/Backend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart';
 
 // Config
 import 'package:global_configuration/global_configuration.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 //Model
-import 'package:area_front/models/Github.dart';
 
 /// Responsible of all Auth Process
 class AuthService {
@@ -38,38 +36,29 @@ class AuthService {
 
     return currentUser;
   }
-  /// SignIn with Github
-  Future signInWithGitHub(String code) async {
-    try {
-      final response = await http.post(
-        GlobalConfiguration().getString('GithubAccessTokenUrl'),
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: jsonEncode(GitHubLoginRequest(
-          clientId: GlobalConfiguration().getString('GithubSignInClientId'),
-          clientSecret: GlobalConfiguration().getString('GithubSignInClientSecret'),
-          code: code,
-        )),
-      );
 
-      final GitHubLoginResponse loginResponse =
-          GitHubLoginResponse.fromJson(json.decode(response.body));
+  void signInWithGithub() async {
+    String authorizeUrl = GlobalConfiguration().getString('GithubAuthorizeUrl');
+    String clientId;
 
-      final AuthCredential credential = GithubAuthProvider.getCredential(
-        token: loginResponse.accessToken,
+    if (Platform.isAndroid || Platform.isIOS) {
+      clientId = GlobalConfiguration().getString('GithubSignInMobileClientId');
+    }
+    else if (kIsWeb) {
+      clientId = GlobalConfiguration().getString('GithubSignInWebClientId');
+    }
+    String url = authorizeUrl +
+        "?client_id=" + clientId +
+        "&scope=public_repo%20read:user%20user:email";
+
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
       );
-      final FirebaseUser user = await this.signWithCredential(credential);
-      Backend.post(user, '/services/github',
-        body: {
-          "token": loginResponse.accessToken,
-          "refresh" : ""
-        });
-      return user;
-    } catch (e) {
-      print('Got error when sign in with Github: $e');
-      return null;
+    } else {
+      print("Cannot launch Github authorization URL");
     }
   }
 

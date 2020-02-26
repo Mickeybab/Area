@@ -1,5 +1,11 @@
 // Core
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io' show Platform;
+import 'package:area_front/models/Github.dart';
+import 'package:flutter/foundation.dart';
+
+import 'package:http/http.dart' as http;
 
 import 'package:area_front/backend/Backend.dart' as B;
 import 'package:area_front/models/Service.dart';
@@ -23,9 +29,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 /// `My Applets` Page of the Area Project
 class GithubServicePage extends StatefulWidget {
-  GithubServicePage({Key key, this.data}) : super(key: key);
-
-  final Service data;
+  GithubServicePage({Key key}) : super(key: key);
 
   @override
   _GithubServicePageState createState() => _GithubServicePageState();
@@ -34,7 +38,47 @@ class GithubServicePage extends StatefulWidget {
 class _GithubServicePageState extends State<GithubServicePage> {
   StreamSubscription _subs;
 
-    @override
+  FirebaseUser firebaseUser;
+
+  void registerGithubToken(String code) async {
+    try {
+      String clientSecret;
+
+      if (Platform.isAndroid || Platform.isIOS) {
+        clientSecret = GlobalConfiguration().getString('GithubSignInMobileClientSecret');
+      } else {
+        clientSecret = GlobalConfiguration().getString('GithubSignInWebClientSecret');
+      }
+      final response = await http.post(
+        GlobalConfiguration().getString('GithubAccessTokenUrl'),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: jsonEncode(GitHubLoginRequest(
+          clientId: GlobalConfiguration().getString('GithubSignInMobileClientId'),
+          clientSecret: clientSecret,
+          code: code,
+        )),
+      );
+
+      final GitHubLoginResponse loginResponse = GitHubLoginResponse.fromJson(json.decode(response.body));
+
+      print('user ID: ${firebaseUser.uid}');
+      print('github token: ${loginResponse.accessToken}');
+
+      B.Backend.post(firebaseUser, '/services/github',
+        body: {
+          "token": loginResponse.accessToken,
+          "refresh" : ""
+        }
+      );
+    } catch (e) {
+      print('Got error when sign in with Github: $e');
+    }
+  }
+
+  @override
   void initState() {
     _initDeepLinkListener();
     super.initState();
@@ -55,7 +99,7 @@ class _GithubServicePageState extends State<GithubServicePage> {
   void _checkDeepLink(String link) {
     if (link != null) {
       String code = link.substring(link.indexOf(RegExp('code=')) + 5);
-      AuthService().signInWithGitHub(code);
+      this.registerGithubToken(code);
     }
   }
 
@@ -65,33 +109,21 @@ class _GithubServicePageState extends State<GithubServicePage> {
       _subs = null;
     }
   }
+
   @override
   Widget build(BuildContext context) {
+    final Service data = ModalRoute.of(context).settings.arguments;
+
     final user = Provider.of<FirebaseUser>(context);
+    this.firebaseUser = user;
 
     onSwitchChangeState(bool newValue) {
       setState(() {
-        widget.data.enable = newValue;
+        data.enable = newValue;
       });
     }
 
-    Future signInWithGithub() async {
-      String authorizeUrl = GlobalConfiguration().getString('GithubAuthorizeUrl');
-        String clientId = GlobalConfiguration().getString('GithubSignInClientId');
-        String url = authorizeUrl +
-            "?client_id=" + clientId +
-            "&scope=public_repo%20read:user%20user:email";
 
-        if (await canLaunch(url)) {
-          await launch(
-            url,
-            forceSafariVC: false,
-            forceWebView: false,
-          );
-        } else {
-          print("Cannot launch Github authorization URL");
-        }
-    }
 
     return Scaffold(
       appBar: TopBar(),
@@ -104,7 +136,7 @@ class _GithubServicePageState extends State<GithubServicePage> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 150,
-                color: hexToColor(this.widget.data.color),
+                color: hexToColor(data.color),
                 child: Container(
                   padding: const EdgeInsets.all(36.0),
                   child: Row(
@@ -112,22 +144,22 @@ class _GithubServicePageState extends State<GithubServicePage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Image.network(
-                        widget.data.logo,
+                        data.logo,
                         height: 80,
                         width: 80,
                       ),
                       SizedBox(width: 20),
-                      AreaTitle(widget.data.service)
+                      AreaTitle(data.service)
                     ]
                   ),
                 ),
               ),
               SizedBox(height: 20),
               LiteRollingSwitch(
-                value: widget.data.enable,
+                value: data.enable,
                 textOn: 'On',
                 textOff: 'Off',
-                colorOn: hexToColor(this.widget.data.color),
+                colorOn: hexToColor(data.color),
                 colorOff: Colors.grey[700],
                 iconOn: Icons.done,
                 iconOff: Icons.remove_circle_outline,
@@ -135,35 +167,33 @@ class _GithubServicePageState extends State<GithubServicePage> {
                 onChanged: (newValue) async {
                   onSwitchChangeState(newValue);
                   if (newValue == true) {
-                    print(widget.data.service.toLowerCase().replaceAll(new RegExp(r"\s+\b|\b\s"), ""));
+                    print(data.service.toLowerCase().replaceAll(new RegExp(r"\s+\b|\b\s"), ""));
                     await B.Backend.post(
                         user,
                         BackendRoutes.activateService(
-                          widget.data.service
+                          data.service
                           .toLowerCase()
                           .replaceAll(new RegExp(r"\s+\b|\b\s"), "")
                         )
                     );
 
-                    await signInWithGithub();
+                    AuthService().signInWithGithub();
 
-                    print("SERVICE ACTIVATED");
                   } else {
-                    print(widget.data.service.toLowerCase().replaceAll(new RegExp(r"\s+\b|\b\s"), ""));
+                    print(data.service.toLowerCase().replaceAll(new RegExp(r"\s+\b|\b\s"), ""));
                     B.Backend.post(
                       user,
                       BackendRoutes.desactivateService(
-                        widget.data.service
+                        data.service
                         .toLowerCase()
                         .replaceAll(new RegExp(r"\s+\b|\b\s"), "")
                       )
                     );
                     print("SERVICE DESACTIVATED");
                   }
-                  //Use it to manage the different states
-                  print('Current State of SWITCH IS: $newValue');
                 },
-              )
+              ),
+              AreaTitle('Test')
             ],
           ),
         ),
