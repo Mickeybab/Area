@@ -2,7 +2,7 @@ version: "3"
 
 services:
   link_api:
-    build: 
+    build:
       context: ./api/link
       dockerfile: Dockerfile
     volumes:
@@ -21,7 +21,7 @@ services:
     restart: always
 
   start_service_api:
-    build: 
+    build:
       context: ./api/link
       dockerfile: Dockerfile
     volumes:
@@ -39,7 +39,7 @@ services:
     restart: always
 
   intra_api:
-    build: 
+    build:
       context: ./api/intra
       dockerfile: Dockerfile
     environment:
@@ -47,7 +47,7 @@ services:
     restart: always
 
   github_api:
-    build: 
+    build:
       context: ./api/github
       dockerfile: Dockerfile
     environment:
@@ -56,15 +56,15 @@ services:
     restart: always
 
   currency_api:
-    build: 
+    build:
       context: ./api/currency
       dockerfile: Dockerfile
     environment:
       DEV_ENV: "TRUE"
     restart: always
-  
+
   weather_api:
-   build: 
+   build:
      context: ./api/weather
      dockerfile: Dockerfile
    environment:
@@ -81,7 +81,7 @@ services:
 
   db:
     image: mysql:5.7
-    ports: 
+    ports:
       - "3306:3306"
     environment:
       MYSQL_DATABASE: area
@@ -93,7 +93,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    links: 
+    links:
       - db
     depends_on:
       - db
@@ -105,7 +105,7 @@ services:
       MYSQL_ROOT_PASSWORD: test
     volumes:
       - /sessions
-    
+
   front:
     build:
       context: ./area_front

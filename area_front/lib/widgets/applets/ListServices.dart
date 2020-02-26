@@ -1,6 +1,4 @@
 // Core
-import 'package:area_front/backend/Navigation.dart';
-import 'package:area_front/pages/Github.dart';
 import 'package:area_front/static/Routes.dart';
 import 'package:flutter/material.dart';
 
@@ -30,26 +28,20 @@ class ListServices extends StatelessWidget {
             onPressed: () {
               switch (services[index].service) {
                 case 'Github':
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => GithubPage(
-                        service: services[index].service,
-                        logo: services[index].logo,
-                        color: services[index].color
-                      ),
+                    Routes.githubService,
+                    arguments: Service(
+                      service: services[index].service,
+                      logo: services[index].logo,
+                      color: services[index].color,
+                      enable: services[index].enable,
+                      sync: services[index].sync
                     ),
                   );
                   break;
                 default:
               }
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => AppletsDetailsPage(services[index]),
-              //   ),
-              // );
-              print('Card pressed');
             },
           );
         },

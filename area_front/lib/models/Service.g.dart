@@ -49,6 +49,8 @@ Service _$ServiceFromJson(Map<String, dynamic> json) {
     service: json['service'] as String,
     logo: json['logo'] as String,
     color: json['color'] as String,
+    enable: json['enable'] as bool,
+    sync: json['sync'] as bool,
   );
 }
 
@@ -56,4 +58,6 @@ Map<String, dynamic> _$ServiceToJson(Service instance) => <String, dynamic>{
       'service': instance.service,
       'logo': instance.logo,
       'color': instance.color,
+      'enable': instance.enable,
+      'sync': instance.sync,
     };

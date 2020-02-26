@@ -25,7 +25,7 @@ class Backend {
     try {
       return await http.get(route, headers: headers);
     } catch (e) {
-      print(e);
+      print('An error occured on GET request $e');
       throw (Constants.somethingWentWrong);
     }
   }
@@ -38,7 +38,7 @@ class Backend {
       return await http.post(route,
           headers: headers, body: body, encoding: encoding);
     } catch (e) {
-      print(e);
+      print('An error occured on POST request $e');
       throw (Constants.somethingWentWrong);
     }
   }
@@ -51,7 +51,7 @@ class Backend {
       return await http.put(route,
           headers: headers, body: body, encoding: encoding);
     } catch (e) {
-      print(e);
+      print('An error occured on PUT request $e');
       throw (Constants.somethingWentWrong);
     }
   }
@@ -64,7 +64,7 @@ class Backend {
       return await http.patch(route,
           headers: headers, body: body, encoding: encoding);
     } catch (e) {
-      print(e);
+      print('An error occured on PATCH request $e');
       throw (Constants.somethingWentWrong);
     }
   }
@@ -76,7 +76,7 @@ class Backend {
     try {
       return await http.delete(route, headers: headers);
     } catch (e) {
-      print(e);
+      print('An error occured on DEL request $e');
       throw (Constants.somethingWentWrong);
     }
   }
