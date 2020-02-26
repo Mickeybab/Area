@@ -283,7 +283,7 @@ def update_user(request, user_id):
 
 
 @csrf_exempt
-@require_http_methods(['POST'])
+@require_http_methods(['GET'])
 def get_notif(request):
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
     result = []

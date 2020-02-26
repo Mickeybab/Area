@@ -32,6 +32,17 @@
 - Emails
 - Messages
 
+## Admin Panel
+For manage AREA Users and Admin Users
+
+Default Admin user: `admin`
+
+Default Admin password: `admin`
+
+`AUTHENTICATION AND AUTHORIZATION` Is for Admin Users
+
+`LINK_API` Is for Area Users
+
 ## Requests
 
 ### Get all the services
