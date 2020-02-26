@@ -62,8 +62,7 @@ class AuthService {
       );
       final FirebaseUser user = await this.signWithCredential(credential);
       Backend.post(user, '/services/github',
-        headers: {
-        }, body: {
+        body: {
           "token": loginResponse.accessToken,
           "refresh" : ""
         });

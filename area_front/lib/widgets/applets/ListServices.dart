@@ -1,7 +1,5 @@
 // Core
-import 'package:area_front/backend/Navigation.dart';
-import 'package:area_front/pages/Github.dart';
-import 'package:area_front/static/Routes.dart';
+import 'package:area_front/pages/GithubService.dart';
 import 'package:flutter/material.dart';
 
 // Modals
@@ -33,19 +31,12 @@ class ListServices extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GithubPage(data: services[index]),
+                      builder: (context) => GithubServicePage(data: services[index]),
                     ),
                   );
                   break;
                 default:
               }
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => AppletsDetailsPage(services[index]),
-              //   ),
-              // );
-              print('Card pressed');
             },
           );
         },
