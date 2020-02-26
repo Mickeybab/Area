@@ -66,7 +66,7 @@ class _GithubServicePageState extends State<GithubServicePage> {
       print('user ID: ${firebaseUser.uid}');
       print('github token: ${loginResponse.accessToken}');
 
-      B.Backend.post(firebaseUser, '/services/github',
+      B.Backend.post(firebaseUser, '/services/github/sync',
         body: {
           "token": loginResponse.accessToken,
           "refresh" : ""
