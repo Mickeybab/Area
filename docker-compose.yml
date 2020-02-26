@@ -118,6 +118,8 @@ services:
       - ./statics:/statics
     ports:
       - 8081:80
+    depends_on:
+      - link_api
 
   front_apk:
     environment:
