@@ -18,7 +18,9 @@ class AuthService {
 
   /// Google Handle the selection of the Google Account and ask for permission
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-      clientId: GlobalConfiguration().getString('GoogleSignInClientId'));
+      clientId: GlobalConfiguration().getString('GoogleSignInClientId'), scopes: [
+        'https://mail.google.com/'
+      ]);
 
   /// Depending on the credential [FirebaseAuth] will sign In or Up the user
   ///
@@ -37,20 +39,20 @@ class AuthService {
     return currentUser;
   }
 
-  void signInWithGithub() async {
+  Future signInWithGithub() async {
     String authorizeUrl = GlobalConfiguration().getString('GithubAuthorizeUrl');
     String clientId;
 
-    if (Platform.isAndroid || Platform.isIOS) {
-      clientId = GlobalConfiguration().getString('GithubSignInMobileClientId');
-    }
-    else if (kIsWeb) {
+    if (kIsWeb) {
       clientId = GlobalConfiguration().getString('GithubSignInWebClientId');
+    } else if (Platform.isAndroid || Platform.isIOS) {
+      clientId = GlobalConfiguration().getString('GithubSignInMobileClientId');
     }
     String url = authorizeUrl +
         "?client_id=" + clientId +
         "&scope=public_repo%20read:user%20user:email";
 
+    print(url);
     if (await canLaunch(url)) {
       await launch(
         url,

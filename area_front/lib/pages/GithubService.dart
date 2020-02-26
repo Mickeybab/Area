@@ -39,7 +39,7 @@ class _GithubServicePageState extends State<GithubServicePage> {
 
   FirebaseUser firebaseUser;
 
-  void registerGithubToken(String code) async {
+  Future<void> registerGithubToken(String code) async {
     try {
       String clientSecret;
 
@@ -89,16 +89,16 @@ class _GithubServicePageState extends State<GithubServicePage> {
     super.dispose();
   }
 
-  void _initDeepLinkListener() async {
-    _subs = getLinksStream().listen((String link) {
-      _checkDeepLink(link);
+  void _initDeepLinkListener() {
+    _subs = getLinksStream().listen((String link) async {
+      await _checkDeepLink(link);
     }, cancelOnError: true);
   }
 
-  void _checkDeepLink(String link) {
+  Future<void> _checkDeepLink(String link) async {
     if (link != null) {
       String code = link.substring(link.indexOf(RegExp('code=')) + 5);
-      this.registerGithubToken(code);
+      await this.registerGithubToken(code);
     }
   }
 
@@ -177,7 +177,7 @@ class _GithubServicePageState extends State<GithubServicePage> {
                     );
 
                     if (!data.sync) {
-                      AuthService().signInWithGithub();
+                      await AuthService().signInWithGithub();
                       data.sync = true;
                     }
                   } else {
