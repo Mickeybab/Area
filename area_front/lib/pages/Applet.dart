@@ -196,7 +196,7 @@ class ActionParam extends StatelessWidget {
         Text(
           (widget.applet.action.param[index].name == null)
               ? ""
-              : widget.applet.action.action,
+              : widget.applet.action.param[index].name,
           textAlign: TextAlign.center,
         ),
         Expanded(
@@ -235,6 +235,7 @@ class ReactionParam extends StatelessWidget {
         (widget.applet.reaction.param[index].type == "string")
             ? BlacklistingTextInputFormatter.singleLineFormatter
             : WhitelistingTextInputFormatter.digitsOnly;
+    print(widget.applet.reaction.param[index].name);
     return Row(
       children: <Widget>[
         Text(

@@ -1,12 +1,15 @@
 from django.http import HttpResponse, Http404
 import json
-from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Microsoft, User
+from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User, Notif, Service
 from link_api import settings
 from link_api import util
 from django.db import transaction
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+from sys import stderr
+from datetime import datetime
+
 
 
 class JsonResponse(HttpResponse):
@@ -53,9 +56,8 @@ def applet_to_json(app):
 
 
 def request_to_json(request):
-    string = request.body.decode('utf8').replace("'", '"')
-    print(string)
-    return json.loads(string)
+    print(request.body.decode(), file=stderr)
+    return json.loads(request.body.decode())
 
 
 ##### APPLET #####
@@ -83,8 +85,15 @@ def get_applet(request, id):
 def set_applet(request, id):
 
     data = request_to_json(request)
+
+    if data['action']['service'] == settings.SERVICE_NAME[3]:
+        for p in data['action']['param']:
+            if p['name'] == 'Currency':
+                if not p['value'] in settings.CURRENCY_LIST:
+                    return HttpResponse('Currency is not valid')
+
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
-    
+
     def fill_applet(param):
         p = ParamApplet()
         p.name = param['name']
@@ -95,11 +104,11 @@ def set_applet(request, id):
 
     with transaction.atomic():
         app = Applet.objects.select_for_update().get(user_id=user_id, id_applet=int(id))
-        app.enable = True
         app.action_service = data['action']['service']
         app.action = data['action']['action']
         app.reaction_service = data['reaction']['service']
         app.reaction = data['reaction']['reaction']
+        app.data = None
         app.save()
 
     for param in ParamApplet.objects.filter(applet_id=app.id):
@@ -117,7 +126,7 @@ def set_applet(request, id):
         p.applet_id = app.id
         p.save()
 
-    return HttpResponse('Ok')
+    return JsonResponse(applet_to_json(Applet.objects.get(user_id=user_id, id_applet=int(id))))
 
 
 @csrf_exempt
@@ -165,6 +174,12 @@ def search_applets(request):
     return JsonResponse([applet_to_json(s) for s in applets])
 
 
+@csrf_exempt
+@require_http_methods(['GET'])
+def get_applets_by_services(request, service):
+    return JsonResponse([applet_to_json(a) for a in Applet.objects.filter(user_id=user_id, action=service)])
+
+
 ## SERVICE ##
 @csrf_exempt
 @require_http_methods(['POST'])
@@ -176,9 +191,77 @@ def sync_token(request, service):
         Intra.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     elif service == settings.SERVICE_NAME[2]:
         Slack.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
-    elif service == settings.SERVICE_NAME[3]:
-        Microsoft.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
+    elif service == settings.SERVICE_NAME[5]:
+        Google.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     return HttpResponse('Ok')
+
+
+@csrf_exempt
+@require_http_methods(['GET'])
+def get_services(request):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    response = [
+        {
+            "service": "Github",
+            "color" : "0xffb74093",
+            "logo": 'http://' + settings.MY_IP + 'static/github.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[0], user_id=user_id).enable,
+            "sync": True if Github.object.get(user_id=user_id).token else False
+        },
+        {
+            "service": "Intra Epitech",
+            "color" : "0xffb74093",
+            "logo": 'http://' + settings.MY_IP + 'static/intra.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[1], user_id=user_id).enable,
+            "sync": True if Intra.object.get(user_id=user_id).token else False
+        },
+        {
+            "service": "Slack",
+            "color" : "0xffb74093",
+            "logo": 'http://' + settings.MY_IP + 'static/slack.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[2], user_id=user_id).enable,
+            "sync": True if Slack.object.get(user_id=user_id).token else False
+        },
+        {
+            "service": "Currency",
+            "color" : "0xffb74093",
+            "logo": 'http://' + settings.MY_IP + 'static/bitcoin.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[3], user_id=user_id).enable,
+            "sync": True if Currency.object.get(user_id=user_id).token else False
+        },
+        {
+            "service": "Weather",
+            "color" : "0xffb74093",
+            "logo": 'http://' + settings.MY_IP + 'static/weather.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[4], user_id=user_id).enable,
+            "sync": True if Weather.object.get(user_id=user_id).token else False
+        },
+        {
+            "service": "Google Mail",
+            "color" : "0xffb74093",
+            "logo": 'http://' + settings.MY_IP + 'static/googlemail.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[5], user_id=user_id).enable,
+            "sync": True if Google.object.get(user_id=user_id).token else False
+        },
+    ]
+    return JsonResponse(response)
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def activate_service(request, service):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    Service.objects.filter(name=service, user_id=user_id).update(enable=True)
+    return HttpResponse("Ok")
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def desactivate_service(request, service):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    Service.objects.filter(name=service, user_id=user_id).update(enable=False)
+    Applet.objects.filter(user_id=user_id, action_service=service).update(enable=False)
+    return HttpResponse("Ok")
 
 
 ## USERS ##
@@ -199,3 +282,78 @@ def update_user(request, user_id):
     except User.DoesNotExist:
         return Http404("User not found.")
     return HttpResponse('Ok')
+
+
+@csrf_exempt
+@require_http_methods(['GET'])
+def get_notif(request):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    result = []
+    for n in Notif.objects.filter(user_id=user_id, send=False):
+        result.append(n.message)
+        Notif.objects.filter(id=n.id).update(send=True)
+    return JsonResponse(result)
+
+
+#### ABOUT.JSON ####
+def get_about_json(request):
+
+    def get_client_ip(request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+
+    result = {
+        "client": {
+            "host": get_client_ip(request)
+        },
+        "server": {
+            "current_time": int(datetime.timestamp(datetime.now())),
+            "services": [{
+                "name": settings.SERVICE_NAME[0],
+                "actions": [{
+                    "name": util.applet_id_to_name(i),
+                    "description": util.applet_id_to_description(i)
+                } for i in settings.GITHUB_NUMBER]
+            },
+            {
+                "name": settings.SERVICE_NAME[1],
+                "actions": [{
+                    "name": util.applet_id_to_name(i),
+                    "description": util.applet_id_to_description(i)
+                } for i in settings.INTRA_NUMBER]
+            },
+            {
+                "name": settings.SERVICE_NAME[2],
+                "actions": [{
+                    "name": util.applet_id_to_name(i),
+                    "description": util.applet_id_to_description(i)
+                } for i in settings.SLACK_NUMBER]
+            },
+            {
+                "name": settings.SERVICE_NAME[3],
+                "actions": [{
+                    "name": util.applet_id_to_name(i),
+                    "description": util.applet_id_to_description(i)
+                } for i in settings.CURRENCY_NUMBER]
+            },
+            {
+                "name": settings.SERVICE_NAME[4],
+                "actions": [{
+                    "name": util.applet_id_to_name(i),
+                    "description": util.applet_id_to_description(i)
+                } for i in settings.WEATHER_NUMBER]
+            },
+            {
+                "name": settings.SERVICE_NAME[5],
+                "actions": [{
+                    "name": util.applet_id_to_name(i),
+                    "description": util.applet_id_to_description(i)
+                } for i in settings.GOOGLE_NUMBER]
+            }]
+        }
+    }
+    return JsonResponse(result)

@@ -13,13 +13,11 @@ import 'package:provider/provider.dart';
 
 class AppletCard extends StatefulWidget {
   const AppletCard(this.data,
-      {Key key, this.onPressed, this.color, this.splashColor})
+      {Key key, this.onPressed})
       : super(key: key);
 
-  final Color color;
   final Applet data;
   final Function onPressed;
-  final Color splashColor;
 
   @override
   _AppletCardState createState() => _AppletCardState();
@@ -52,20 +50,27 @@ class _AppletCardState extends State<AppletCard> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                SizedBox(height: 10),
-                AreaText(
+                SizedBox(height: 20),
+                Expanded(
+                  child: AreaText(
                     (this.widget.data.title == null)
                         ? ""
                         : this.widget.data.title,
                     fontWeight: FontWeight.w500,
-                    fontSize: 18),
-                AreaText(
-                    (this.widget.data.description == null)
+                    fontSize: 18
+                  ),
+                ),
+                SizedBox(height: 20),
+                Expanded(
+                  child: AreaText(
+                    (this.widget.data.action.service == null)
                         ? ""
-                        : this.widget.data.description,
+                        : this.widget.data.action.service,
                     fontSize: 15,
-                    fontWeight: FontWeight.w500),
-                SizedBox(height: 10),
+                    fontWeight: FontWeight.w500
+                  ),
+                ),
+                SizedBox(height: 20),
                 Switch(
                     value: widget.data.enable,
                     onChanged: (newValue) async {

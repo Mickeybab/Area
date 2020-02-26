@@ -35,7 +35,10 @@ SECRET_KEY = 'gsay@k-dmi!6^s6gg5@p^cd5s!t6c33z-!vzv-!q_pys#8-k^7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '10.15.191.66',
+    'localhost'
+    ]
 
 
 # Application definition
@@ -144,11 +147,6 @@ FIREBASE_PATH = "area-a0d38-firebase-adminsdk-jw2de-59a95d0b6f.json"
 FIREBASE_CRED = firebase_admin.credentials.Certificate(FIREBASE_PATH)
 FIREBASE = firebase_admin.initialize_app(FIREBASE_CRED)
 
-## API ############
-
-INTRA_API = 'intra_api:9003'
-
-
 ## SERVICE NAME ###
 SERVICE_NAME = [
     'github',
@@ -160,7 +158,112 @@ SERVICE_NAME = [
     'notification',
 ]
 
-SERVICE_GIHUB = 'localhost:9004/'
 
+## API ############
+SERVICE_INTRA = 'http://intra_api:8080/'
+SERVICE_GITHUB = 'http://github_api:9000/'
+SERVICE_CURRENCY = 'http://currency_api:8080/'
+SERVICE_WEATHER = 'http://weather_api:8080/'
+
+CURRENCY_LIST = [
+    'EUR',
+    'USD',
+    'CAD',
+    'CHF',
+    'GBP',
+    'SEK',
+]
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+GITHUB_ACTION = [
+    'new commit'
+]
+
+SLACK_REACTION = [
+    'Slack Message'
+]
+
+GOOGLE_REACTION = [
+    'Google Mail'
+]
+
+NOTIFICATION_REACTION = [
+    'notification'
+]
+
+WEATHER_ACTION = [
+    'below a threshold',
+    'exceeds a threshold'
+]
+
+GOOGLE_ACTION = [
+    'receive email'
+]
+
+INTRA_ACTION = [
+    'mark below a limit',
+    'credit number that exceeds',
+    'gpa drop below',
+    'gpa exceeds'
+]
+
+CURRENCY_ACTION = [
+    'money drop',
+    'money up'
+]
+
+SLACK_ACTION = [
+    'receive notification'
+]
+
+GITHUB_NUMBER = [
+    0,
+    1,
+    2
+]
+
+WEATHER_NUMBER = [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+]
+
+GOOGLE_NUMBER = [
+    9,
+    10,
+    11
+]
+
+INTRA_NUMBER = [
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+]
+
+CURRENCY_NUMBER = [
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+]
+
+SLACK_NUMBER = [
+    30,
+    31,
+    32
+]

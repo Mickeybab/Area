@@ -29,3 +29,15 @@ class RService {
       _$RServiceFromJson(json);
   Map<String, dynamic> toJson() => _$RServiceToJson(this);
 }
+
+@JsonSerializable(explicitToJson: true)
+class Service {
+  final String service;
+  final String logo;
+  final String color;
+  Service({this.service, this.logo, this.color});
+
+  factory Service.fromJson(Map<String, dynamic> json) =>
+      _$ServiceFromJson(json);
+  Map<String, dynamic> toJson() => _$ServiceToJson(this);
+}

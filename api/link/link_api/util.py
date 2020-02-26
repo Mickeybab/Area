@@ -1,10 +1,11 @@
-from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Microsoft, User
+from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User, Notif, Service
 from firebase_admin import auth
 from django.shortcuts import get_object_or_404
 from link_api import settings
 import requests
 import urllib
 from sys import stderr
+import json
 
 
 def applet_id_to_name(id):
@@ -32,12 +33,12 @@ def applet_id_to_name(id):
             "Notifier une augmentation de gpa sur slack", # 21
             "Notifier une augmentation de gpa sur email", # 22
             "Notifier une augmentation de gpa sur notification", #23
-            "Notifier la baise du bitcoin sur slack", # 24
-            "Notifier la baise du bitcoin sur email", # 25
-            "Notifier la baise du bitcoin sur notification", #26
-            "Notifier l'augmentation du bitcoin sur slack", # 27
-            "Notifier l'augmentation du bitcoin sur email", # 28
-            "Notifier l'augmentation du bitcoin sur notification", #29
+            "Notifier la baise d'une monnaie en fonction de l'euro sur slack", # 24
+            "Notifier la baise d'une monnaie en fonction de l'euro sur email", # 25
+            "Notifier la baise d'une monnaie en fonction de l'euro sur notification", #26
+            "Notifier l'augmentation d'une monnaie en fonction de l'euro sur slack", # 27
+            "Notifier l'augmentation d'une monnaie en fonction de l'euro sur email", # 28
+            "Notifier l'augmentation d'une monnaie en fonction de l'euro sur notification", #29
             "Notifier une notification slack sur slack", # 30
             "Notifier une notification slack sur email", # 31
             "Notifier une notification slack sur notification", #32
@@ -69,12 +70,12 @@ def applet_id_to_description(id):
             "Envoyer un méssage sur slack lors que le GPA de l'intra epitech au dessus d'un seuil donné", # 21
             "Envoyer un email via google mail lors que le GPA de l'intra epitech au dessus d'un seuil donné", # 22
             "Envoyer une notification lors que le GPA de l'intra epitech au dessus d'un seuil donné", # 23
-            "Envoyer un méssage sur slack lors que le bitcoin passe en dessous d'un seuil donné", # 24
-            "Envoyer un email via google mail lors que le bitcoin passe en dessous d'un seuil donné", # 25
-            "Envoyer une notification lors que le bitcoin passe en dessous d'un seuil donné", # 26
-            "Envoyer un méssage sur slack lors que le bitcoin passe au dessus d'un seuil donné", # 27
-            "Envoyer un email via google mail lors que le bitcoin passe au dessus d'un seuil donné", # 28
-            "Envoyer une notification lors que le bitcoin passe au dessus d'un seuil donné", # 29
+            "Envoyer un méssage sur slack lors qu'une monnaie passe en dessous d'un seuil donné en fonction de l'euro", # 24
+            "Envoyer un email via google mail lors qu'une monnaie passe en dessous d'un seuil donné en fonction de l'euro", # 25
+            "Envoyer une notification lors qu'une monnaie passe en dessous d'un seuil donné en fonction de l'euro", # 26
+            "Envoyer un méssage sur slack lors qu'une monnaie passe au dessus d'un seuil donné en fonction de l'euro", # 27
+            "Envoyer un email via google mail lors qu'une monnaie passe au dessus d'un seuil donné en fonction de l'euro", # 28
+            "Envoyer une notification lors qu'une monnaie passe au dessus d'un seuil donné en fonction de l'euro", # 29
             "Envoyer un méssage sur slack lors de la reception d'une nouvelle notification slack", # 30
             "Envoyer un email via google mail lors de la reception d'une nouvelle notification slack", # 31
             "Envoyer une notification lors de la reception d'une nouvelle notification slack", # 32
@@ -126,27 +127,21 @@ def firebase_get_user_id(token):
     return uid
 
 
-def firebase_get_token_id(token, service):
-    decoded_token = auth.verify_id_token(token.split(' ')[1])
-    print(decoded_token)
-    return decoded_token[service]
-
-
 def create_user(user_id):
     print("Create new user {}".format(user_id))
     User(user_id=user_id).save()
 
     #### Github New Commit ####
     ## Slack
-    Applet(id_applet=0, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[0], action='new commit', action_logo=settings.MY_IP + 'static/github.png',
-        reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    Applet(id_applet=0, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[0], action=settings.GITHUB_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/github.png',
+        reaction_service=settings.SERVICE_NAME[2], reaction=settings.SLACK_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Owner Name", type=True, side=True, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=0).get().id).save()
     ParamApplet(name="Repository Name", type=True, side=True, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=0).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Nouveau commit sur ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=0).get().id).save()
 
     ## Exchange
-    Applet(id_applet=1, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[0], action='new commit', action_logo=settings.MY_IP + 'static/github.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
+    Applet(id_applet=1, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[0], action=settings.GITHUB_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/github.png',
+        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/googlemail.png').save()
     ParamApplet(name="Owner Name", type=True, side=True, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=1).get().id).save()
     ParamApplet(name="Repository Name", type=True, side=True, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=1).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=1).get().id).save()
@@ -154,8 +149,8 @@ def create_user(user_id):
     ParamApplet(name="Message", type=True, side=False, value="Nouveau commit sur ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=1).get().id).save()
 
     ## Notify
-    Applet(id_applet=2, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[0], action='new commit', action_logo=settings.MY_IP + 'static/github.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    Applet(id_applet=2, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[0], action=settings.GITHUB_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/github.png',
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Owner Name", type=True, side=True, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=2).get().id).save()
     ParamApplet(name="Repository Name", type=True, side=True, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=2).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Nouveau commit sur ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=2).get().id).save()
@@ -163,263 +158,361 @@ def create_user(user_id):
 
     #### The temperature exceeds a threshold ####
     ## Slack
-    Applet(id_applet=3, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='exceeds a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
-        reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    Applet(id_applet=3, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action=settings.WEATHER_ACTION[1], action_logo='http://' + settings.MY_IP + 'static/weather.png',
+        reaction_service=settings.SERVICE_NAME[2], reaction=settings.SLACK_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=3).get().id).save()
+    ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=3).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température dépasse ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=3).get().id).save()
 
     ## Exchange
-    Applet(id_applet=4, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='exceeds a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
-        reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
+    Applet(id_applet=4, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action=settings.WEATHER_ACTION[1], action_logo='http://' + settings.MY_IP + 'static/weather.png',
+        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/googlemail.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
+    ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Température", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température dépasse ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
 
     ## Notify
-    Applet(id_applet=5, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='exceeds a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
-        reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    Applet(id_applet=5, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action=settings.WEATHER_ACTION[1], action_logo='http://' + settings.MY_IP + 'static/weather.png',
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=5).get().id).save()
+    ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=5).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température dépasse ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=5).get().id).save()
 
-    
+
     #### The temperature is below a threshold ####
     ## Slack
-    Applet(id_applet=6, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='below a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
-        reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    Applet(id_applet=6, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action=settings.WEATHER_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/weather.png',
+        reaction_service=settings.SERVICE_NAME[2], reaction=settings.SLACK_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=6).get().id).save()
+    ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=6).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température est en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=6).get().id).save()
 
     ## Exchange
-    Applet(id_applet=7, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='below a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
-        reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
+    Applet(id_applet=7, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action=settings.WEATHER_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/weather.png',
+        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/googlemail.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=7).get().id).save()
+    ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=7).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=7).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Température", applet_id=Applet.objects.filter(user_id=user_id, id_applet=7).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température est en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=7).get().id).save()
 
     ## Notify
-    Applet(id_applet=8, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action='below a threshold', action_logo=settings.MY_IP + 'static/weather.jpg',
-        reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    Applet(id_applet=8, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action=settings.WEATHER_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/weather.png',
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=8).get().id).save()
+    ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=8).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température est en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=8).get().id).save()
 
 
     #### Receive an email ####
     ## Slack
-    Applet(id_applet=9, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[5], action='receive email', action_logo=settings.MY_IP + 'static/googlemail.png',
-        reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    Applet(id_applet=9, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[5], action=settings.GOOGLE_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/googlemail.png',
+        reaction_service=settings.SERVICE_NAME[2], reaction=settings.SLACK_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Message", type=True, side=False, value="Vous avez reçu un email", applet_id=Applet.objects.filter(user_id=user_id, id_applet=9).get().id).save()
 
     ## Exchange
-    Applet(id_applet=10, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[5], action='receive email', action_logo=settings.MY_IP + 'static/googlemail.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
+    Applet(id_applet=10, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[5], action=settings.GOOGLE_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/googlemail.png',
+        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/googlemail.png').save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=10).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Reception d'email", applet_id=Applet.objects.filter(user_id=user_id, id_applet=10).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Vous avez reçu un email", applet_id=Applet.objects.filter(user_id=user_id, id_applet=10).get().id).save()
 
     ## Notify
-    Applet(id_applet=11, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[5], action='receive email', action_logo=settings.MY_IP + 'static/googlemail.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    Applet(id_applet=11, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[5], action=settings.GOOGLE_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/googlemail.png',
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Message", type=True, side=False, value="Vous avez reçu un email", applet_id=Applet.objects.filter(user_id=user_id, id_applet=11).get().id).save()
 
 
     #### Report a mark below a limit ####
     ## Slack
-    Applet(id_applet=12, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='mark below a limit', action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    Applet(id_applet=12, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/intra.png',
+        reaction_service=settings.SERVICE_NAME[2], reaction=settings.SLACK_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Limit", type=False, side=True, value='10', applet_id=Applet.objects.filter(user_id=user_id, id_applet=12).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Une note a était ajouté en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=12).get().id).save()
 
     ## Exchange
-    Applet(id_applet=13, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='mark below a limit', action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
+    Applet(id_applet=13, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/intra.png',
+        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/googlemail.png').save()
+    ParamApplet(name="Limit", type=False, side=True, value='10', applet_id=Applet.objects.filter(user_id=user_id, id_applet=13).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=13).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Une note a etait ajouté", applet_id=Applet.objects.filter(user_id=user_id, id_applet=13).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Une note a était ajouté en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=13).get().id).save()
 
     ## Notify
-    Applet(id_applet=14, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='mark below a limit', action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    Applet(id_applet=14, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/intra.png',
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Limit", type=False, side=True, value='10', applet_id=Applet.objects.filter(user_id=user_id, id_applet=14).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Une note a était ajouté en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=14).get().id).save()
 
 
     #### Report a credit number that exceeds a target ####
     ## Slack
-    Applet(id_applet=15, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='credit number that exceeds', action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    Applet(id_applet=15, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[1], action_logo='http://' + settings.MY_IP + 'static/intra.png',
+        reaction_service=settings.SERVICE_NAME[2], reaction=settings.SLACK_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Limit", type=False, side=True, value='120', applet_id=Applet.objects.filter(user_id=user_id, id_applet=15).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Un crédit à était ajouté au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=15).get().id).save()
 
     ## Exchange
-    Applet(id_applet=16, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='credit number that exceeds', action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
+    Applet(id_applet=16, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[1], action_logo='http://' + settings.MY_IP + 'static/intra.png',
+        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/googlemail.png').save()
+    ParamApplet(name="Limit", type=False, side=True, value='120', applet_id=Applet.objects.filter(user_id=user_id, id_applet=16).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=16).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Nouveau crédit", applet_id=Applet.objects.filter(user_id=user_id, id_applet=16).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Un crédit à était ajouté au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=16).get().id).save()
 
     ## Notify
-    Applet(id_applet=17, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='credit number that exceeds', action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    Applet(id_applet=17, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[1], action_logo='http://' + settings.MY_IP + 'static/intra.png',
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Limit", type=False, side=True, value='120', applet_id=Applet.objects.filter(user_id=user_id, id_applet=17).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Un crédit à était ajouté au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=17).get().id).save()
 
 
     #### The GPA drops below a threshold ####
     ## Slack
-    Applet(id_applet=18, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='gpa drop below', action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
-    ParamApplet(name="GPA", type=False, side=True, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=18).get().id).save()
+    Applet(id_applet=18, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[2], action_logo='http://' + settings.MY_IP + 'static/intra.png',
+        reaction_service=settings.SERVICE_NAME[2], reaction=settings.SLACK_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Limit", type=False, side=True, value='2', applet_id=Applet.objects.filter(user_id=user_id, id_applet=18).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=18).get().id).save()
 
     ## Exchange
-    Applet(id_applet=19, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='gpa drop below', action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
-    ParamApplet(name="GPA", type=False, side=True, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=19).get().id).save()
+    Applet(id_applet=19, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[2], action_logo='http://' + settings.MY_IP + 'static/intra.png',
+        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/googlemail.png').save()
+    ParamApplet(name="Limit", type=False, side=True, value='2', applet_id=Applet.objects.filter(user_id=user_id, id_applet=19).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=19).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Nouveau GPA", applet_id=Applet.objects.filter(user_id=user_id, id_applet=19).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=19).get().id).save()
 
     ## Notify
-    Applet(id_applet=20, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='gpa drop below', action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
-    ParamApplet(name="GPA", type=False, side=True, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=20).get().id).save()
+    Applet(id_applet=20, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[2], action_logo='http://' + settings.MY_IP + 'static/intra.png',
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Limit", type=False, side=True, value='2', applet_id=Applet.objects.filter(user_id=user_id, id_applet=20).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=20).get().id).save()
 
 
     #### The GPA exceeds a threshold ####
     ## Slack
-    Applet(id_applet=21, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='gpa exceeds', action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
-    ParamApplet(name="GPA", type=False, side=True, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=21).get().id).save()
+    Applet(id_applet=21, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[3], action_logo='http://' + settings.MY_IP + 'static/intra.png',
+        reaction_service=settings.SERVICE_NAME[2], reaction=settings.SLACK_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Limit", type=False, side=True, value='3', applet_id=Applet.objects.filter(user_id=user_id, id_applet=21).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=21).get().id).save()
 
     ## Exchange
-    Applet(id_applet=22, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='gpa exceeds', action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
-    ParamApplet(name="GPA", type=False, side=True, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=22).get().id).save()
+    Applet(id_applet=22, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[3], action_logo='http://' + settings.MY_IP + 'static/intra.png',
+        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/googlemail.png').save()
+    ParamApplet(name="Limit", type=False, side=True, value='3', applet_id=Applet.objects.filter(user_id=user_id, id_applet=22).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=22).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Nouveau GPA", applet_id=Applet.objects.filter(user_id=user_id, id_applet=22).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=22).get().id).save()
 
     ## Notify
-    Applet(id_applet=23, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action='gpa exceeds', action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
-    ParamApplet(name="GPA", type=False, side=True, value="2", applet_id=Applet.objects.filter(user_id=user_id, id_applet=23).get().id).save()
+    Applet(id_applet=23, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[3], action_logo='http://' + settings.MY_IP + 'static/intra.png',
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Limit", type=False, side=True, value='3', applet_id=Applet.objects.filter(user_id=user_id, id_applet=23).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=23).get().id).save()
 
 
     #### The value of a currency drops below a threshold ####
     ## Slack
-    Applet(id_applet=24, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='bitcoin drop', action_logo=settings.MY_IP + 'static/bitcoin.png',
-        reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
-    ParamApplet(name="Bitcoin value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=24).get().id).save()
-    ParamApplet(name="Message", type=True, side=False, value="La bitcoin est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=24).get().id).save()
+    Applet(id_applet=24, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action=settings.CURRENCY_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
+        reaction_service=settings.SERVICE_NAME[2], reaction=settings.SLACK_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Currency", type=True, side=True, value="USD", applet_id=Applet.objects.filter(user_id=user_id, id_applet=24).get().id).save()
+    ParamApplet(name="Value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=24).get().id).save()
+    ParamApplet(name="Message", type=True, side=False, value="La money ... est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=24).get().id).save()
 
     ## Exchange
-    Applet(id_applet=25, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='bitcoin drop', action_logo=settings.MY_IP + 'static/bitcoin.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
-    ParamApplet(name="Bitcoin value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
+    Applet(id_applet=25, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action=settings.CURRENCY_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
+        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/googlemail.png').save()
+    ParamApplet(name="Currency", type=True, side=True, value="USD", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
+    ParamApplet(name="Value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Bitcoin changement de valeur", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
-    ParamApplet(name="Message", type=True, side=False, value="La bitcoin est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
+    ParamApplet(name="Message", type=True, side=False, value="La money ... est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
 
     ## Notify
-    Applet(id_applet=26, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='bitcoin drop', action_logo=settings.MY_IP + 'static/bitcoin.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
-    ParamApplet(name="Bitcoin value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=26).get().id).save()
-    ParamApplet(name="Message", type=True, side=False, value="La bitcoin est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=26).get().id).save()
+    Applet(id_applet=26, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action=settings.CURRENCY_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Currency", type=True, side=True, value="USD", applet_id=Applet.objects.filter(user_id=user_id, id_applet=26).get().id).save()
+    ParamApplet(name="Value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=26).get().id).save()
+    ParamApplet(name="Message", type=True, side=False, value="La money ... est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=26).get().id).save()
 
 
     #### The value of a currency exceeds a threshold ####
     ## Slack
-    Applet(id_applet=27, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='bitcoin up', action_logo=settings.MY_IP + 'static/bitcoin.png',
-        reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
-    ParamApplet(name="Bitcoin value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=27).get().id).save()
-    ParamApplet(name="Message", type=True, side=False, value="La bitcoin est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=27).get().id).save()
+    Applet(id_applet=27, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action=settings.CURRENCY_ACTION[1], action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
+        reaction_service=settings.SERVICE_NAME[2], reaction=settings.SLACK_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Currency", type=True, side=True, value="USD", applet_id=Applet.objects.filter(user_id=user_id, id_applet=27).get().id).save()
+    ParamApplet(name="Value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=27).get().id).save()
+    ParamApplet(name="Message", type=True, side=False, value="La money ... est passé au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=27).get().id).save()
 
     ## Exchange
-    Applet(id_applet=28, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='bitcoin up', action_logo=settings.MY_IP + 'static/bitcoin.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
-    ParamApplet(name="Bitcoin value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
+    Applet(id_applet=28, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action=settings.CURRENCY_ACTION[1], action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
+        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/googlemail.png').save()
+    ParamApplet(name="Currency", type=True, side=True, value="USD", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
+    ParamApplet(name="Value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Bitcoin changement de valeur", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
-    ParamApplet(name="Message", type=True, side=False, value="La bitcoin est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
+    ParamApplet(name="Message", type=True, side=False, value="La money ... est passé au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
 
     ## Notify
-    Applet(id_applet=29, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action='bitcoin up', action_logo=settings.MY_IP + 'static/bitcoin.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
-    ParamApplet(name="Bitcoin value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=29).get().id).save()
-    ParamApplet(name="Message", type=True, side=False, value="La bitcoin est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=29).get().id).save()
+    Applet(id_applet=29, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action=settings.CURRENCY_ACTION[1], action_logo='http://' + settings.MY_IP + 'static/bitcoin.png',
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
+    ParamApplet(name="Currency", type=True, side=True, value="USD", applet_id=Applet.objects.filter(user_id=user_id, id_applet=29).get().id).save()
+    ParamApplet(name="Value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=29).get().id).save()
+    ParamApplet(name="Message", type=True, side=False, value="La money ... est passé au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=29).get().id).save()
 
 
     #### Receive a slack notification ####
     ## Slack
-    Applet(id_applet=30, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[2], action='receive notification', action_logo=settings.MY_IP + 'static/slack.png',
-        reaction_service=settings.SERVICE_NAME[2], reaction='Slack Message', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    Applet(id_applet=30, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[2], action=settings.SLACK_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/slack.png',
+        reaction_service=settings.SERVICE_NAME[2], reaction=settings.SLACK_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=30).get().id).save()
 
     ## Exchange
-    Applet(id_applet=31, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[2], action='receive notification', action_logo=settings.MY_IP + 'static/slack.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction='Google Mail', reaction_logo=settings.MY_IP + 'static/googlemail.png').save()
+    Applet(id_applet=31, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[2], action=settings.SLACK_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/slack.png',
+        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/googlemail.png').save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=31).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Nouveau GPA", applet_id=Applet.objects.filter(user_id=user_id, id_applet=31).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=31).get().id).save()
 
     ## Notify
-    Applet(id_applet=32, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[2], action='receive notification', action_logo=settings.MY_IP + 'static/slack.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction='Notification', reaction_logo=settings.MY_IP + 'static/slack.png').save()
+    Applet(id_applet=32, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[2], action=settings.SLACK_ACTION[0], action_logo='http://' + settings.MY_IP + 'static/slack.png',
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo='http://' + settings.MY_IP + 'static/slack.png').save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=32).get().id).save()
 
 
     Github(user_id=user_id).save()
     Intra(user_id=user_id).save()
     Slack(user_id=user_id).save()
-    Microsoft(user_id=user_id).save()
+    Google(user_id=user_id).save()
+
+    Service(user_id=user_id, name=settings.SERVICE_NAME[0]).save()
+    Service(user_id=user_id, name=settings.SERVICE_NAME[1]).save()
+    Service(user_id=user_id, name=settings.SERVICE_NAME[2]).save()
+    Service(user_id=user_id, name=settings.SERVICE_NAME[3]).save()
+    Service(user_id=user_id, name=settings.SERVICE_NAME[4]).save()
+    Service(user_id=user_id, name=settings.SERVICE_NAME[5]).save()
 
 
 def request_create(user_id, url):
-    hed = {'Authorization': 'Bearer ' + user_id}
+    hed = {'Authorization': user_id}
     response = requests.get(url, headers=hed)
     return response
 
 
 ######## ACTION ########
 def verify_github(app):
-    if app.action == 'new commit':
+    if app.action == settings.GITHUB_ACTION[0]:
         print("Start test Github", file=stderr)
-        token = firebase_get_token_id(app.user_id, 'github')
-        owner = 'a'
-        repo = 'a'
-        r = request_create(app.user_id, SERVICE_GITHUB + 'v1/github/' + owner + '/' + repo + '/last/commit')
+        token = Github.objects.get(user_id=app.user_id).token
+        if not token:
+            return False
+        owner = ParamApplet.objects.filter(applet_id=app.id, name='Owner Name', side=True).get().value
+        repo = ParamApplet.objects.filter(applet_id=app.id, name='Repository Name', side=True).get().value
+        if owner == '' or repo == '':
+            return False
+        r = request_create(token, settings.SERVICE_GITHUB + 'v1/github/' + owner + '/' + repo + '/last/commit')
+        j = json.loads(r.text)
+        if j['data']['commits'][0]['date'] != app.data:
+            Applet.objects.filter(id=app.id).update(data=j['data']['commits'][0]['date'])
+            return True
     return False
 
 
 def verify_intra(app):
-    a
+    limit = ParamApplet.objects.filter(applet_id=app.id, side=True, name="Limit").get().value
+    token = Intra.objects.get(user_id=app.user_id).token
+    if token == None:
+        return False
+    if app.action == settings.INTRA_ACTION[0]:
+        print('Start verif mark below a limit', file=stderr)
+        r = request_create(token, settings.SERVICE_INTRA + 'v1/intra/marks')
+        j = json.loads(r.text)
+        if len(j['data']) > 0 and j['data'][0]['title_link'] != app.data:
+            Applet.objects.filter(id=app.id).update(data=j['data'][0]['title_link'])
+            return True
+    elif app.action == settings.INTRA_ACTION[1]:
+        print('Start verif credit number that exceeds', file=stderr)
+        r = request_create(token, settings.SERVICE_INTRA + 'v1/intra/grade/bachelor')
+        j = json.loads(r.text)
+        if float(j['data']['credits']) > float(limit):
+            ParamApplet.objects.filter(applet_id=app.id, name="Limit").update(value=j['data']['credits'])
+            return True
+    elif app.action == settings.INTRA_ACTION[2]:
+        print('Start verif gpa drop below', file=stderr)
+        r = request_create(token, settings.SERVICE_INTRA + 'v1/intra/grade/bachelor')
+        j = json.loads(r.text)
+        if float(j['data']['gpa']) < float(limit):
+            ParamApplet.objects.filter(applet_id=app.id, name='Limit').update(value=j['data']['gpa'])
+            return True
+    elif app.action == action.INTRA_ACTION[3]:
+        print('Start verif gpa exceeds', file=stderr)
+        r = request_create(token, settings.SERVICE_INTRA + 'v1/intra/grade/bachelor')
+        j = json.loads(r.text)
+        if float(j['data']['gpa']) > float(limit):
+            ParamApplet.objects.filter(applet_id=app.id, name='Limit').update(value=j['data']['gpa'])
+            return True
+    return False
 
 
 def verify_slack(app):
-    a
+    app = app
 
 
 def verify_currency(app):
-    a
+    currency = ParamApplet.objects.get(applet_id=app.id, side=True, name='Currency').value
+    ref = ParamApplet.objects.get(applet_id=app.id, side=True, name='Value').value
+    r = request_create('', settings.SERVICE_CURRENCY + 'v1/currency/convert?from=EUR&to=' + currency)
+    j = json.loads(r.text)
+    if app.action == settings.CURRENCY_ACTION[1]:
+        print("Sart test money up")
+        if float(j['data']['rates'][currency]) > float(ref):
+            ParamApplet.objects.filter(applet_id=app.id, side=True, name='Value').update(value=j['data']['rates'][currency])
+            return True
+    elif app.action == settings.CURRENCY_ACTION[0]:
+        print("Sart test money drop")
+        if float(j['data']['rates'][currency]) < float(ref):
+            ParamApplet.objects.filter(applet_id=app.id, side=True, name='Value').update(value=j['data']['rates'][currency])
+            return True
+    return False
 
 
 def verify_weather(app):
-    a
+    temperature = ParamApplet.objects.get(applet_id=app.id, name='Temperature').value
+    city = ParamApplet.objects.get(applet_id=app.id, name='City').value
+    r = request_create('', settings.SERVICE_WEATHER + 'v1/weather/city?city=' + str(city))
+    j = json.loads(r.text)
+    if app.action == settings.WEATHER_ACTION[1]:
+        print("Start test Weather exceeds")
+        if float(j['data']['temp']) > float(temperature) and not app.data:
+            Applet.objects.filter(id=app.id).update(data=j['data']['temp'])
+            return True
+        elif app.data and float(j['data']['temp']) < float(temperature):
+            Applet.objects.filter(id=app.id).update(data=None)
+    elif app.action == settings.WEATHER_ACTION[0]:
+        print("Start test Weather below")
+        if float(j['data']['temp']) < float(temperature) and not app.data:
+            Applet.objects.filter(id=app.id).update(data=j['data']['temp'])
+            return True
+        elif app.data and float(j['data']['temp']) > float(temperature):
+            Applet.objects.filter(id=app.id).update(data=None)
+    return False
 
 
 def verify_googlemail(app):
-    a
+    app = app
 
 
 ######## REACTION ######
-def reaction_slack():
-    a
+def reaction_slack(app):
+    print("REACTION SLACK !!!", file=stderr)
 
 
-def reaction_email():
-    a
+def reaction_email(app):
+    print("REACTION EMAIL !!!", file=stderr)
 
 
-def reaction_notify():
-    a
+def reaction_notify(app):
+    print("REACTION NOTIF !!!", file=stderr)
+    Notif(user_id=app.user_id, message=ParamApplet.objects.get(applet_id=app.id, side=False, name='Message').value).save()

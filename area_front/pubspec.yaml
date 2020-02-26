@@ -24,6 +24,7 @@ dependencies:
   firebase_core: ^0.4.3+2
   provider: ^4.0.2
   global_configuration: ^1.4.0
+  lite_rolling_switch: ^0.1.1
 
   # Authentification
   firebase_auth: ^0.15.4

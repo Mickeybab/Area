@@ -1,15 +1,6 @@
 version: "3"
 
 services:
-  server:
-    build: 
-      context: ./api/server
-      dockerfile: Dockerfile
-    environment:
-      DEV_ENV: "TRUE"
-    ports:
-      - 8080:8080
-
   link_api:
     build: 
       context: ./api/link
@@ -26,7 +17,7 @@ services:
     depends_on:
       - db
     ports:
-      - 9000:9000
+      - 8080:9000
     restart: always
 
   start_service_api:
@@ -47,23 +38,12 @@ services:
     command: "sh ./start_service_api.sh"
     restart: always
 
-  news_api:
-    build: 
-      context: ./api/news
-      dockerfile: Dockerfile
-    environment:
-      DEV_ENV: "TRUE"
-    ports:
-      - 9002:5000
-
   intra_api:
     build: 
       context: ./api/intra
       dockerfile: Dockerfile
     environment:
       DEV_ENV: "TRUE"
-    ports:
-      - 9003:8080
     restart: always
 
   github_api:
@@ -73,8 +53,6 @@ services:
     environment:
       DEV_ENV: "TRUE"
       PORT: 9000
-    ports:
-      - 9004:9000
     restart: always
 
   currency_api:
@@ -83,9 +61,25 @@ services:
       dockerfile: Dockerfile
     environment:
       DEV_ENV: "TRUE"
-    ports:
-      - 9005:8080
     restart: always
+  
+  weather_api:
+   build: 
+     context: ./api/weather
+     dockerfile: Dockerfile
+   environment:
+     DEV_ENV: "TRUE"
+   restart: always
+
+  #email_backup_api:
+  #  build: 
+  #    context: ./api/email-back-up
+  #    dockerfile: Dockerfile
+  #  environment:
+  #    DEV_ENV: "TRUE"
+  #  ports:
+  #    - 9007:8080
+  #  restart: always
 
   db:
     image: mysql:5.7
@@ -119,4 +113,4 @@ services:
       context: ./area_front
       dockerfile: Dockerfile
     ports:
-      - 80:80
+      - 8081:80

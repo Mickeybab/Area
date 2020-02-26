@@ -32,9 +32,63 @@
 - Emails
 - Messages
 
+## Admin Panel
+For manage AREA Users and Admin Users
+
+Default Admin user: `admin`
+
+Default Admin password: `admin`
+
+`AUTHENTICATION AND AUTHORIZATION` Is for Admin Users
+
+`LINK_API` Is for Area Users
+
 ## Requests
 
-### Get all the activated applets
+### Get all the services
+
+Method: **`GET`**
+
+URL: `API_URL/services`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
+```json
+[
+  {
+    "service": "Github",
+    "color" : "0xffb74093",
+    "logo": "path",
+    "enable": false,
+    "sync": true,
+  },
+  ...
+]
+```
+
+### Activate a service
+
+Method: **`POST`**
+
+URL: `API_URL/services/${serviceName}/activate`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
+### Desactivate a service
+
+Method: **`POST`**
+
+URL: `API_URL/services/${serviceName}/desactivate`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
+### Get all the applets
 
 Method: **`GET`**
 
@@ -268,6 +322,55 @@ For the refresh token:
 - `""` where there are no refresh-token
 - otherwise the `token`
 
+### Get applets by service
+
+Method: **`GET`**
+
+URL: `API_URL/applets/${Service}`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
+```json
+[
+  {
+    "id": "ID",
+    "title": "Follow My Progression",
+    "description": "Get a message when the GPA ...",
+    "color" : "0xffb74093",
+    "enable": false,
+    "action": {
+      "service": "intranet",
+      "logo": "path",
+      "action": "get the GPA",
+      "param": [
+        {
+          "name": "parameter name",
+          "type": "string/int",
+          "value": "",
+        },
+        ...
+      ],
+    },
+    "reaction": {
+      "service": "slack",
+      "logo": "path",
+      "reaction": "message",
+      "param": [
+        {
+          "name": "parameter name",
+          "type": "string/int",
+          "value": "",
+        },
+        ...
+      ]
+    },
+  }
+  ...
+]
+```
+
 ### Get applet by action
 
 Method: **`GET`**
@@ -391,4 +494,23 @@ URL: `API_URL/users/{user_id}`
   "name": "a",
   "last_name": "b",
 }
+```
+
+Methode: **`GET`**
+
+URL: `API_URL/notif`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
+```json
+[{
+  "message": "salut le boss"
+},
+{
+  "message": "autre notif"
+},
+...
+]
 ```
