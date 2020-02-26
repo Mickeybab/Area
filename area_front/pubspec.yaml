@@ -28,6 +28,7 @@ dependencies:
   # Used for Notifications
   flutter_local_notifications: ^1.2.0+3
   rxdart: ^0.23.1
+  js: ^0.6.0
 
   # Authentification
   firebase_auth: ^0.15.4

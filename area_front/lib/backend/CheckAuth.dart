@@ -1,11 +1,13 @@
 //Core
 import 'package:area_front/Notification.dart';
 import 'package:area_front/backend/Backend.dart';
+import 'package:area_front/backend/Notification.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 
+// Used for Notifications
 import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -51,21 +53,25 @@ class _NotificationsState extends State<Notifications> {
       final user = Provider.of<FirebaseUser>(context, listen: false);
       if (user != null) {
         final notif = await Request.notif(user);
-        if (!kIsWeb && notif.length != 0) {
+        if (notif.length != 0) {
           notif.forEach((element) async {
-          var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-              'your channel id',
-              'your channel name',
-              'your channel description',
-              importance: Importance.Max,
-              priority: Priority.High,
-              ticker: 'ticker');
-          var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-          var platformChannelSpecifics = NotificationDetails(
-              androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-          await flutterLocalNotificationsPlugin.show(
-              0, 'AREA', element, platformChannelSpecifics,
-              payload: 'item x');
+            if (!kIsWeb) {
+              var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+                  'your channel id',
+                  'your channel name',
+                  'your channel description',
+                  importance: Importance.Max,
+                  priority: Priority.High,
+                  ticker: 'ticker');
+              var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+              var platformChannelSpecifics = NotificationDetails(
+                  androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+              await flutterLocalNotificationsPlugin.show(
+                  0, 'AREA', element, platformChannelSpecifics,
+                  payload: 'item x');
+            } else {
+              sendNotification(element);
+            }
           });
         }
       }
