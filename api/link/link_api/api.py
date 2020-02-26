@@ -224,6 +224,7 @@ def search_applets(request):
 @csrf_exempt
 @require_http_methods(['GET'])
 def get_applets_by_services(request, service):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
     return JsonResponse([applet_to_json(a) for a in Applet.objects.filter(user_id=user_id, action=service)])
 
 
@@ -255,7 +256,7 @@ def get_services(request):
 @require_http_methods(['GET'])
 def get_one_service(request, service):
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
-    response = service_to_json(settings.SERVICE_NAME.index(service, user_id))
+    response = service_to_json(settings.SERVICE_NAME.index(service), user_id)
     return JsonResponse(response)
 
 
