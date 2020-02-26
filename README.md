@@ -68,6 +68,26 @@ URL: `API_URL/services`
 ]
 ```
 
+### Get a service
+
+Method: **`GET`**
+
+URL: `API_URL/services/${serviceName}`
+
+```data
+  "user_id=qnfkjsqnkndfsjnkjq"
+```
+
+```json
+{
+  "service": "Github",
+  "color" : "0xffb74093",
+  "logo": "path",
+  "enable": false,
+  "sync": true,
+}
+```
+
 ### Activate a service
 
 Method: **`POST`**
