@@ -60,6 +60,53 @@ def request_to_json(request):
     return json.loads(request.body.decode())
 
 
+def service_to_json(id, user_id):
+    return [
+        {
+            "service": "Github",
+            "color" : "0xffb74093",
+            "logo": 'http://' + settings.MY_IP + 'static/github.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[0], user_id=user_id).enable,
+            "sync": True if Github.objects.get(user_id=user_id).token else False
+        },
+        {
+            "service": "Intra Epitech",
+            "color" : "0xffb74093",
+            "logo": 'http://' + settings.MY_IP + 'static/intra.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[1], user_id=user_id).enable,
+            "sync": True if Intra.objects.get(user_id=user_id).token else False
+        },
+        {
+            "service": "Slack",
+            "color" : "0xffb74093",
+            "logo": 'http://' + settings.MY_IP + 'static/slack.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[2], user_id=user_id).enable,
+            "sync": True if Slack.objects.get(user_id=user_id).token else False
+        },
+        {
+            "service": "Currency",
+            "color" : "0xffb74093",
+            "logo": 'http://' + settings.MY_IP + 'static/bitcoin.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[3], user_id=user_id).enable,
+            "sync": True
+        },
+        {
+            "service": "Weather",
+            "color" : "0xffb74093",
+            "logo": 'http://' + settings.MY_IP + 'static/weather.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[4], user_id=user_id).enable,
+            "sync": True
+        },
+        {
+            "service": "Google Mail",
+            "color" : "0xffb74093",
+            "logo": 'http://' + settings.MY_IP + 'static/googlemail.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[5], user_id=user_id).enable,
+            "sync": True if Google.objects.get(user_id=user_id).token else False
+        },
+    ][id]
+
+
 ##### APPLET #####
 @csrf_exempt
 @require_http_methods(['GET'])
@@ -200,50 +247,15 @@ def sync_token(request, service):
 @require_http_methods(['GET'])
 def get_services(request):
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
-    response = [
-        {
-            "service": "Github",
-            "color" : "0xffb74093",
-            "logo": 'http://' + settings.MY_IP + 'static/github.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[0], user_id=user_id).enable,
-            "sync": True if Github.objects.get(user_id=user_id).token else False
-        },
-        {
-            "service": "Intra Epitech",
-            "color" : "0xffb74093",
-            "logo": 'http://' + settings.MY_IP + 'static/intra.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[1], user_id=user_id).enable,
-            "sync": True if Intra.objects.get(user_id=user_id).token else False
-        },
-        {
-            "service": "Slack",
-            "color" : "0xffb74093",
-            "logo": 'http://' + settings.MY_IP + 'static/slack.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[2], user_id=user_id).enable,
-            "sync": True if Slack.objects.get(user_id=user_id).token else False
-        },
-        {
-            "service": "Currency",
-            "color" : "0xffb74093",
-            "logo": 'http://' + settings.MY_IP + 'static/bitcoin.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[3], user_id=user_id).enable,
-            "sync": True
-        },
-        {
-            "service": "Weather",
-            "color" : "0xffb74093",
-            "logo": 'http://' + settings.MY_IP + 'static/weather.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[4], user_id=user_id).enable,
-            "sync": True
-        },
-        {
-            "service": "Google Mail",
-            "color" : "0xffb74093",
-            "logo": 'http://' + settings.MY_IP + 'static/googlemail.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[5], user_id=user_id).enable,
-            "sync": True if Google.objects.get(user_id=user_id).token else False
-        },
-    ]
+    response = [service_to_json(i, user_id) for i in range(6)]
+    return JsonResponse(response)
+
+
+@csrf_exempt
+@require_http_methods(['GET'])
+def get_one_service(request, service):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    response = service_to_json(settings.SERVICE_NAME.index(service, user_id))
     return JsonResponse(response)
 
 
