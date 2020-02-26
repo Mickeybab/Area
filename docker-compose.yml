@@ -107,10 +107,24 @@ services:
       - /sessions
 
   front:
+    environment:
+      ANDROID_HOME: /usr/local/android-sdk
+      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
     build:
       context: ./area_front
       dockerfile: Dockerfile
     volumes:
       - ./nginx:/etc/nginx/conf.d
+      - ./statics:/statics
     ports:
       - 8081:80
+
+  front_apk:
+    environment:
+      ANDROID_HOME: /usr/local/android-sdk
+      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
+    build:
+      context: ./area_front
+      dockerfile: Dockerfile_apk
+    volumes:
+      - ./statics:/statics
