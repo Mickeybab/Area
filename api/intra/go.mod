@@ -1,4 +1,4 @@
-module github.com/frouioui/dashboard-epitech/api/intra
+module github.com/frouioui/AREA/api/intra
 
 go 1.12
 
