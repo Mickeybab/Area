@@ -36,7 +36,7 @@ SECRET_KEY = 'gsay@k-dmi!6^s6gg5@p^cd5s!t6c33z-!vzv-!q_pys#8-k^7'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '10.15.191.66',
+    'link_api',
     'localhost'
     ]
 
@@ -137,7 +137,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'http://localhost:8080/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 
