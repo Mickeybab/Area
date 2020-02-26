@@ -36,6 +36,7 @@ class ListServices extends StatelessWidget {
                       logo: services[index].logo,
                       color: services[index].color,
                       enable: services[index].enable,
+                      sync: services[index].sync
                     ),
                   );
                   break;

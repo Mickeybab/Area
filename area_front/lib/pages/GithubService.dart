@@ -25,7 +25,6 @@ import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 // Data
 import 'package:provider/provider.dart';
 import 'package:uni_links/uni_links.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// `My Applets` Page of the Area Project
 class GithubServicePage extends StatefulWidget {
@@ -177,7 +176,12 @@ class _GithubServicePageState extends State<GithubServicePage> {
                         )
                     );
 
-                    AuthService().signInWithGithub();
+                    if (!data.sync) {
+                      print('sync');
+                      AuthService().signInWithGithub();
+                    } else {
+                      print('already sync');
+                    }
 
                   } else {
                     print(data.service.toLowerCase().replaceAll(new RegExp(r"\s+\b|\b\s"), ""));
