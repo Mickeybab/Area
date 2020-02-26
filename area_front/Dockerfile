@@ -17,7 +17,5 @@ WORKDIR /area_front
 COPY . .
 RUN /usr/local/flutter/bin/flutter build web
 
-#FROM nginx
-#COPY --from=build-env /area_front/build/web /usr/share/nginx/html
-FROM httpd:2.4
-COPY --from=build-env /area_front/build/web /usr/local/apache2/htdocs
+FROM nginx
+COPY --from=build-env /area_front/build/web /usr/share/nginx/html

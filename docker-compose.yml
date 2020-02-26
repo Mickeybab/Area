@@ -110,5 +110,7 @@ services:
     build:
       context: ./area_front
       dockerfile: Dockerfile
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
     ports:
       - 8081:80
