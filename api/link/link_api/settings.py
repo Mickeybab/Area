@@ -20,7 +20,7 @@ if os.getenv("DEV"):
 
 MY_IP = '1.2.3.4'
 if DEV:
-    MY_IP = 'localhost:8080/'
+    MY_IP = 'http://localhost:8080/'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -137,7 +137,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = 'http://localhost:8080/static/'
+STATIC_URL = MY_IP + 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 
