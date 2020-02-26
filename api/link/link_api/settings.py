@@ -175,3 +175,73 @@ CURRENCY_LIST = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+GITHUB_ACTION = [
+    'new commit'
+]
+
+SLACK_REACTION = [
+    'Slack Message'
+]
+
+GOOGLE_REACTION = [
+    'Google Mail'
+]
+
+NOTIFICATION_REACTION = [
+    'notification'
+]
+
+WEATHER_ACTION = [
+    'below a threshold',
+    'exceeds a threshold'
+]
+
+GOOGLE_ACTION = [
+    'receive email'
+]
+
+INTRA_ACTION = [
+    'mark below a limit',
+    'credit number that exceeds',
+    'gpa drop below',
+    'gpa exceeds'
+]
+
+CURRENCY_ACTION = [
+    'money drop',
+    'money up'
+]
+
+SLACK_ACTION = [
+    'receive notification'
+]
+
+GITHUB_NUMBER = [
+    0
+]
+
+WEATHER_NUMBER = [
+    3,
+    6
+]
+
+GOOGLE_NUMBER = [
+    9
+]
+
+INTRA_NUMBER = [
+    12,
+    15,
+    18,
+    21
+]
+
+CURRENCY_NUMBER = [
+    24,
+    27
+]
+
+SLACK_NUMBER = [
+    30
+]
