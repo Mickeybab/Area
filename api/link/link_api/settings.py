@@ -166,6 +166,7 @@ SERVICE_GITHUB = 'http://github_api:9000/'
 SERVICE_CURRENCY = 'http://currency_api:8080/'
 SERVICE_WEATHER = 'http://weather_api:8080/'
 SERVICE_EMAIL = 'http://email_backup_api:8080/'
+SERVICE_SLACK = 'http://slack_api:8080/'
 
 CURRENCY_LIST = [
     'EUR',

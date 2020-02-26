@@ -507,6 +507,8 @@ def verify_googlemail(app):
 ######## REACTION ######
 def reaction_slack(app):
     print("REACTION SLACK !!!", file=stderr)
+    msg = ParamApplet.objects.get(applet_id=app.id, side=False, name='Message').value
+    requests.post(url=settings.SERVICE_SLACK + 'v1/slack/send?msg=' + msg)
 
 
 def reaction_email(app):
