@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/frouioui/dashboard-epitech/api/intra/client"
+	"github.com/frouioui/AREA/api/intra/client"
 
 	"github.com/gorilla/mux"
 )
