@@ -156,6 +156,7 @@ SERVICE_NAME = [
     'weather',
     'googlemail',
     'notification',
+    'email',
 ]
 
 
@@ -164,6 +165,7 @@ SERVICE_INTRA = 'http://intra_api:8080/'
 SERVICE_GITHUB = 'http://github_api:9000/'
 SERVICE_CURRENCY = 'http://currency_api:8080/'
 SERVICE_WEATHER = 'http://weather_api:8080/'
+SERVICE_EMAIL = 'http://email_backup_api:8080/'
 
 CURRENCY_LIST = [
     'EUR',
