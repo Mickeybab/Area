@@ -511,6 +511,15 @@ def reaction_slack(app):
 
 def reaction_email(app):
     print("REACTION EMAIL !!!", file=stderr)
+    receiver = ParamApplet.objects.get(applet_id=app.id, side=False, name='Receiver').value
+    subject = ParamApplet.objects.get(applet_id=app.id, side=False, name='Subject').value
+    msg = ParamApplet.objects.get(applet_id=app.id, side=False, name='Message').value
+    if not receiver or receiver == '':
+        return
+    if not subject or subject == '':
+        subject = 'Area'
+    print("Send mail", file=stderr)
+    requests.post(url=settings.SERVICE_EMAIL + 'v2/email/send', json={"to": receiver, "content": msg, "subject": subject})
 
 
 def reaction_notify(app):

@@ -77,8 +77,6 @@ services:
      dockerfile: Dockerfile
    environment:
      DEV_ENV: "TRUE"
-   ports:
-     - 9007:8080
    restart: always
 
   db:

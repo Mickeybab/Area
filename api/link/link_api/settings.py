@@ -20,7 +20,7 @@ if os.getenv("DEV"):
 
 MY_IP = '1.2.3.4'
 if DEV:
-    MY_IP = 'localhost:9000/'
+    MY_IP = 'localhost:8080/'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -156,6 +156,7 @@ SERVICE_NAME = [
     'weather',
     'googlemail',
     'notification',
+    'email',
 ]
 
 
@@ -164,6 +165,7 @@ SERVICE_INTRA = 'http://intra_api:8080/'
 SERVICE_GITHUB = 'http://github_api:9000/'
 SERVICE_CURRENCY = 'http://currency_api:8080/'
 SERVICE_WEATHER = 'http://weather_api:8080/'
+SERVICE_EMAIL = 'http://email_backup_api:8080/'
 
 CURRENCY_LIST = [
     'EUR',
