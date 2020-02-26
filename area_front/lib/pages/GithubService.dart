@@ -177,12 +177,9 @@ class _GithubServicePageState extends State<GithubServicePage> {
                     );
 
                     if (!data.sync) {
-                      print('sync');
                       AuthService().signInWithGithub();
-                    } else {
-                      print('already sync');
+                      data.sync = true;
                     }
-
                   } else {
                     print(data.service.toLowerCase().replaceAll(new RegExp(r"\s+\b|\b\s"), ""));
                     B.Backend.post(
@@ -193,7 +190,6 @@ class _GithubServicePageState extends State<GithubServicePage> {
                         .replaceAll(new RegExp(r"\s+\b|\b\s"), "")
                       )
                     );
-                    print("SERVICE DESACTIVATED");
                   }
                 },
               ),
