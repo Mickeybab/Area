@@ -42,3 +42,7 @@ Default Admin password: `admin`
 `AUTHENTICATION AND AUTHORIZATION` Is for Admin Users
 
 `LINK_API` Is for Area Users
+
+## Download APK
+
+Go to `/client.apk` on the web client
