@@ -17,7 +17,7 @@ services:
     depends_on:
       - db
     ports:
-      - 9000:9000
+      - 8080:9000
     restart: always
 
   start_service_api:
@@ -44,8 +44,6 @@ services:
       dockerfile: Dockerfile
     environment:
       DEV_ENV: "TRUE"
-    ports:
-      - 9003:8080
     restart: always
 
   github_api:
@@ -55,8 +53,6 @@ services:
     environment:
       DEV_ENV: "TRUE"
       PORT: 9000
-    ports:
-      - 9004:9000
     restart: always
 
   currency_api:
@@ -65,8 +61,6 @@ services:
       dockerfile: Dockerfile
     environment:
       DEV_ENV: "TRUE"
-    ports:
-      - 9005:8080
     restart: always
   
   weather_api:
@@ -75,8 +69,6 @@ services:
      dockerfile: Dockerfile
    environment:
      DEV_ENV: "TRUE"
-   ports:
-     - 9006:8080
    restart: always
 
   db:
@@ -111,4 +103,4 @@ services:
       context: ./area_front
       dockerfile: Dockerfile
     ports:
-      - 80:80
+      - 8081:80
