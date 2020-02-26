@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/frouioui/AREA/api/slack/client"
 	"github.com/gorilla/mux"
 )
 
@@ -29,6 +30,8 @@ func sendMessageHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, `{"status": "failure", "code": %d, "message": "%s"}`, 400, "invalid query params")
 		return
 	}
+
+	client.SendMessage(msg[0])
 
 	w.WriteHeader(200)
 	fmt.Fprintf(w, `{"status": "success", "code": %d, "data": %s}`, 200, "ok")

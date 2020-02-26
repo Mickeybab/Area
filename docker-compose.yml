@@ -81,6 +81,16 @@ services:
      - 9007:8080
    restart: always
 
+  slack_api:
+    build: 
+      context: ./api/slack
+      dockerfile: Dockerfile
+    environment:
+      DEV_ENV: "TRUE"
+    ports:
+      - 9008:8080
+    restart: always
+
   db:
     image: mysql:5.7
     ports: 

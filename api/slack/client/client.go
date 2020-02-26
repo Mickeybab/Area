@@ -10,7 +10,7 @@ const (
 	urlAPI = "https://hooks.slack.com/services/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"
 )
 
-func sendMessage(message string) (err error) {
+func SendMessage(message string) (err error) {
 	url := urlAPI
 
 	jsonValue := fmt.Sprintf(`{"text": "%s"}`, message)
