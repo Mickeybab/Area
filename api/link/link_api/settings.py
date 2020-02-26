@@ -218,30 +218,52 @@ SLACK_ACTION = [
 ]
 
 GITHUB_NUMBER = [
-    0
+    0,
+    1,
+    2
 ]
 
 WEATHER_NUMBER = [
     3,
-    6
+    4,
+    5,
+    6,
+    7,
+    8
 ]
 
 GOOGLE_NUMBER = [
-    9
+    9,
+    10,
+    11
 ]
 
 INTRA_NUMBER = [
     12,
+    13,
+    14,
     15,
+    16,
+    17,
     18,
-    21
+    19,
+    20,
+    21,
+    22,
+    23
 ]
 
 CURRENCY_NUMBER = [
     24,
-    27
+    25,
+    26,
+    27,
+    28,
+    29
 ]
 
 SLACK_NUMBER = [
-    30
+    30,
+    31,
+    32
 ]
