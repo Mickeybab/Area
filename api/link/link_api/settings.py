@@ -37,7 +37,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'link_api',
-    'localhost'
+    'localhost',
+    'mickeydulac.hd.free.fr'
     ]
 
 
