@@ -20,7 +20,7 @@ if os.getenv("DEV"):
 
 MY_IP = '1.2.3.4'
 if DEV:
-    MY_IP = 'localhost:8080/'
+    MY_IP = 'http://localhost:8080/'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,7 +36,7 @@ SECRET_KEY = 'gsay@k-dmi!6^s6gg5@p^cd5s!t6c33z-!vzv-!q_pys#8-k^7'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '10.15.191.66',
+    'link_api',
     'localhost'
     ]
 
@@ -166,6 +166,7 @@ SERVICE_GITHUB = 'http://github_api:9000/'
 SERVICE_CURRENCY = 'http://currency_api:8080/'
 SERVICE_WEATHER = 'http://weather_api:8080/'
 SERVICE_EMAIL = 'http://email_backup_api:8080/'
+SERVICE_SLACK = 'http://slack_api:8080/'
 
 CURRENCY_LIST = [
     'EUR',

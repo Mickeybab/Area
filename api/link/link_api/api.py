@@ -65,42 +65,42 @@ def service_to_json(id, user_id):
         {
             "service": "Github",
             "color" : "0xff0366d6",
-            "logo": 'http://' + settings.MY_IP + 'static/github.png',
+            "logo": settings.STATIC_URL + 'github.png',
             "enable": Service.objects.get(name=settings.SERVICE_NAME[0], user_id=user_id).enable,
             "sync": True if Github.objects.get(user_id=user_id).token else False
         },
         {
             "service": "Intra Epitech",
+            "logo": settings.STATIC_URL + 'intra.png',
             "color" : "0xff00579e",
-            "logo": 'http://' + settings.MY_IP + 'static/intra.png',
             "enable": Service.objects.get(name=settings.SERVICE_NAME[1], user_id=user_id).enable,
             "sync": True if Intra.objects.get(user_id=user_id).token else False
         },
         {
             "service": "Slack",
+            "logo": settings.STATIC_URL + 'slack.png',
             "color" : "0xff78d7dd",
-            "logo": 'http://' + settings.MY_IP + 'static/slack.png',
             "enable": Service.objects.get(name=settings.SERVICE_NAME[2], user_id=user_id).enable,
             "sync": True if Slack.objects.get(user_id=user_id).token else False
         },
         {
             "service": "Currency",
+            "logo": settings.STATIC_URL + 'bitcoin.png',
             "color" : "0xff0d579b",
-            "logo": 'http://' + settings.MY_IP + 'static/bitcoin.png',
             "enable": Service.objects.get(name=settings.SERVICE_NAME[3], user_id=user_id).enable,
             "sync": True
         },
         {
             "service": "Weather",
+            "logo": settings.STATIC_URL + 'weather.png',
             "color" : "0xffeeeeee",
-            "logo": 'http://' + settings.MY_IP + 'static/weather.png',
             "enable": Service.objects.get(name=settings.SERVICE_NAME[4], user_id=user_id).enable,
             "sync": True
         },
         {
             "service": "Google Mail",
+            "logo": settings.STATIC_URL + 'googlemail.png',
             "color" : "0xffdadada",
-            "logo": 'http://' + settings.MY_IP + 'static/googlemail.png',
             "enable": Service.objects.get(name=settings.SERVICE_NAME[5], user_id=user_id).enable,
             "sync": True if Google.objects.get(user_id=user_id).token else False
         },

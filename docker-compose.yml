@@ -79,6 +79,16 @@ services:
      DEV_ENV: "TRUE"
    restart: always
 
+  slack_api:
+    build: 
+      context: ./api/slack
+      dockerfile: Dockerfile
+    environment:
+      DEV_ENV: "TRUE"
+    ports:
+      - 9008:8080
+    restart: always
+
   db:
     image: mysql:5.7
     ports:
@@ -107,8 +117,26 @@ services:
       - /sessions
 
   front:
+    environment:
+      ANDROID_HOME: /usr/local/android-sdk
+      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
     build:
       context: ./area_front
       dockerfile: Dockerfile
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./statics:/statics
     ports:
       - 8081:80
+    depends_on:
+      - link_api
+
+  front_apk:
+    environment:
+      ANDROID_HOME: /usr/local/android-sdk
+      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
+    build:
+      context: ./area_front
+      dockerfile: Dockerfile_apk
+    volumes:
+      - ./statics:/statics
