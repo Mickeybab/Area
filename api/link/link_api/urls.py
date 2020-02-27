@@ -20,6 +20,8 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
+    path('', api.redirect_to_front),
+
     path('admin/', admin.site.urls),
 
     path('about.json', api.get_about_json),

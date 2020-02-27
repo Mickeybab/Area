@@ -5,7 +5,7 @@ from link_api import settings
 from link_api import util
 from django.db import transaction
 from django.views.decorators.http import require_http_methods
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 from sys import stderr
 from datetime import datetime
@@ -396,3 +396,7 @@ def get_about_json(request):
         }
     }
     return JsonResponse(result)
+
+
+def redirect_to_front(request):
+    return redirect(settings.FRONT_IP)
