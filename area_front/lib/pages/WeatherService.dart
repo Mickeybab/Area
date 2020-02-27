@@ -1,4 +1,6 @@
 // Core
+import 'package:area_front/widgets/GetMore.dart';
+import 'package:area_front/widgets/applets/ListApplets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
@@ -53,14 +55,35 @@ class _WeatherServicePageState extends State<WeatherServicePage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            ServiceHeader(data: data),
+                            ServiceHeader(data: data, textColor: Colors.black),
                             SizedBox(height: 20),
                             ServiceSwitch(
                               data: data,
                               user: user,
                               serviceName: BackendRoutes.weather
                             ),
-                            AreaTitle('Test')
+                            SizedBox(height: 20),
+                            FutureBuilder(
+                              future: Request.getApplets(user),
+                              // future: Request.getAppletsByService(user, BackendRoutes.weather),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError == true) {
+                                  return Column(
+                                    children: <Widget>[
+                                      Icon(Icons.error_outline),
+                                      Text(snapshot.error.toString())
+                                    ],
+                                  );
+                                } else if (snapshot.hasData) {
+                                  if (snapshot.data != null) {
+                                    return ListApplet(applets: snapshot.data);
+                                  } else {
+                                    return GetMore();
+                                  }
+                                } else
+                                  return CircularProgressIndicator();
+                              },
+                            )
                           ],
                         );
                       } else

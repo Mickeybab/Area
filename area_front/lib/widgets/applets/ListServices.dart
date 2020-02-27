@@ -22,70 +22,73 @@ class ListServices extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.separated(
-        separatorBuilder: (context, index) {
-          return SizedBox(height: 5);
-        },
-        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-        itemCount: services.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ServiceCard(
-            services[index],
-            onPressed: () {
-              switch (services[index].service) {
-                case Constants.github:
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => GithubServicePage(),
-                    ),
-                  );
-                  break;
-                case Constants.epitech:
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EpitechServicePage(),
-                    ),
-                  );
-                  break;
-                case Constants.slack:
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SlackServicePage(),
-                    ),
-                  );
-                  break;
-                case Constants.currency:
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CurrencyServicePage(),
-                    ),
-                  );
-                  break;
-                case Constants.weather:
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => WeatherServicePage(),
-                    ),
-                  );
-                  break;
-                case Constants.googlemail:
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => GoogleMailServicePage(),
-                    ),
-                  );
-                  break;
-                default:
-              }
-            },
-          );
-        },
+      child: Container(
+        width: 500,
+        child: ListView.separated(
+          separatorBuilder: (context, index) {
+            return SizedBox(height: 5);
+          },
+          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+          itemCount: services.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ServiceCard(
+              services[index],
+              onPressed: () {
+                switch (services[index].service) {
+                  case Constants.github:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GithubServicePage(),
+                      ),
+                    );
+                    break;
+                  case Constants.epitech:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EpitechServicePage(),
+                      ),
+                    );
+                    break;
+                  case Constants.slack:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SlackServicePage(),
+                      ),
+                    );
+                    break;
+                  case Constants.currency:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CurrencyServicePage(),
+                      ),
+                    );
+                    break;
+                  case Constants.weather:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WeatherServicePage(),
+                      ),
+                    );
+                    break;
+                  case Constants.googlemail:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GoogleMailServicePage(),
+                      ),
+                    );
+                    break;
+                  default:
+                }
+              },
+            );
+          },
+        ),
       )
     );
   }

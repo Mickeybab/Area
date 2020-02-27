@@ -1,13 +1,14 @@
 // Core
 import 'package:area_front/models/Service.dart';
-import 'package:area_front/widgets/AreaTitle.dart';
+import 'package:area_front/widgets/AreaText.dart';
 import 'package:area_front/widgets/utils/Color.dart';
 import 'package:flutter/material.dart';
 
 class ServiceHeader extends StatelessWidget {
-  const ServiceHeader({Key key, this.data});
+  const ServiceHeader({Key key, this.data, this.textColor});
 
   final Service data;
+  final Color textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,12 @@ class ServiceHeader extends StatelessWidget {
                 width: 80,
               ),
               SizedBox(width: 20),
-              AreaTitle(data.service)
+              AreaText(data.service,
+                fontSize: 70,
+                fontWeight: FontWeight.w600,
+                textAlign: TextAlign.center,
+                color: textColor
+              )
             ]),
       ),
     );
