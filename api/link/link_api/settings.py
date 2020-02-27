@@ -18,7 +18,7 @@ DEV = False
 if os.getenv("DEV"):
     DEV = True
 
-MY_IP = '1.2.3.4'
+MY_IP = 'mickeudulac.hd.free.fr:8080/'
 if DEV:
     MY_IP = 'http://localhost:8080/'
 
