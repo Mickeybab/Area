@@ -52,14 +52,14 @@ class BackendRoutes {
   static const String slack = 'slack';
 
   /// service `identifier` for Microsoft
-  static const String microsoft = 'microsoft';
+  static const String google = 'googlemail';
 
   /// All possible value of a `Service`
   static const List<String> possibleService = const [
     github,
     intraEpitech,
     slack,
-    microsoft
+    google
   ];
 
   /// return the url to interact with a `Service`

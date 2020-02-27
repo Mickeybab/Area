@@ -1,11 +1,9 @@
 // Core
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io' show Platform;
+import 'dart:io';
 import 'package:area_front/backend/Backend.dart';
 import 'package:area_front/models/Github.dart';
-import 'package:area_front/static/Constants.dart';
-import 'package:area_front/static/Routes.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:http/http.dart' as http;
@@ -34,6 +32,9 @@ import 'package:uni_links/uni_links.dart';
 class GithubServicePage extends StatefulWidget {
   GithubServicePage({Key key}) : super(key: key);
 
+  @override
+  _GithubServicePageState createState() => _GithubServicePageState();
+
   static Future<void> registerGithubToken(
       String code, FirebaseUser firebaseUser) async {
     print('registerGithubToken');
@@ -44,26 +45,29 @@ class GithubServicePage extends StatefulWidget {
       String clientId = (kIsWeb)
           ? GlobalConfiguration().getString('GithubSignInWebClientIdJ')
           : GlobalConfiguration().getString('GithubSignInMobileClientId');
+      http.Response response;
 
-      final String body = jsonEncode(GitHubLoginRequest(
-        clientId: clientId,
-        clientSecret: clientSecret,
-        code: code,
-      ));
-
-      print(body);
-
-      final response = await http.post(
-        GlobalConfiguration().getString('GithubAccessTokenUrl'),
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Access-Control-Allow-Headers": "*",
-          "Access-Control-Allow-Origin": "http://localhost:5000"
-        },
-        body: body,
-      );
-
+      if (kIsWeb) {
+        B.Backend.post(firebaseUser, BackendRoutes.syncService('github'),
+            body: {"code": code});
+        return;
+      } else {
+        final String body = jsonEncode(GitHubLoginRequest(
+          clientId: clientId,
+          clientSecret: clientSecret,
+          code: code,
+        ).toJson());
+        print(body);
+        response = await http.post(
+          GlobalConfiguration().getString('GithubAccessTokenUrl'),
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+          body: body,
+        );
+      }
+      print(json.decode(response.body));
       final GitHubLoginResponse loginResponse =
           GitHubLoginResponse.fromJson(json.decode(response.body));
       print(loginResponse);
@@ -77,15 +81,24 @@ class GithubServicePage extends StatefulWidget {
       print('Got error when sign in with Github: $e');
     }
   }
-
-  @override
-  _GithubServicePageState createState() => _GithubServicePageState();
 }
 
 class _GithubServicePageState extends State<GithubServicePage> {
+  FirebaseUser firebaseUser;
+
   StreamSubscription _subs;
 
-  FirebaseUser firebaseUser;
+  @override
+  void dispose() {
+    if (!kIsWeb) _disposeDeepLinkListener();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (!kIsWeb) _initDeepLinkListener();
+  }
 
   Future signInWithGithub() async {
     String authorizeUrl = GlobalConfiguration().getString('GithubAuthorizeUrl');
@@ -121,18 +134,6 @@ class _GithubServicePageState extends State<GithubServicePage> {
       if (code != null)
         await GithubServicePage.registerGithubToken(code, firebaseUser);
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _initDeepLinkListener();
-  }
-
-  @override
-  void dispose() {
-    _disposeDeepLinkListener();
-    super.dispose();
   }
 
   void _initDeepLinkListener() {

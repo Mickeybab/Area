@@ -28,6 +28,6 @@ function openWindow(url, title, w, h) {
     }
     popup.resizeBy(0, 0.50);
     popup.focus();
-    window.addEventListener('message', event => receiveMessage(event));
+    window.addEventListener('message', receiveMessage);
 
 }

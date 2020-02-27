@@ -1,4 +1,6 @@
 // Auths Tools
+import 'package:area_front/backend/Backend.dart';
+import 'package:area_front/static/backend/BackendRoutes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
@@ -22,7 +24,7 @@ class AuthService {
   /// Depending on the credential [FirebaseAuth] will sign In or Up the user
   ///
   /// If the crédential are invalid, we throw an Exception
-  Future signWithCredential(AuthCredential credential) async {
+  Future<FirebaseUser> signWithCredential(AuthCredential credential, ) async {
     final AuthResult authResult = await _auth.signInWithCredential(credential);
     if (authResult == null) throw ("Look's like credential are invalid");
     final FirebaseUser user = authResult.user;
@@ -48,7 +50,23 @@ class AuthService {
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,
       );
-      return this.signWithCredential(credential);
+      final user = await this.signWithCredential(credential);
+      return Backend.post(user, BackendRoutes.syncService(BackendRoutes.github), body: {"token": googleSignInAuthentication.accessToken});
+    } catch (e) {
+      print('Got error when sign in with Google: $e');
+      return null;
+    }
+  }
+
+  /// Get tokens and Sync it with `Backend`
+  Future syncInWithGoogle(user) async {
+    try {
+      final GoogleSignInAccount googleSignInAccount =
+          await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      return Backend.post(user, BackendRoutes.syncService(BackendRoutes.google), body: {"token": googleSignInAuthentication.accessToken});
     } catch (e) {
       print('Got error when sign in with Google: $e');
       return null;

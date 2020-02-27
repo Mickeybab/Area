@@ -9,6 +9,9 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from sys import stderr
 from datetime import datetime
+import requests
+import json
+
 
 
 
@@ -234,6 +237,13 @@ def get_applets_by_services(request, service):
 def sync_token(request, service):
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
     if service == settings.SERVICE_NAME[0]:
+        if request.POST.get('code'):
+            param = {'client_id': "70b9d6966be7a0f36da8", "client_secret": "dbc4e4eaa5fa1e360b2f9dbe4018d0430f53a9e8", "code": request.POST.get('code')}
+            r = requests.post('https://github.com/login/oauth/access_token', param)
+            print(r.text, file=stderr)
+            print(r.text.split('&')[0].split('=')[1], file=stderr)
+            Github.objects.filter(user_id=user_id).update(token=r.text.split('&')[0].split('=')[1])
+            return HttpResponse('Ok')
         Github.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     elif service == settings.SERVICE_NAME[1]:
         Intra.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))

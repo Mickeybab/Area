@@ -71,13 +71,13 @@ services:
      DEV_ENV: "TRUE"
    restart: always
 
-  email_backup_api:
-   build: 
-     context: ./api/email-back-up
-     dockerfile: Dockerfile
-   environment:
-     DEV_ENV: "TRUE"
-   restart: always
+#  email_backup_api:
+#   build: 
+#     context: ./api/email-back-up
+#     dockerfile: Dockerfile
+#   environment:
+#     DEV_ENV: "TRUE"
+#   restart: always
 
   db:
     image: mysql:5.7

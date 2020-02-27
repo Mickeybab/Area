@@ -1,5 +1,4 @@
 // Core
-import 'package:area_front/pages/GithubService.dart';
 import 'package:area_front/pages/Home.dart';
 import 'package:area_front/pages/auth/ResetPassword.dart';
 import 'package:area_front/static/Constants.dart';
@@ -27,7 +26,6 @@ import 'package:area_front/pages/Landing.dart' show LandingPage;
 
 // Config
 import 'package:global_configuration/global_configuration.dart';
-import 'dart:js';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
