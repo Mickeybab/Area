@@ -52,7 +52,7 @@ class BackendRoutes {
   static const String slack = 'slack';
 
   /// service `identifier` for Microsoft
-  static const String microsoft = 'microsoft';
+  static const String google = 'googlemail';
 
   /// service `identifier` for Currency
   static const String currency = 'currency';
@@ -68,10 +68,9 @@ class BackendRoutes {
     github,
     intraEpitech,
     slack,
-    microsoft,
     currency,
     weather,
-    googlemail
+    google
   ];
 
   /// return the url to interact with a `Service`

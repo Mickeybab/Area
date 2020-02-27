@@ -18,7 +18,7 @@ DEV = False
 if os.getenv("DEV"):
     DEV = True
 
-MY_IP = '1.2.3.4'
+MY_IP = 'mickeudulac.hd.free.fr:8080/'
 if DEV:
     MY_IP = 'http://localhost:8080/'
 
@@ -37,7 +37,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'link_api',
-    'localhost'
+    'localhost',
+    'mickeydulac.hd.free.fr'
     ]
 
 
@@ -167,6 +168,9 @@ SERVICE_CURRENCY = 'http://currency_api:8080/'
 SERVICE_WEATHER = 'http://weather_api:8080/'
 SERVICE_EMAIL = 'http://email_backup_api:8080/'
 SERVICE_SLACK = 'http://slack_api:8080/'
+
+GITHUB_ID = '70b9d6966be7a0f36da8'
+GITHUB_SECRET = 'dbc4e4eaa5fa1e360b2f9dbe4018d0430f53a9e8'
 
 CURRENCY_LIST = [
     'EUR',
