@@ -182,7 +182,27 @@ def set_applet(request, id):
 @csrf_exempt
 @require_http_methods(['POST'])
 def activate_applet(request, id):
+    
+    def get_service(name):
+        tab = [
+            Github,
+            Intra,
+            Slack,
+            None,
+            None,
+            Google,
+            None,
+            None
+        ]
+        return tab[settings.SERVICE_NAME.index(name)]
+
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    model_action = get_service(Applet.objects.get(user_id=user_id, id_applet=id).action_service)
+    model_reaction = get_service(Applet.objects.get(user_id=user_id, id_applet=id).reaction_service)
+    if model_action and not action.objects.get(user_id=user_id).token:
+        return HttpResponse('You need to enable ' + Applet.objects.get(user_id=user_id, id_applet=id).action_service, status=303)
+    if model_reaction and not reaction.objects.get(user_id=user_id).token:
+        return HttpResponse('You need to enable ' + Applet.objects.get(user_id=user_id, id_applet=id).reaction_service, status=303)
     Applet.objects.filter(user_id=user_id, id_applet=id).update(enable=True)
     return HttpResponse('Ok')
 
