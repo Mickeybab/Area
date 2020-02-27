@@ -76,6 +76,7 @@ class _AppletCardState extends State<AppletCard> {
                     onChanged: (newValue) async {
                       onSwitchChangeState(newValue);
                       if (newValue == true) {
+                        print(widget.data.color);
                         B.Backend.post(
                             user,
                             BackendRoutes.activateApplet(

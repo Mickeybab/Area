@@ -13,9 +13,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 // My Widgets
 import 'package:area_front/widgets/topbar/TopBar.dart';
-import 'package:area_front/widgets/service/ServiceHeader.dart';
-import 'package:area_front/widgets/service/ServiceSwitch.dart';
-import 'package:area_front/widgets/AreaTitle.dart';
+import 'package:area_front/widgets/services/ServiceHeader.dart';
+import 'package:area_front/widgets/services/ServiceSwitch.dart';
 
 // Data
 import 'package:provider/provider.dart';

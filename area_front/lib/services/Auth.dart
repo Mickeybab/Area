@@ -14,7 +14,7 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   /// Google Handle the selection of the Google Account and ask for permission
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
+  final GoogleSignIn googleSignIn = GoogleSignIn(
       clientId: GlobalConfiguration().getString('GoogleSignInClientId'), scopes: [
         'https://mail.google.com/'
       ]);
@@ -40,7 +40,7 @@ class AuthService {
   Future signInWithGoogle() async {
     try {
       final GoogleSignInAccount googleSignInAccount =
-          await _googleSignIn.signIn();
+          await googleSignIn.signIn();
       final GoogleSignInAuthentication googleSignInAuthentication =
           await googleSignInAccount.authentication;
 

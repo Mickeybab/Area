@@ -13,21 +13,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 // My Widgets
 import 'package:area_front/widgets/topbar/TopBar.dart';
-import 'package:area_front/widgets/service/ServiceHeader.dart';
-import 'package:area_front/widgets/service/ServiceSwitch.dart';
-import 'package:area_front/widgets/AreaTitle.dart';
+import 'package:area_front/widgets/services/ServiceHeader.dart';
+import 'package:area_front/widgets/services/ServiceSwitch.dart';
 
 // Data
 import 'package:provider/provider.dart';
 /// `My Applets` Page of the Area Project
-class GoogleMailServicePage extends StatefulWidget {
-  GoogleMailServicePage({Key key}) : super(key: key);
+class SlackServicePage extends StatefulWidget {
+  SlackServicePage({Key key}) : super(key: key);
 
   @override
-  _GoogleMailServicePageState createState() => _GoogleMailServicePageState();
+  _SlackServicePageState createState() => _SlackServicePageState();
 }
 
-class _GoogleMailServicePageState extends State<GoogleMailServicePage> {
+class _SlackServicePageState extends State<SlackServicePage> {
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,7 @@ class _GoogleMailServicePageState extends State<GoogleMailServicePage> {
         body: Center(
             child: Container(
                 child: FutureBuilder(
-                    future: Request.getService(user, BackendRoutes.googlemail),
+                    future: Request.getService(user, BackendRoutes.slack),
                     builder: (context, snapshot) {
                       Service data;
                       if (snapshot.hasError == true) {
@@ -59,12 +58,12 @@ class _GoogleMailServicePageState extends State<GoogleMailServicePage> {
                             ServiceSwitch(
                               data: data,
                               user: user,
-                              serviceName: BackendRoutes.googlemail
+                              serviceName: BackendRoutes.slack
                             ),
                             SizedBox(height: 20),
                             FutureBuilder(
                               future: Request.getApplets(user),
-                              // future: Request.getAppletsByService(user, BackendRoutes.googlemail),
+                              // future: Request.getAppletsByService(user, BackendRoutes.slack),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError == true) {
                                   return Column(

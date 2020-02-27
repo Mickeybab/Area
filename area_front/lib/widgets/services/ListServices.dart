@@ -1,10 +1,10 @@
 // Core
-import 'package:area_front/pages/CurrencyService.dart';
-import 'package:area_front/pages/EpitechService.dart';
+import 'package:area_front/pages/services/CurrencyService.dart';
+import 'package:area_front/pages/services/EpitechService.dart';
 import 'package:area_front/pages/GithubService.dart';
-import 'package:area_front/pages/GoogleMailService.dart';
-import 'package:area_front/pages/SlackService.dart';
-import 'package:area_front/pages/WeatherService.dart';
+import 'package:area_front/pages/services/GoogleMailService.dart';
+import 'package:area_front/pages/services/SlackService.dart';
+import 'package:area_front/pages/services/WeatherService.dart';
 import 'package:area_front/static/Constants.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:area_front/models/Service.dart';
 
 // Widgets
-import 'package:area_front/widgets/applets/ServiceCard.dart';
+import 'package:area_front/widgets/services/ServiceCard.dart';
 
 class ListServices extends StatelessWidget {
   const ListServices({Key key, @required this.services}) : super(key: key);

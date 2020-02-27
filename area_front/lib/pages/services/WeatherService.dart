@@ -13,20 +13,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 // My Widgets
 import 'package:area_front/widgets/topbar/TopBar.dart';
-import 'package:area_front/widgets/service/ServiceHeader.dart';
-import 'package:area_front/widgets/service/ServiceSwitch.dart';
+import 'package:area_front/widgets/services/ServiceHeader.dart';
+import 'package:area_front/widgets/services/ServiceSwitch.dart';
 
 // Data
 import 'package:provider/provider.dart';
+
 /// `My Applets` Page of the Area Project
-class EpitechServicePage extends StatefulWidget {
-  EpitechServicePage({Key key}) : super(key: key);
+class WeatherServicePage extends StatefulWidget {
+  WeatherServicePage({Key key}) : super(key: key);
 
   @override
-  _EpitechServicePageState createState() => _EpitechServicePageState();
+  _WeatherServicePageState createState() => _WeatherServicePageState();
 }
 
-class _EpitechServicePageState extends State<EpitechServicePage> {
+class _WeatherServicePageState extends State<WeatherServicePage> {
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class _EpitechServicePageState extends State<EpitechServicePage> {
         body: Center(
             child: Container(
                 child: FutureBuilder(
-                    future: Request.getService(user, BackendRoutes.intraEpitech),
+                    future: Request.getService(user, BackendRoutes.weather),
                     builder: (context, snapshot) {
                       Service data;
                       if (snapshot.hasError == true) {
@@ -58,12 +59,12 @@ class _EpitechServicePageState extends State<EpitechServicePage> {
                             ServiceSwitch(
                               data: data,
                               user: user,
-                              serviceName: BackendRoutes.intraEpitech
+                              serviceName: BackendRoutes.weather
                             ),
                             SizedBox(height: 20),
                             FutureBuilder(
                               future: Request.getApplets(user),
-                              // future: Request.getAppletsByService(user, BackendRoutes.intraEpitech),
+                              // future: Request.getAppletsByService(user, BackendRoutes.weather),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError == true) {
                                   return Column(

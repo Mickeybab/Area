@@ -83,21 +83,21 @@ def applet_id_to_description(id):
 
 
 def applet_id_to_color(id):
-    return ["0xffb74093", # 0
-            "0xffb74093", # 1
-            "0xffb74093", # 2
-            "0xff32a83e", # 3
-            "0xff32a83e", # 4
-            "0xff32a83e", # 5
-            "0xff76ff61", # 6
-            "0xff76ff61", # 7
-            "0xff76ff61", # 8
-            "0xff4294ff", # 9
-            "0xff4294ff", # 10
-            "0xff4294ff", # 11
-            "0xff0040ff", # 12
-            "0xff0040ff", # 13
-            "0xff0040ff", # 14
+    return ["0xff24292e", # 0
+            "0xffffd33d", # 1
+            "0xffd73a49", # 2
+            "0xffffd33d", # 3
+            "0xffffd33d", # 4
+            "0xffffd33d", # 5
+            "0xff0366d6", # 6
+            "0xff0366d6", # 7
+            "0xff0366d6", # 8
+            "0xffb23121", # 9
+            "0xffb23121", # 10
+            "0xffb23121", # 11
+            "0xff00579e", # 12
+            "0xff00579e", # 13
+            "0xff00579e", # 14
             "0xffff2e9d", # 15
             "0xffff2e9d", # 16
             "0xffff2e9d", # 17
@@ -107,15 +107,15 @@ def applet_id_to_color(id):
             "0xffffa947", # 21
             "0xffffa947", # 22
             "0xffffa947", # 23
-            "0xffff615e", # 24
-            "0xffff615e", # 25
-            "0xffff615e", # 26
-            "0xff5eff8e", # 27
-            "0xff5eff8e", # 28
-            "0xff5eff8e", # 29
-            "0xff9c72b3", # 30
-            "0xff9c72b3", # 31
-            "0xff9c72b3", # 32
+            "0xfff7931a", # 24
+            "0xff4d4d4d", # 25
+            "0xff329239", # 26
+            "0xff0d579b", # 27
+            "0xff4d4d4d", # 28
+            "0xfff7931a", # 29
+            "0xffe01e5a", # 30
+            "0xff2eb67d", # 31
+            "0xffecb22e", # 32
             "0xffb74093"][id]
 
 

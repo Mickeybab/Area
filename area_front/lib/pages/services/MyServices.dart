@@ -2,7 +2,7 @@
 import 'package:area_front/backend/Backend.dart';
 import 'package:area_front/widgets/AreaText.dart';
 import 'package:area_front/widgets/GetMore.dart';
-import 'package:area_front/widgets/applets/ListServices.dart';
+import 'package:area_front/widgets/services/ListServices.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

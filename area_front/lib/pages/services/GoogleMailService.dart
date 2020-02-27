@@ -1,8 +1,11 @@
 // Core
+import 'package:area_front/services/Auth.dart';
 import 'package:area_front/widgets/GetMore.dart';
 import 'package:area_front/widgets/applets/ListApplets.dart';
+import 'package:area_front/widgets/utils/Color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:area_front/backend/Backend.dart' as B;
 
 
 import 'package:area_front/backend/Backend.dart';
@@ -13,32 +16,85 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 // My Widgets
 import 'package:area_front/widgets/topbar/TopBar.dart';
-import 'package:area_front/widgets/service/ServiceHeader.dart';
-import 'package:area_front/widgets/service/ServiceSwitch.dart';
-import 'package:area_front/widgets/AreaTitle.dart';
+import 'package:area_front/widgets/services/ServiceHeader.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
 // Data
 import 'package:provider/provider.dart';
 /// `My Applets` Page of the Area Project
-class SlackServicePage extends StatefulWidget {
-  SlackServicePage({Key key}) : super(key: key);
+class GoogleMailServicePage extends StatefulWidget {
+  GoogleMailServicePage({Key key}) : super(key: key);
+
+  static Future<void> registerGoogleMailToken(String accessToken, FirebaseUser firebaseUser) async {
+      print('registerGoogleMailToken');
+      B.Backend.post(firebaseUser, BackendRoutes.syncService(BackendRoutes.github),
+          body: {"token": accessToken, "refresh": ""});
+  }
 
   @override
-  _SlackServicePageState createState() => _SlackServicePageState();
+  _GoogleMailServicePageState createState() => _GoogleMailServicePageState();
 }
 
-class _SlackServicePageState extends State<SlackServicePage> {
+class _GoogleMailServicePageState extends State<GoogleMailServicePage> {
 
+  FirebaseUser firebaseUser;
+
+  Future signInWithGoogleMail() async {
+    try {
+      final GoogleSignInAccount googleSignInAccount =
+          await AuthService().googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      await GoogleMailServicePage.registerGoogleMailToken(googleSignInAuthentication.accessToken,
+        firebaseUser);
+
+    } catch (e) {
+      print('Got error when sign in with Google: $e');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<FirebaseUser>(context);
+    this.firebaseUser = user;
+
+    LiteRollingSwitch switchButton(Service data) {
+      return LiteRollingSwitch(
+        value: data.enable,
+        textOn: 'On',
+        textOff: 'Off',
+        colorOn: hexToColor(data.color),
+        colorOff: Colors.grey[700],
+        iconOn: Icons.done,
+        iconOff: Icons.remove_circle_outline,
+        textSize: 25.0,
+        onChanged: (newValue) async {
+          if (newValue == true) {
+            if (!data.sync) {
+              await this.signInWithGoogleMail();
+              data = await Request.getService(user, BackendRoutes.googlemail);
+            }
+            await B.Backend.post(
+              user,
+              BackendRoutes.activateService(BackendRoutes.googlemail)
+            );
+          } else {
+            B.Backend.post(
+              user,
+              BackendRoutes.desactivateService(BackendRoutes.googlemail)
+            );
+          }
+        }
+      );
+    }
 
     return Scaffold(
         appBar: TopBar(),
         body: Center(
             child: Container(
                 child: FutureBuilder(
-                    future: Request.getService(user, BackendRoutes.slack),
+                    future: Request.getService(user, BackendRoutes.googlemail),
                     builder: (context, snapshot) {
                       Service data;
                       if (snapshot.hasError == true) {
@@ -56,15 +112,11 @@ class _SlackServicePageState extends State<SlackServicePage> {
                           children: <Widget>[
                             ServiceHeader(data: data, textColor: Colors.white),
                             SizedBox(height: 20),
-                            ServiceSwitch(
-                              data: data,
-                              user: user,
-                              serviceName: BackendRoutes.slack
-                            ),
+                            switchButton(data),
                             SizedBox(height: 20),
                             FutureBuilder(
                               future: Request.getApplets(user),
-                              // future: Request.getAppletsByService(user, BackendRoutes.slack),
+                              // future: Request.getAppletsByService(user, BackendRoutes.googlemail),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError == true) {
                                   return Column(

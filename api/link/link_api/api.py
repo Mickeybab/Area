@@ -78,7 +78,7 @@ def service_to_json(id, user_id):
         },
         {
             "service": "Slack",
-            "color" : "0xffedb625",
+            "color" : "0xff78d7dd",
             "logo": 'http://' + settings.MY_IP + 'static/slack.png',
             "enable": Service.objects.get(name=settings.SERVICE_NAME[2], user_id=user_id).enable,
             "sync": True if Slack.objects.get(user_id=user_id).token else False
