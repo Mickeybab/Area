@@ -54,12 +54,24 @@ class BackendRoutes {
   /// service `identifier` for Microsoft
   static const String microsoft = 'microsoft';
 
+  /// service `identifier` for Currency
+  static const String currency = 'currency';
+
+  /// service `identifier` for Weather
+  static const String weather = 'weather';
+
+  /// service `identifier` for Gmail
+  static const String googlemail = 'googlemail';
+
   /// All possible value of a `Service`
   static const List<String> possibleService = const [
     github,
     intraEpitech,
     slack,
-    microsoft
+    microsoft,
+    currency,
+    weather,
+    googlemail
   ];
 
   /// return the url to interact with a `Service`

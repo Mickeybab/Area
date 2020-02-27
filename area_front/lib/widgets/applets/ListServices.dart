@@ -1,5 +1,11 @@
 // Core
+import 'package:area_front/pages/CurrencyService.dart';
+import 'package:area_front/pages/EpitechService.dart';
 import 'package:area_front/pages/GithubService.dart';
+import 'package:area_front/pages/GoogleMailService.dart';
+import 'package:area_front/pages/SlackService.dart';
+import 'package:area_front/pages/WeatherService.dart';
+import 'package:area_front/static/Constants.dart';
 import 'package:flutter/material.dart';
 
 // Modals
@@ -27,11 +33,51 @@ class ListServices extends StatelessWidget {
             services[index],
             onPressed: () {
               switch (services[index].service) {
-                case 'Github':
+                case Constants.github:
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => GithubServicePage(),
+                    ),
+                  );
+                  break;
+                case Constants.epitech:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EpitechServicePage(),
+                    ),
+                  );
+                  break;
+                case Constants.slack:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SlackServicePage(),
+                    ),
+                  );
+                  break;
+                case Constants.currency:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CurrencyServicePage(),
+                    ),
+                  );
+                  break;
+                case Constants.weather:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WeatherServicePage(),
+                    ),
+                  );
+                  break;
+                case Constants.googlemail:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GoogleMailServicePage(),
                     ),
                   );
                   break;
