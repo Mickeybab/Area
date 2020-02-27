@@ -18,9 +18,11 @@ DEV = False
 if os.getenv("DEV"):
     DEV = True
 
-MY_IP = 'mickeudulac.hd.free.fr:8080/'
+MY_IP = 'http://mickeudulac.hd.free.fr:8080/'
+FRONT_IP = 'http://mickeudulac.hd.free.fr:8081/'
 if DEV:
     MY_IP = 'http://localhost:8080/'
+    FRONT_IP = 'http://localhost:8081/'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

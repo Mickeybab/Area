@@ -211,6 +211,12 @@ URL: `API_URL/applets/${id}/activate`
   "user_id=qnfkjsqnkndfsjnkjq"
 ```
 
+Return Code
+
+`200: Ok`
+
+`303: Ko`
+
 ### Desactivate an applet
 
 Method: **`POST`**

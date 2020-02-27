@@ -5,7 +5,7 @@ from link_api import settings
 from link_api import util
 from django.db import transaction
 from django.views.decorators.http import require_http_methods
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 from sys import stderr
 from datetime import datetime
@@ -182,7 +182,27 @@ def set_applet(request, id):
 @csrf_exempt
 @require_http_methods(['POST'])
 def activate_applet(request, id):
+    
+    def get_service(name):
+        tab = [
+            Github,
+            Intra,
+            Slack,
+            None,
+            None,
+            Google,
+            None,
+            None
+        ]
+        return tab[settings.SERVICE_NAME.index(name)]
+
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    model_action = get_service(Applet.objects.get(user_id=user_id, id_applet=id).action_service)
+    model_reaction = get_service(Applet.objects.get(user_id=user_id, id_applet=id).reaction_service)
+    if model_action and not action.objects.get(user_id=user_id).token:
+        return HttpResponse('You need to enable ' + Applet.objects.get(user_id=user_id, id_applet=id).action_service, status=303)
+    if model_reaction and not reaction.objects.get(user_id=user_id).token:
+        return HttpResponse('You need to enable ' + Applet.objects.get(user_id=user_id, id_applet=id).reaction_service, status=303)
     Applet.objects.filter(user_id=user_id, id_applet=id).update(enable=True)
     return HttpResponse('Ok')
 
@@ -228,7 +248,7 @@ def search_applets(request):
 @require_http_methods(['GET'])
 def get_applets_by_services(request, service):
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
-    return JsonResponse([applet_to_json(a) for a in Applet.objects.filter(user_id=user_id, action=service)])
+    return JsonResponse([applet_to_json(a) for a in Applet.objects.filter(user_id=user_id, action_service=service)])
 
 
 ## SERVICE ##
@@ -396,3 +416,7 @@ def get_about_json(request):
         }
     }
     return JsonResponse(result)
+
+
+def redirect_to_front(request):
+    return redirect(settings.FRONT_IP)
