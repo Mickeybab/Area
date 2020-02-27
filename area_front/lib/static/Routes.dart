@@ -11,5 +11,4 @@ class Routes {
   static const String signWith = "/sign-with";
   static const String resetPassword = "/reset-password";
   static const String myPage = "/my-page";
-  static const String githubService = "/my-services/github";
 }

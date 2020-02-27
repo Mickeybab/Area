@@ -1,5 +1,7 @@
 // Core
-import 'package:area_front/static/Routes.dart';
+import 'package:area_front/pages/GithubService.dart';
+import 'package:area_front/services/Auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // Modals
@@ -7,6 +9,7 @@ import 'package:area_front/models/Service.dart';
 
 // Widgets
 import 'package:area_front/widgets/applets/ServiceCard.dart';
+import 'package:provider/provider.dart';
 
 class ListServices extends StatelessWidget {
   const ListServices({Key key, @required this.services}) : super(key: key);
@@ -28,17 +31,15 @@ class ListServices extends StatelessWidget {
             onPressed: () {
               switch (services[index].service) {
                 case 'Github':
-                  Navigator.pushNamed(
+                  Navigator.push(
                     context,
-                    Routes.githubService,
-                    arguments: Service(
-                      service: services[index].service,
-                      logo: services[index].logo,
-                      color: services[index].color,
-                      enable: services[index].enable,
-                      sync: services[index].sync
+                    MaterialPageRoute(
+                      builder: (context) => GithubServicePage(),
                     ),
                   );
+                  break;
+                case 'Google Mail':
+                  AuthService().syncInWithGoogle(Provider.of<FirebaseUser>(context, listen: false));
                   break;
                 default:
               }

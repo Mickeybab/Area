@@ -113,4 +113,23 @@ class Request {
         throw ('An error occured when fetching all services please try again later');
     }
   }
+
+  static Model.Service parseService(String body) {
+    final parsedJson = json.decode(body);
+    return Model.Service.fromJson(parsedJson);
+  }
+
+  static Future<Model.Service> getService(FirebaseUser user, String service) async {
+    final http.Response response =
+        await Backend.get(user, BackendRoutes.specificService(service));
+
+    switch (response.statusCode) {
+      case 200:
+        return compute(parseService, response.body);
+        break;
+
+      default:
+        throw ('An error occured when fetching $service service please try again later');
+    }
+  }
 }
