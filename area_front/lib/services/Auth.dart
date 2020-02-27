@@ -2,12 +2,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
-import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart';
 
 // Config
 import 'package:global_configuration/global_configuration.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 //Model
 
@@ -37,31 +34,6 @@ class AuthService {
     assert(user.uid == currentUser.uid);
 
     return currentUser;
-  }
-
-  Future signInWithGithub() async {
-    String authorizeUrl = GlobalConfiguration().getString('GithubAuthorizeUrl');
-    String clientId;
-
-    if (kIsWeb) {
-      clientId = GlobalConfiguration().getString('GithubSignInWebClientId');
-    } else if (Platform.isAndroid || Platform.isIOS) {
-      clientId = GlobalConfiguration().getString('GithubSignInMobileClientId');
-    }
-    String url = authorizeUrl +
-        "?client_id=" + clientId +
-        "&scope=public_repo%20read:user%20user:email";
-
-    print(url);
-    if (await canLaunch(url)) {
-      await launch(
-        url,
-        forceSafariVC: false,
-        forceWebView: false,
-      );
-    } else {
-      print("Cannot launch Github authorization URL");
-    }
   }
 
   /// SignIn with Google

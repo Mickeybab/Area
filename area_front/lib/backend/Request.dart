@@ -120,7 +120,6 @@ class Request {
   }
 
   static Future<Model.Service> getService(FirebaseUser user, String service) async {
-    print(BackendRoutes.specificService(service));
     final http.Response response =
         await Backend.get(user, BackendRoutes.specificService(service));
 
