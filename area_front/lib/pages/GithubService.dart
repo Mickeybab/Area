@@ -15,7 +15,6 @@ import 'package:area_front/backend/Backend.dart' as B;
 import 'package:area_front/backend/Auth.dart';
 import 'package:area_front/models/Service.dart';
 import 'package:area_front/static/backend/BackendRoutes.dart';
-import 'package:area_front/widgets/AreaTitle.dart';
 import 'package:area_front/widgets/utils/Color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
