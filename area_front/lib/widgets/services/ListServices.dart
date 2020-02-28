@@ -23,7 +23,7 @@ class ListServices extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        width: 500,
+        width: 600,
         child: ListView.separated(
           separatorBuilder: (context, index) {
             return SizedBox(height: 5);

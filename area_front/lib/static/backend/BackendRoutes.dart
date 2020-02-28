@@ -51,9 +51,6 @@ class BackendRoutes {
   /// service `identifier` for Slack
   static const String slack = 'slack';
 
-  /// service `identifier` for Microsoft
-  static const String google = 'googlemail';
-
   /// service `identifier` for Currency
   static const String currency = 'currency';
 
@@ -61,7 +58,7 @@ class BackendRoutes {
   static const String weather = 'weather';
 
   /// service `identifier` for Gmail
-  static const String googlemail = 'googlemail';
+  static const String google = 'googlemail';
 
   /// All possible value of a `Service`
   static const List<String> possibleService = const [

@@ -62,8 +62,7 @@ class _EpitechServicePageState extends State<EpitechServicePage> {
                             ),
                             SizedBox(height: 20),
                             FutureBuilder(
-                              future: Request.getApplets(user),
-                              // future: Request.getAppletsByService(user, BackendRoutes.intraEpitech),
+                              future: Request.getAppletsByService(user, BackendRoutes.intraEpitech),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError == true) {
                                   return Column(

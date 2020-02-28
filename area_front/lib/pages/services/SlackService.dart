@@ -62,8 +62,7 @@ class _SlackServicePageState extends State<SlackServicePage> {
                             ),
                             SizedBox(height: 20),
                             FutureBuilder(
-                              future: Request.getApplets(user),
-                              // future: Request.getAppletsByService(user, BackendRoutes.slack),
+                              future: Request.getAppletsByService(user, BackendRoutes.slack),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError == true) {
                                   return Column(

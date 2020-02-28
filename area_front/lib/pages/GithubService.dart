@@ -4,6 +4,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:area_front/backend/Backend.dart';
 import 'package:area_front/models/Github.dart';
+import 'package:area_front/widgets/GetMore.dart';
+import 'package:area_front/widgets/applets/ListApplets.dart';
+import 'package:area_front/widgets/services/ServiceHeader.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:http/http.dart' as http;
@@ -48,7 +51,7 @@ class GithubServicePage extends StatefulWidget {
       http.Response response;
 
       if (kIsWeb) {
-        B.Backend.post(firebaseUser, BackendRoutes.syncService('github'),
+        B.Backend.post(firebaseUser, BackendRoutes.syncService(BackendRoutes.github),
             body: {"code": code});
         return;
       } else {
@@ -168,7 +171,7 @@ class _GithubServicePageState extends State<GithubServicePage> {
         body: Center(
             child: Container(
                 child: FutureBuilder(
-                    future: Request.getService(user, 'github'),
+                    future: Request.getService(user, BackendRoutes.github),
                     builder: (context, snapshot) {
                       Service data;
                       if (snapshot.hasError == true) {
@@ -185,27 +188,7 @@ class _GithubServicePageState extends State<GithubServicePage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 150,
-                              color: hexToColor(data.color),
-                              child: Container(
-                                padding: const EdgeInsets.all(36.0),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Image.network(
-                                        data.logo,
-                                        height: 80,
-                                        width: 80,
-                                      ),
-                                      SizedBox(width: 20),
-                                      AreaTitle(data.service)
-                                    ]),
-                              ),
-                            ),
+                            ServiceHeader(data: data, textColor: Colors.white),
                             SizedBox(height: 20),
                             LiteRollingSwitch(
                               value: data.enable,
@@ -238,7 +221,27 @@ class _GithubServicePageState extends State<GithubServicePage> {
                                 }
                               },
                             ),
-                            AreaTitle('Test')
+                            SizedBox(height: 20),
+                            FutureBuilder(
+                              future: Request.getAppletsByService(user, BackendRoutes.github),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError == true) {
+                                  return Column(
+                                    children: <Widget>[
+                                      Icon(Icons.error_outline),
+                                      Text(snapshot.error.toString())
+                                    ],
+                                  );
+                                } else if (snapshot.hasData) {
+                                  if (snapshot.data != null) {
+                                    return ListApplet(applets: snapshot.data);
+                                  } else {
+                                    return GetMore();
+                                  }
+                                } else
+                                  return CircularProgressIndicator();
+                              },
+                            )
                           ],
                         );
                       } else

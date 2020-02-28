@@ -17,7 +17,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 // My Widgets
 import 'package:area_front/widgets/topbar/TopBar.dart';
 import 'package:area_front/widgets/services/ServiceHeader.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
 // Data
@@ -25,12 +24,6 @@ import 'package:provider/provider.dart';
 /// `My Applets` Page of the Area Project
 class GoogleMailServicePage extends StatefulWidget {
   GoogleMailServicePage({Key key}) : super(key: key);
-
-  static Future<void> registerGoogleMailToken(String accessToken, FirebaseUser firebaseUser) async {
-      print('registerGoogleMailToken');
-      B.Backend.post(firebaseUser, BackendRoutes.syncService(BackendRoutes.github),
-          body: {"token": accessToken, "refresh": ""});
-  }
 
   @override
   _GoogleMailServicePageState createState() => _GoogleMailServicePageState();
@@ -40,20 +33,6 @@ class _GoogleMailServicePageState extends State<GoogleMailServicePage> {
 
   FirebaseUser firebaseUser;
 
-  Future signInWithGoogleMail() async {
-    try {
-      final GoogleSignInAccount googleSignInAccount =
-          await AuthService().googleSignIn.signIn();
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
-
-      await GoogleMailServicePage.registerGoogleMailToken(googleSignInAuthentication.accessToken,
-        firebaseUser);
-
-    } catch (e) {
-      print('Got error when sign in with Google: $e');
-    }
-  }
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<FirebaseUser>(context);
@@ -72,17 +51,17 @@ class _GoogleMailServicePageState extends State<GoogleMailServicePage> {
         onChanged: (newValue) async {
           if (newValue == true) {
             if (!data.sync) {
-              await this.signInWithGoogleMail();
-              data = await Request.getService(user, BackendRoutes.googlemail);
+              await AuthService().syncInWithGoogle(Provider.of<FirebaseUser>(context, listen: false));
+              data = await Request.getService(user, BackendRoutes.google);
             }
             await B.Backend.post(
               user,
-              BackendRoutes.activateService(BackendRoutes.googlemail)
+              BackendRoutes.activateService(BackendRoutes.google)
             );
           } else {
             B.Backend.post(
               user,
-              BackendRoutes.desactivateService(BackendRoutes.googlemail)
+              BackendRoutes.desactivateService(BackendRoutes.google)
             );
           }
         }
@@ -94,7 +73,7 @@ class _GoogleMailServicePageState extends State<GoogleMailServicePage> {
         body: Center(
             child: Container(
                 child: FutureBuilder(
-                    future: Request.getService(user, BackendRoutes.googlemail),
+                    future: Request.getService(user, BackendRoutes.google),
                     builder: (context, snapshot) {
                       Service data;
                       if (snapshot.hasError == true) {
@@ -115,8 +94,7 @@ class _GoogleMailServicePageState extends State<GoogleMailServicePage> {
                             switchButton(data),
                             SizedBox(height: 20),
                             FutureBuilder(
-                              future: Request.getApplets(user),
-                              // future: Request.getAppletsByService(user, BackendRoutes.googlemail),
+                              future: Request.getAppletsByService(user, BackendRoutes.google),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError == true) {
                                   return Column(

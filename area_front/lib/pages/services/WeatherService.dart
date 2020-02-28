@@ -63,8 +63,7 @@ class _WeatherServicePageState extends State<WeatherServicePage> {
                             ),
                             SizedBox(height: 20),
                             FutureBuilder(
-                              future: Request.getApplets(user),
-                              // future: Request.getAppletsByService(user, BackendRoutes.weather),
+                              future: Request.getAppletsByService(user, BackendRoutes.weather),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError == true) {
                                   return Column(

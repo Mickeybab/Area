@@ -62,8 +62,7 @@ class _CurrencyServicePageState extends State<CurrencyServicePage> {
                             ),
                             SizedBox(height: 20),
                             FutureBuilder(
-                              future: Request.getApplets(user),
-                              // future: Request.getAppletsByService(user, BackendRoutes.currency),
+                              future: Request.getAppletsByService(user, BackendRoutes.currency),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError == true) {
                                   return Column(
