@@ -40,7 +40,6 @@ class GithubServicePage extends StatefulWidget {
 
   static Future<void> registerGithubToken(
       String code, FirebaseUser firebaseUser) async {
-    print('registerGithubToken');
     try {
       String clientSecret = (kIsWeb)
           ? GlobalConfiguration().getString('GithubSignInWebClientSecretJ')
@@ -60,7 +59,6 @@ class GithubServicePage extends StatefulWidget {
           clientSecret: clientSecret,
           code: code,
         ).toJson());
-        print(body);
         response = await http.post(
           GlobalConfiguration().getString('GithubAccessTokenUrl'),
           headers: {
@@ -70,13 +68,8 @@ class GithubServicePage extends StatefulWidget {
           body: body,
         );
       }
-      print(json.decode(response.body));
       final GitHubLoginResponse loginResponse =
           GitHubLoginResponse.fromJson(json.decode(response.body));
-      print(loginResponse);
-
-      print('user ID: ${firebaseUser.uid}');
-      print('github token: ${loginResponse.accessToken}');
 
       B.Backend.post(firebaseUser, BackendRoutes.syncService('github'),
           body: {"token": loginResponse.accessToken, "refresh": ""});
@@ -129,12 +122,8 @@ class _GithubServicePageState extends State<GithubServicePage> {
         print("Cannot launch Github authorization URL");
       }
     } else {
-      print("Je suis la");
-      print(
-          "${(MediaQuery.of(context).size.width / 30).round()}  ${(MediaQuery.of(context).size.height / 30).round()}");
       openWindow(url, "Login", 300, 300);
       await Future.delayed(Duration(seconds: 2));
-      print("code: $code notloged: $notloged");
       if (code != null) {
         try {
           await GithubServicePage.registerGithubToken(code, firebaseUser);
@@ -146,9 +135,7 @@ class _GithubServicePageState extends State<GithubServicePage> {
   }
 
   void _initDeepLinkListener() {
-    print("On va trouver");
     _subs = getLinksStream().listen((String link) async {
-      print("Je suis la $link");
       await _checkDeepLink(link);
     }, cancelOnError: false);
   }

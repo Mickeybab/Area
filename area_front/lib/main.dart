@@ -36,7 +36,6 @@ void main() async {
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    print(settings.toString());
     switch (settings.name) {
       case Routes.landing:
         return MaterialPageRoute(builder: (_) => CheckAuth(() => LandingPage()));

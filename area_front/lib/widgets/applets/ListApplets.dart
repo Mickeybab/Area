@@ -35,7 +35,6 @@ class ListApplet extends StatelessWidget {
                       builder: (context) => AppletsDetailsPage(applets[index]),
                     ),
                   );
-                  print('Card pressed');
                 },
               );
           },
