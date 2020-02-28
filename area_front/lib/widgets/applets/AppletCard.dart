@@ -45,9 +45,9 @@ class _AppletCardState extends State<AppletCard> {
         splashColor: hexToColor(widget.data.color),
         onTap: this.widget.onPressed,
         child: Container(
-          padding: EdgeInsets.all(10.0),
+          padding: EdgeInsets.all(20.0),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SizedBox(height: 20),
@@ -57,38 +57,60 @@ class _AppletCardState extends State<AppletCard> {
                         ? ""
                         : this.widget.data.title,
                     fontWeight: FontWeight.w500,
-                    fontSize: 18
+                    fontSize: 25
                   ),
                 ),
-                SizedBox(height: 20),
-                Expanded(
-                  child: AreaText(
-                    (this.widget.data.action.service == null)
-                        ? ""
-                        : this.widget.data.action.service,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(width: 10),
+                    Image.network(
+                      this.widget.data.action.logo,
+                      height: 20,
+                      width: 20,
+                    ),
+                    SizedBox(width: 5),
+                    Expanded(
+                      child: AreaText(
+                        (this.widget.data.action.service == null)
+                            ? ""
+                            : this.widget.data.action.service[0].toUpperCase() + this.widget.data.action.service.substring(1),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 20),
-                Switch(
-                    value: widget.data.enable,
-                    onChanged: (newValue) async {
-                      onSwitchChangeState(newValue);
-                      if (newValue == true) {
-                        B.Backend.post(
-                            user,
-                            BackendRoutes.activateApplet(
-                                widget.data.id.toString()));
-                        print("APPLET ACTIVATED");
-                      } else {
-                        B.Backend.post(
-                            user,
-                            BackendRoutes.desactivateApplet(
-                                widget.data.id.toString()));
-                        print("APPLET DESACTIVATED");
+                SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Switch(
+                      value: widget.data.enable,
+                      onChanged: (newValue) async {
+                        onSwitchChangeState(newValue);
+                        if (newValue == true) {
+                          B.Backend.post(
+                              user,
+                              BackendRoutes.activateApplet(
+                                  widget.data.id.toString()));
+                        } else {
+                          B.Backend.post(
+                              user,
+                              BackendRoutes.desactivateApplet(
+                                  widget.data.id.toString()));
+                        }
                       }
-                    }),
+                    ),
+                    Image.network(
+                      this.widget.data.reaction.logo,
+                      height: 20,
+                      width: 20,
+                    ),
+                  ],
+                ),
               ]),
         ),
       ),

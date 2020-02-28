@@ -2,7 +2,7 @@
 import 'package:area_front/backend/Backend.dart';
 import 'package:area_front/widgets/AreaText.dart';
 import 'package:area_front/widgets/GetMore.dart';
-import 'package:area_front/widgets/applets/ListServices.dart';
+import 'package:area_front/widgets/services/ListServices.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -28,13 +28,17 @@ class MyServices extends StatelessWidget {
       appBar: TopBar(),
       body: Center(
         child: Container(
-          padding: const EdgeInsets.all(36.0),
-          width: 500,
           margin: EdgeInsets.only(
               top: MediaQuery.of(context).size.height / 100 * 8, bottom: 30),
           child: Column(
             children: <Widget>[
               AreaTitle(Constants.myServices),
+              SizedBox(height: 20),
+              Container(
+                width: 600,
+                height: 3,
+                color: Colors.black12
+              ),
               FutureBuilder(
                 future: Request.getServices(user),
                 builder: (context, snapshot) {

@@ -9,6 +9,13 @@ class Constants {
   static const String signIn = "Sign in";
   static const String signUp = "Sign up";
 
+  static const String github = 'Github';
+  static const String epitech = 'Intra Epitech';
+  static const String slack = 'Slack';
+  static const String currency = 'Currency';
+  static const String weather = 'Weather';
+  static const String googlemail = 'Google Mail';
+
   static const List<String> userControl = <String>[
     explore,
     myApplets,
