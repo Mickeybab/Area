@@ -60,7 +60,6 @@ class _CurrencyServicePageState extends State<CurrencyServicePage> {
                               user: user,
                               serviceName: BackendRoutes.currency
                             ),
-                            SizedBox(height: 20),
                             FutureBuilder(
                               future: Request.getAppletsByService(user, BackendRoutes.currency),
                               builder: (context, snapshot) {

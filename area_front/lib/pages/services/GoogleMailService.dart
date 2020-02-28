@@ -2,6 +2,7 @@
 import 'package:area_front/services/Auth.dart';
 import 'package:area_front/widgets/GetMore.dart';
 import 'package:area_front/widgets/applets/ListApplets.dart';
+import 'package:area_front/widgets/auth/ErrorAuthText.dart';
 import 'package:area_front/widgets/utils/Color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -32,6 +33,7 @@ class GoogleMailServicePage extends StatefulWidget {
 class _GoogleMailServicePageState extends State<GoogleMailServicePage> {
 
   FirebaseUser firebaseUser;
+  String _error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +56,23 @@ class _GoogleMailServicePageState extends State<GoogleMailServicePage> {
               await AuthService().syncInWithGoogle(Provider.of<FirebaseUser>(context, listen: false));
               data = await Request.getService(user, BackendRoutes.google);
             }
-            await B.Backend.post(
-              user,
-              BackendRoutes.activateService(BackendRoutes.google)
-            );
+            try {
+              await B.Backend.post(
+                user,
+                BackendRoutes.activateService(BackendRoutes.google)
+              );
+            } catch (e) {
+              setState(() => _error = e);
+            }
           } else {
-            B.Backend.post(
-              user,
-              BackendRoutes.desactivateService(BackendRoutes.google)
-            );
+            try {
+              B.Backend.post(
+                user,
+                BackendRoutes.desactivateService(BackendRoutes.google)
+              );
+            } catch (e) {
+              setState(() => _error = e);
+            }
           }
         }
       );
@@ -92,7 +102,9 @@ class _GoogleMailServicePageState extends State<GoogleMailServicePage> {
                             ServiceHeader(data: data, textColor: Colors.white),
                             SizedBox(height: 20),
                             switchButton(data),
-                            SizedBox(height: 20),
+                            SizedBox(height: 10),
+                            ErrorAuth(_error),
+                            SizedBox(height: 10),
                             FutureBuilder(
                               future: Request.getAppletsByService(user, BackendRoutes.google),
                               builder: (context, snapshot) {

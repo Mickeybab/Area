@@ -2,6 +2,7 @@
 import 'package:area_front/pages/services/MyServices.dart';
 import 'package:area_front/widgets/GetMore.dart';
 import 'package:area_front/widgets/applets/ListApplets.dart';
+import 'package:area_front/widgets/auth/ErrorAuthText.dart';
 import 'package:area_front/widgets/utils/Color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -32,6 +33,7 @@ class EpitechSyncServicePage extends StatefulWidget {
 class _EpitechSyncServicePageState extends State<EpitechSyncServicePage> {
 
   FirebaseUser firebaseUser;
+  String _error = '';
 
   LiteRollingSwitch _switchButton(Service service) {
     return LiteRollingSwitch(
@@ -45,15 +47,23 @@ class _EpitechSyncServicePageState extends State<EpitechSyncServicePage> {
       textSize: 25.0,
       onChanged: (newValue) async {
         if (newValue == true) {
-          await B.Backend.post(
-            firebaseUser,
-            BackendRoutes.activateService(BackendRoutes.intraEpitech)
-          );
+          try {
+            await B.Backend.post(
+              firebaseUser,
+              BackendRoutes.activateService(BackendRoutes.intraEpitech)
+            );
+          } catch (e) {
+            setState(() => _error = e);
+          }
         } else {
-          await B.Backend.post(
-            firebaseUser,
-            BackendRoutes.desactivateService(BackendRoutes.intraEpitech)
-          );
+          try {
+            await B.Backend.post(
+              firebaseUser,
+              BackendRoutes.desactivateService(BackendRoutes.intraEpitech)
+            );
+          } catch (e) {
+            setState(() => _error = e);
+          }
         }
       },
     );
@@ -103,7 +113,9 @@ class _EpitechSyncServicePageState extends State<EpitechSyncServicePage> {
                       ServiceHeader(data: snapshot.data, textColor: Colors.black),
                       SizedBox(height: 20),
                       _switchButton(snapshot.data),
-                      SizedBox(height: 20),
+                      SizedBox(height: 10),
+                      ErrorAuth(_error),
+                      SizedBox(height: 10),
                       FutureBuilder(
                         future: Request.getAppletsByService(user, BackendRoutes.intraEpitech),
                         builder: (context, snapshot) {

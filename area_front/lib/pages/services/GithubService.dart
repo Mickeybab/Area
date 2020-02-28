@@ -6,6 +6,7 @@ import 'package:area_front/backend/Backend.dart';
 import 'package:area_front/models/Github.dart';
 import 'package:area_front/widgets/GetMore.dart';
 import 'package:area_front/widgets/applets/ListApplets.dart';
+import 'package:area_front/widgets/auth/ErrorAuthText.dart';
 import 'package:area_front/widgets/services/ServiceHeader.dart';
 import 'package:flutter/foundation.dart';
 
@@ -88,6 +89,7 @@ class GithubServicePage extends StatefulWidget {
 class _GithubServicePageState extends State<GithubServicePage> {
   FirebaseUser firebaseUser;
 
+  String _error = '';
   StreamSubscription _subs;
 
   @override
@@ -133,8 +135,13 @@ class _GithubServicePageState extends State<GithubServicePage> {
       openWindow(url, "Login", 300, 300);
       await Future.delayed(Duration(seconds: 2));
       print("code: $code notloged: $notloged");
-      if (code != null)
-        await GithubServicePage.registerGithubToken(code, firebaseUser);
+      if (code != null) {
+        try {
+          await GithubServicePage.registerGithubToken(code, firebaseUser);
+        } catch (e) {
+          setState(() => _error = e);
+        }
+      }
     }
   }
 
@@ -149,7 +156,11 @@ class _GithubServicePageState extends State<GithubServicePage> {
   Future<void> _checkDeepLink(String link) async {
     if (link != null) {
       String code = link.substring(link.indexOf(RegExp('code=')) + 5);
-      await GithubServicePage.registerGithubToken(code, firebaseUser);
+      try {
+        await GithubServicePage.registerGithubToken(code, firebaseUser);
+      } catch (e) {
+        setState(() => _error = e);
+      }
     }
   }
 
@@ -200,27 +211,37 @@ class _GithubServicePageState extends State<GithubServicePage> {
                               textSize: 25.0,
                               onChanged: (newValue) async {
                                 if (newValue == true) {
-                                  await B.Backend.post(
-                                      user,
-                                      BackendRoutes.activateService(data.service
-                                          .toLowerCase()
-                                          .replaceAll(
-                                              RegExp(r"\s+\b|\b\s"), "")));
+                                  try {
+                                    await B.Backend.post(
+                                        user,
+                                        BackendRoutes.activateService(data.service
+                                            .toLowerCase()
+                                            .replaceAll(
+                                                RegExp(r"\s+\b|\b\s"), "")));
+                                  } catch (e) {
+                                    setState(() => _error = e);
+                                  }
                                   if (!data.sync) {
                                     await this.signInWithGithub();
                                     data = await Request.getService(
                                         user, 'github');
                                   }
                                 } else {
-                                  B.Backend.post(
-                                      user,
-                                      BackendRoutes.desactivateService(
-                                          data.service.toLowerCase().replaceAll(
-                                              RegExp(r"\s+\b|\b\s"), "")));
+                                  try {
+                                    B.Backend.post(
+                                        user,
+                                        BackendRoutes.desactivateService(
+                                            data.service.toLowerCase().replaceAll(
+                                                RegExp(r"\s+\b|\b\s"), "")));
+                                  } catch (e) {
+                                    setState(() => _error = e);
+                                  }
                                 }
                               },
                             ),
-                            SizedBox(height: 20),
+                            SizedBox(height: 10),
+                            ErrorAuth(_error),
+                            SizedBox(height: 10),
                             FutureBuilder(
                               future: Request.getAppletsByService(user, BackendRoutes.github),
                               builder: (context, snapshot) {
