@@ -73,7 +73,7 @@ class _EpitechNoSyncServicePageState extends State<EpitechNoSyncServicePage> {
               ),
             );
           } catch (e) {
-            setState(() => error = e.message);
+            setState(() => error = e);
           }
         }
       },
