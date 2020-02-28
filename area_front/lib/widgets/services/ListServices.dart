@@ -1,6 +1,7 @@
 // Core
 import 'package:area_front/pages/services/CurrencyService.dart';
-import 'package:area_front/pages/services/EpitechService.dart';
+import 'package:area_front/pages/services/EpitechNoSyncService.dart';
+import 'package:area_front/pages/services/EpitechSyncService.dart';
 import 'package:area_front/pages/services/GithubService.dart';
 import 'package:area_front/pages/services/GoogleMailService.dart';
 import 'package:area_front/pages/services/SlackService.dart';
@@ -44,12 +45,21 @@ class ListServices extends StatelessWidget {
                     );
                     break;
                   case Constants.epitech:
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EpitechServicePage(),
-                      ),
-                    );
+                    if (services[index].sync) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EpitechSyncServicePage(),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EpitechNoSyncServicePage(),
+                        ),
+                      );
+                    }
                     break;
                   case Constants.slack:
                     Navigator.push(

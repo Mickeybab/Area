@@ -8,6 +8,7 @@ class Constants {
   static const String signOut = "Sign out";
   static const String signIn = "Sign in";
   static const String signUp = "Sign up";
+  static const String epitechAuthLink = "Register Autologin Link";
 
   static const String github = 'Github';
   static const String epitech = 'Intra Epitech';
@@ -29,7 +30,9 @@ class Constants {
   static const String errorMessagePasswordTooShort =
       'Enter at least 6 characters';
   static const String errorMessageEmailEmpty = 'Enter a valid email';
+  static const String errorMessageTokenEmpty = 'Enter a valid autologin link';
   static const String hintPasswordField = 'Password';
+  static const String hintTokenField = 'Autologin Link';
   static const String hintEmailField = 'Email';
   static const String forgotYourPassword = 'Forgot your password?';
   static const String resetPassword = 'Reset password';
