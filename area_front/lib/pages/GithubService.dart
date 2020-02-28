@@ -187,7 +187,7 @@ class _GithubServicePageState extends State<GithubServicePage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            ServiceHeader(data: data, textColor: Colors.white),
+                            ServiceHeader(data: data, textColor: Colors.black),
                             SizedBox(height: 20),
                             LiteRollingSwitch(
                               value: data.enable,

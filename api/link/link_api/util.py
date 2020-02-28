@@ -107,15 +107,15 @@ def applet_id_to_color(id):
             "0xff009FFD", # 21
             "0xffEAF6FF", # 22
             "0xffBFE4FF", # 23
-            "0xfff7931a", # 24
+            "0xffffffff", # 24
             "0xff4d4d4d", # 25
             "0xff329239", # 26
             "0xff0d579b", # 27
             "0xff4d4d4d", # 28
-            "0xfff7931a", # 29
-            "0xffe01e5a", # 30
-            "0xff2eb67d", # 31
-            "0xffecb22e", # 32
+            "0xffffffff", # 29
+            "0xfff2606a", # 30
+            "0xff779846", # 31
+            "0xffffd57e", # 32
             "0xffb74093"][id]
 
 
