@@ -1,4 +1,5 @@
 // Core
+import 'package:area_front/pages/services/MyServices.dart';
 import 'package:area_front/widgets/GetMore.dart';
 import 'package:area_front/widgets/applets/ListApplets.dart';
 import 'package:area_front/widgets/utils/Color.dart';
@@ -67,59 +68,71 @@ class _EpitechSyncServicePageState extends State<EpitechSyncServicePage> {
     );
   }
 
+  _onBackPressed() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MyServices(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<FirebaseUser>(context);
     this.firebaseUser = user;
 
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+        child: Scaffold(
         appBar: TopBar(),
         body: Center(
-            child: Container(
-                child: FutureBuilder(
-                    future: Request.getService(user, BackendRoutes.intraEpitech),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError == true) {
-                        return _errorDisplay(snapshot.error.toString());
-                      } else if (snapshot.hasData == true) {
-                        if (snapshot.data == null)
-                          return _errorDisplay('No Data Available');
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            ServiceHeader(data: snapshot.data, textColor: Colors.black),
-                            SizedBox(height: 20),
-                            _switchButton(snapshot.data),
-                            SizedBox(height: 20),
-                            FutureBuilder(
-                              future: Request.getAppletsByService(user, BackendRoutes.intraEpitech),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasError == true) {
-                                  return Column(
-                                    children: <Widget>[
-                                      Icon(Icons.error_outline),
-                                      Text(snapshot.error.toString())
-                                    ],
-                                  );
-                                } else if (snapshot.hasData) {
-                                  if (snapshot.data != null) {
-                                    return ListApplet(applets: snapshot.data);
-                                  } else {
-                                    return GetMore();
-                                  }
-                                } else
-                                  return CircularProgressIndicator();
-                              },
-                            )
-                          ],
-                        );
-                      } else
-                        return CircularProgressIndicator();
-                    }
-                )
+          child: Container(
+            child: FutureBuilder(
+              future: Request.getService(user, BackendRoutes.intraEpitech),
+              builder: (context, snapshot) {
+                if (snapshot.hasError == true) {
+                  return _errorDisplay(snapshot.error.toString());
+                } else if (snapshot.hasData == true) {
+                  if (snapshot.data == null)
+                    return _errorDisplay('No Data Available');
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      ServiceHeader(data: snapshot.data, textColor: Colors.black),
+                      SizedBox(height: 20),
+                      _switchButton(snapshot.data),
+                      SizedBox(height: 20),
+                      FutureBuilder(
+                        future: Request.getAppletsByService(user, BackendRoutes.intraEpitech),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError == true) {
+                            return Column(
+                              children: <Widget>[
+                                Icon(Icons.error_outline),
+                                Text(snapshot.error.toString())
+                              ],
+                            );
+                          } else if (snapshot.hasData) {
+                            if (snapshot.data != null) {
+                              return ListApplet(applets: snapshot.data);
+                            } else {
+                              return GetMore();
+                            }
+                          } else
+                            return CircularProgressIndicator();
+                        },
+                      )
+                    ],
+                  );
+                } else
+                  return CircularProgressIndicator();
+              }
             )
+          )
         )
+      ),
     );
   }
 }

@@ -78,12 +78,11 @@ class AuthService {
   Future syncInWithEpitechIntra(FirebaseUser user, String accessToken) async {
       final http.Response response =
         await Backend.post(user, BackendRoutes.syncService(BackendRoutes.intraEpitech), body: {"token": accessToken});
-      print(response.body);
       switch (response.statusCode) {
         case 200:
           break;
         default:
-          throw ('An error occured when fetching all applet please try again later');
+          throw (response.body);
       }
   }
 
