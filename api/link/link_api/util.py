@@ -150,7 +150,7 @@ def create_user(user_id):
 
     ## Notify
     Applet(id_applet=2, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[0], action=settings.GITHUB_ACTION[0], action_logo=settings.MY_IP + 'static/github.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/slack.png').save()
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/notification.png').save()
     ParamApplet(name="Owner Name", type=True, side=True, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=2).get().id).save()
     ParamApplet(name="Repository Name", type=True, side=True, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=2).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Nouveau commit sur ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=2).get().id).save()
@@ -175,7 +175,7 @@ def create_user(user_id):
 
     ## Notify
     Applet(id_applet=5, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action=settings.WEATHER_ACTION[1], action_logo=settings.MY_IP + 'static/weather.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/slack.png').save()
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/notification.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=5).get().id).save()
     ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=5).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température dépasse ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=5).get().id).save()
@@ -200,7 +200,7 @@ def create_user(user_id):
 
     ## Notify
     Applet(id_applet=8, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action=settings.WEATHER_ACTION[0], action_logo=settings.MY_IP + 'static/weather.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/slack.png').save()
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/notification.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=8).get().id).save()
     ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=8).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La température est en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=8).get().id).save()
@@ -221,7 +221,7 @@ def create_user(user_id):
 
     ## Notify
     Applet(id_applet=11, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[5], action=settings.GOOGLE_ACTION[0], action_logo=settings.MY_IP + 'static/googlemail.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/slack.png').save()
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/notification.png').save()
     ParamApplet(name="Message", type=True, side=False, value="Vous avez reçu un email", applet_id=Applet.objects.filter(user_id=user_id, id_applet=11).get().id).save()
 
 
@@ -242,7 +242,7 @@ def create_user(user_id):
 
     ## Notify
     Applet(id_applet=14, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[0], action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/slack.png').save()
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/notification.png').save()
     ParamApplet(name="Limit", type=False, side=True, value='10', applet_id=Applet.objects.filter(user_id=user_id, id_applet=14).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Une note a était ajouté en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=14).get().id).save()
 
@@ -264,7 +264,7 @@ def create_user(user_id):
 
     ## Notify
     Applet(id_applet=17, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[1], action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/slack.png').save()
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/notification.png').save()
     ParamApplet(name="Limit", type=False, side=True, value='120', applet_id=Applet.objects.filter(user_id=user_id, id_applet=17).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Un crédit à était ajouté au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=17).get().id).save()
 
@@ -286,7 +286,7 @@ def create_user(user_id):
 
     ## Notify
     Applet(id_applet=20, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[2], action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/slack.png').save()
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/notification.png').save()
     ParamApplet(name="Limit", type=False, side=True, value='2', applet_id=Applet.objects.filter(user_id=user_id, id_applet=20).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=20).get().id).save()
 
@@ -308,7 +308,7 @@ def create_user(user_id):
 
     ## Notify
     Applet(id_applet=23, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[3], action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/slack.png').save()
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/notification.png').save()
     ParamApplet(name="Limit", type=False, side=True, value='3', applet_id=Applet.objects.filter(user_id=user_id, id_applet=23).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=23).get().id).save()
 
@@ -332,7 +332,7 @@ def create_user(user_id):
 
     ## Notify
     Applet(id_applet=26, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action=settings.CURRENCY_ACTION[0], action_logo=settings.MY_IP + 'static/bitcoin.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/slack.png').save()
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/notification.png').save()
     ParamApplet(name="Currency", type=True, side=True, value="USD", applet_id=Applet.objects.filter(user_id=user_id, id_applet=26).get().id).save()
     ParamApplet(name="Value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=26).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La money ... est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=26).get().id).save()
@@ -357,7 +357,7 @@ def create_user(user_id):
 
     ## Notify
     Applet(id_applet=29, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action=settings.CURRENCY_ACTION[1], action_logo=settings.MY_IP + 'static/bitcoin.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/slack.png').save()
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/notification.png').save()
     ParamApplet(name="Currency", type=True, side=True, value="USD", applet_id=Applet.objects.filter(user_id=user_id, id_applet=29).get().id).save()
     ParamApplet(name="Value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=29).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="La money ... est passé au dessus de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=29).get().id).save()
@@ -378,7 +378,7 @@ def create_user(user_id):
 
     ## Notify
     Applet(id_applet=32, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[2], action=settings.SLACK_ACTION[0], action_logo=settings.MY_IP + 'static/slack.png',
-        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/slack.png').save()
+        reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/notification.png').save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=32).get().id).save()
 
 
