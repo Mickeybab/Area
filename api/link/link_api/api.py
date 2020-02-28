@@ -1,18 +1,17 @@
-from django.http import HttpResponse, Http404
 import json
-from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User, Notif, Service
-from link_api import settings
-from link_api import util
+from datetime import datetime
+from sys import stderr
+
+import requests
 from django.db import transaction
-from django.views.decorators.http import require_http_methods
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
-from sys import stderr
-from datetime import datetime
-import requests
-import json
+from django.views.decorators.http import require_http_methods
 
-
+from link_api import settings, util
+from link_api.models import (Applet, Github, Google, Intra, Notif, ParamApplet,
+                             Service, Slack, User)
 
 
 class JsonResponse(HttpResponse):
@@ -264,6 +263,8 @@ def sync_token(request, service):
             return HttpResponse('Ok')
         Github.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     elif service == settings.SERVICE_NAME[1]:
+        if util.request_create(token, settings.SERVICE_INTRA + 'v1/intra/marks').status_code != 200:
+            return HttpResponse('Token Not valid', status=303)
         Intra.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     elif service == settings.SERVICE_NAME[2]:
         Slack.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
