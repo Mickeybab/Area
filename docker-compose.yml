@@ -85,8 +85,14 @@ services:
       dockerfile: Dockerfile
     environment:
       DEV_ENV: "TRUE"
-    ports:
-      - 9008:8080
+    restart: always
+  
+  gmail_api:
+    build:
+      context: ./api/gmail
+      dockerfile: Dockerfile
+    environment:
+      DEV_ENV: "TRUE"
     restart: always
 
   db:

@@ -170,6 +170,7 @@ SERVICE_CURRENCY = 'http://currency_api:8080/'
 SERVICE_WEATHER = 'http://weather_api:8080/'
 SERVICE_EMAIL = 'http://email_backup_api:8080/'
 SERVICE_SLACK = 'http://slack_api:8080/'
+SERVICE_GOOGLE = 'http://gmail_api:9000/'
 
 GITHUB_ID = '70b9d6966be7a0f36da8'
 GITHUB_SECRET = 'dbc4e4eaa5fa1e360b2f9dbe4018d0430f53a9e8'
