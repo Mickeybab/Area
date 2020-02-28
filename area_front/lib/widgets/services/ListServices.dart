@@ -1,7 +1,7 @@
 // Core
 import 'package:area_front/pages/services/CurrencyService.dart';
 import 'package:area_front/pages/services/EpitechService.dart';
-import 'package:area_front/pages/GithubService.dart';
+import 'package:area_front/pages/services/GithubService.dart';
 import 'package:area_front/pages/services/GoogleMailService.dart';
 import 'package:area_front/pages/services/SlackService.dart';
 import 'package:area_front/pages/services/WeatherService.dart';
