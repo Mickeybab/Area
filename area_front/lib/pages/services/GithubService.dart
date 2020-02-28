@@ -71,7 +71,7 @@ class GithubServicePage extends StatefulWidget {
       final GitHubLoginResponse loginResponse =
           GitHubLoginResponse.fromJson(json.decode(response.body));
 
-      B.Backend.post(firebaseUser, BackendRoutes.syncService('github'),
+      B.Backend.post(firebaseUser, BackendRoutes.syncService(BackendRoutes.github),
           body: {"token": loginResponse.accessToken, "refresh": ""});
     } catch (e) {
       print('Got error when sign in with Github: $e');
@@ -201,10 +201,7 @@ class _GithubServicePageState extends State<GithubServicePage> {
                                   try {
                                     await B.Backend.post(
                                         user,
-                                        BackendRoutes.activateService(data.service
-                                            .toLowerCase()
-                                            .replaceAll(
-                                                RegExp(r"\s+\b|\b\s"), "")));
+                                        BackendRoutes.activateService(BackendRoutes.github));
                                   } catch (e) {
                                     setState(() => _error = e);
                                   }
@@ -217,9 +214,7 @@ class _GithubServicePageState extends State<GithubServicePage> {
                                   try {
                                     B.Backend.post(
                                         user,
-                                        BackendRoutes.desactivateService(
-                                            data.service.toLowerCase().replaceAll(
-                                                RegExp(r"\s+\b|\b\s"), "")));
+                                        BackendRoutes.desactivateService(BackendRoutes.github));
                                   } catch (e) {
                                     setState(() => _error = e);
                                   }
