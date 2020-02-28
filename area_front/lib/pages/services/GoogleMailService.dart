@@ -66,7 +66,7 @@ class _GoogleMailServicePageState extends State<GoogleMailServicePage> {
             }
           } else {
             try {
-              B.Backend.post(
+              await B.Backend.post(
                 user,
                 BackendRoutes.desactivateService(BackendRoutes.google)
               );
