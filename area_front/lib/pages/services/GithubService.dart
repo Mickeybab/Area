@@ -50,7 +50,7 @@ class GithubServicePage extends StatefulWidget {
       http.Response response;
 
       if (kIsWeb) {
-        B.Backend.post(firebaseUser, BackendRoutes.syncService(BackendRoutes.github),
+        await B.Backend.post(firebaseUser, BackendRoutes.syncService(BackendRoutes.github),
             body: {"code": code});
         return;
       } else {
@@ -71,7 +71,7 @@ class GithubServicePage extends StatefulWidget {
       final GitHubLoginResponse loginResponse =
           GitHubLoginResponse.fromJson(json.decode(response.body));
 
-      B.Backend.post(firebaseUser, BackendRoutes.syncService(BackendRoutes.github),
+      await B.Backend.post(firebaseUser, BackendRoutes.syncService(BackendRoutes.github),
           body: {"token": loginResponse.accessToken, "refresh": ""});
     } catch (e) {
       print('Got error when sign in with Github: $e');
@@ -212,7 +212,7 @@ class _GithubServicePageState extends State<GithubServicePage> {
                                   }
                                 } else {
                                   try {
-                                    B.Backend.post(
+                                    await B.Backend.post(
                                         user,
                                         BackendRoutes.desactivateService(BackendRoutes.github));
                                   } catch (e) {

@@ -93,7 +93,7 @@ class _AppletCardState extends State<AppletCard> {
                         onSwitchChangeState(newValue);
                         if (newValue == true) {
                           try {
-                            B.Backend.post(
+                            await B.Backend.post(
                                 user,
                                 BackendRoutes.activateApplet(
                                     widget.data.id.toString()));
@@ -102,7 +102,7 @@ class _AppletCardState extends State<AppletCard> {
                           }
                         } else {
                           try {
-                            B.Backend.post(
+                            await B.Backend.post(
                                 user,
                                 BackendRoutes.desactivateApplet(
                                     widget.data.id.toString()));

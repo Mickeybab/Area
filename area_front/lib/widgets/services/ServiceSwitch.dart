@@ -49,7 +49,7 @@ class _ServiceSwitchState extends State<ServiceSwitch> {
                 }
               } else {
                 try {
-                  B.Backend.post(
+                  await B.Backend.post(
                     widget.user,
                     BackendRoutes.desactivateService(widget.serviceName)
                   );
