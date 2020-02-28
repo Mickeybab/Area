@@ -263,7 +263,7 @@ def sync_token(request, service):
             return HttpResponse('Ok')
         Github.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     elif service == settings.SERVICE_NAME[1]:
-        if util.request_create(token, settings.SERVICE_INTRA + 'v1/intra/marks').status_code != 200:
+        if util.request_create(request.POST.get('token'), settings.SERVICE_INTRA + 'v1/intra/marks').status_code != 200:
             return HttpResponse('Token Not valid', status=303)
         Intra.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     elif service == settings.SERVICE_NAME[2]:
