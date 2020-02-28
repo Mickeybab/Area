@@ -45,8 +45,8 @@ app.get('/emails', function (req, res) {
     res.send('Hello World!');
 })
 
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!')
+app.listen(9000, function () {
+    console.log('Example app listening on port 9000!')
 });
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly'];

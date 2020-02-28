@@ -457,7 +457,7 @@ def verify_intra(app):
 
 
 def verify_slack(app):
-    app = app
+    return False
 
 
 def verify_currency(app):
@@ -501,7 +501,12 @@ def verify_weather(app):
 
 
 def verify_googlemail(app):
-    app = app
+    token = Google.objects.get(user_id=app.user_id).token
+    if app.action == settings.GOOGLE_ACTION[0]:
+        print('Start verif google gmail')
+        r = request_create('', settings.SERVICE_GOOGLE + 'emails?access_token=' + token)
+        print(r.text, file=stderr)
+    return False
 
 
 ######## REACTION ######
