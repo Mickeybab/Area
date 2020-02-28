@@ -92,15 +92,23 @@ class _AppletCardState extends State<AppletCard> {
                       onChanged: (newValue) async {
                         onSwitchChangeState(newValue);
                         if (newValue == true) {
-                          B.Backend.post(
-                              user,
-                              BackendRoutes.activateApplet(
-                                  widget.data.id.toString()));
+                          try {
+                            await B.Backend.post(
+                                user,
+                                BackendRoutes.activateApplet(
+                                    widget.data.id.toString()));
+                          } catch (e) {
+                            print(e);
+                          }
                         } else {
-                          B.Backend.post(
-                              user,
-                              BackendRoutes.desactivateApplet(
-                                  widget.data.id.toString()));
+                          try {
+                            await B.Backend.post(
+                                user,
+                                BackendRoutes.desactivateApplet(
+                                    widget.data.id.toString()));
+                          } catch (e) {
+                            print(e);
+                          }
                         }
                       }
                     ),
