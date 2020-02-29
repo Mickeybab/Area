@@ -43,7 +43,6 @@ class _GithubServicePageState extends State<GithubServicePage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<FirebaseUser>(context);
-    // this.firebaseUser = user;
 
     return Scaffold(
         appBar: TopBar(),
@@ -252,8 +251,6 @@ class _GithubSwitchState extends State<GithubSwitch> {
               }
               if (!widget.data.sync) {
                 await this.signInWithGithub();
-                // widget.data = await Request.getService(
-                //     user, 'github');
               }
             } else {
               try {
