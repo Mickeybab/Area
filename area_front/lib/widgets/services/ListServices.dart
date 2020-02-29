@@ -39,12 +39,7 @@ class ListServices extends StatelessWidget {
               onPressed: () {
                 switch (services[index].service) {
                   case Constants.github:
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => GithubServicePage(),
-                      ),
-                    );
+                      Navigation.navigate(context, Routes.githubService);
                     break;
                   case Constants.epitech:
                     if (services[index].sync) {
