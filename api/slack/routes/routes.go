@@ -20,7 +20,7 @@ func Assign(r *mux.Router) {
 	r.HandleFunc("/v1/slack/send", sendMessageHandler).Methods(http.MethodPost, http.MethodOptions)
 	r.HandleFunc("/v1/slack/message", getMessageHandler).Methods(http.MethodGet, http.MethodOptions)
 
-	r.HandleFunc("/v1/slack/receive/event", getMessageHandler).Methods(http.MethodPost, http.MethodOptions)
+	r.HandleFunc("/v1/slack/receive/event", receiveEventHandler).Methods(http.MethodPost, http.MethodOptions)
 
 	log.Println("Routes set.")
 }
