@@ -116,7 +116,7 @@ def service_to_json(id, user_id):
         {
             "service": "SendGrid",
             "logo": settings.STATIC_URL + 'mail.png',
-            "color" : "0xffx1a82e2",
+            "color" : "0xff294661",
             "enable": Service.objects.get(name=settings.SERVICE_NAME[7], user_id=user_id).enable,
             "sync": True
         }

@@ -19,6 +19,7 @@ class Constants {
   static const String currency = 'Currency';
   static const String weather = 'Weather';
   static const String googlemail = 'Google Mail';
+  static const String sendgrid = 'SendGrid';
 
   static const List<String> userControl = <String>[
     explore,

@@ -63,6 +63,9 @@ class BackendRoutes {
   /// service `identifier` for Gmail
   static const String google = 'googlemail';
 
+    /// service `identifier` for SendGrid
+  static const String email = 'email';
+
   /// All possible value of a `Service`
   static const List<String> possibleService = const [
     notification,
@@ -71,7 +74,8 @@ class BackendRoutes {
     slack,
     currency,
     weather,
-    google
+    google,
+    email
   ];
 
   /// return the url to interact with a `Service`
