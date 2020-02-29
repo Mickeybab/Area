@@ -26,7 +26,7 @@ class DisconnectTopBar extends StatelessWidget with PreferredSizeWidget {
               },
               child: Text(Constants.title,
                   style: Constants.style
-                      .copyWith(fontWeight: FontWeight.w600, fontSize: 40)),
+                      .copyWith(fontWeight: FontWeight.w700, fontSize: 40)),
             ),
           ),
         ],

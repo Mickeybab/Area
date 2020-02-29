@@ -22,7 +22,7 @@ class AreaTitle extends StatelessWidget {
     return AreaText(
       this.title,
       fontSize: _fontSize,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w700,
       textAlign: TextAlign.center,
     );
   }

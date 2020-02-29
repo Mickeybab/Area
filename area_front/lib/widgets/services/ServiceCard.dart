@@ -42,7 +42,7 @@ class _ServiceCardState extends State<ServiceCard> {
                       (this.widget.data.service == null)
                           ? ""
                           : this.widget.data.service,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       fontSize: 36
                   ),
                 ]),

@@ -56,7 +56,7 @@ class _AppletCardState extends State<AppletCard> {
                     (this.widget.data.title == null)
                         ? ""
                         : this.widget.data.title,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                     fontSize: 25
                   ),
                 ),
@@ -79,7 +79,7 @@ class _AppletCardState extends State<AppletCard> {
                             .toUpperCase() +
                             this.widget.data.action.service.substring(1),
                         fontSize: 20,
-                        fontWeight: FontWeight.w500
+                        fontWeight: FontWeight.w600
                       ),
                     ),
                   ],
