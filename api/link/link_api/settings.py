@@ -195,7 +195,7 @@ SLACK_REACTION = [
 ]
 
 GOOGLE_REACTION = [
-    'Google Mail'
+    'EMail'
 ]
 
 NOTIFICATION_REACTION = [
