@@ -1,12 +1,7 @@
 package models
 
-// type Item struct {
-// 	Type    string
-// 	Channel string
-// }
-
 type Event struct {
-	Type string
+	User string `json:"user"`
 	Text string `json:"text"`
 }
 
