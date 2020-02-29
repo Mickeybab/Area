@@ -31,52 +31,9 @@ class GoogleMailServicePage extends StatefulWidget {
 }
 
 class _GoogleMailServicePageState extends State<GoogleMailServicePage> {
-
-  FirebaseUser firebaseUser;
-  String _error = '';
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<FirebaseUser>(context);
-    this.firebaseUser = user;
-
-    LiteRollingSwitch switchButton(Service data) {
-      return LiteRollingSwitch(
-        value: data.enable,
-        textOn: 'On',
-        textOff: 'Off',
-        colorOn: hexToColor(data.color),
-        colorOff: Colors.grey[700],
-        iconOn: Icons.done,
-        iconOff: Icons.remove_circle_outline,
-        textSize: 25.0,
-        onChanged: (newValue) async {
-          if (newValue == true) {
-            if (!data.sync) {
-              await AuthService().syncInWithGoogle(Provider.of<FirebaseUser>(context, listen: false));
-              data = await Request.getService(user, BackendRoutes.google);
-            }
-            try {
-              await B.Backend.post(
-                user,
-                BackendRoutes.activateService(BackendRoutes.google)
-              );
-            } catch (e) {
-              setState(() => _error = e);
-            }
-          } else {
-            try {
-              await B.Backend.post(
-                user,
-                BackendRoutes.desactivateService(BackendRoutes.google)
-              );
-            } catch (e) {
-              setState(() => _error = e);
-            }
-          }
-        }
-      );
-    }
 
     return Scaffold(
         appBar: TopBar(),
@@ -101,9 +58,7 @@ class _GoogleMailServicePageState extends State<GoogleMailServicePage> {
                           children: <Widget>[
                             ServiceHeader(data: data, textColor: Colors.white),
                             SizedBox(height: 20),
-                            switchButton(data),
-                            SizedBox(height: 10),
-                            ErrorAuth(_error),
+                            GoogleMailSwitch(service: data),
                             SizedBox(height: 10),
                             FutureBuilder(
                               future: Request.getAppletsByService(user, BackendRoutes.google),
@@ -133,6 +88,69 @@ class _GoogleMailServicePageState extends State<GoogleMailServicePage> {
                 )
             )
         )
+    );
+  }
+}
+
+class GoogleMailSwitch extends StatefulWidget {
+    const GoogleMailSwitch({
+    @required this.service,
+    Key key
+  }) : super(key: key);
+
+  final Service service;
+
+  @override
+  _GoogleMailSwitchState createState() => _GoogleMailSwitchState();
+}
+
+class _GoogleMailSwitchState extends State<GoogleMailSwitch> {
+  @override
+  Widget build(BuildContext context) {
+
+    final user = Provider.of<FirebaseUser>(context);
+
+    String _error = '';
+
+    return Column(
+      children: <Widget>[
+        LiteRollingSwitch(
+          value: widget.service.enable,
+          textOn: 'On',
+          textOff: 'Off',
+          colorOn: hexToColor(widget.service.color),
+          colorOff: Colors.grey[700],
+          iconOn: Icons.done,
+          iconOff: Icons.remove_circle_outline,
+          textSize: 25.0,
+          onChanged: (newValue) async {
+            if (newValue == true) {
+              if (!widget.service.sync) {
+                await AuthService().syncInWithGoogle(Provider.of<FirebaseUser>(context, listen: false));
+              }
+              try {
+                await B.Backend.post(
+                  user,
+                  BackendRoutes.activateService(BackendRoutes.google)
+                );
+              } catch (e) {
+                setState(() => _error = e);
+              }
+            } else {
+              try {
+                await B.Backend.post(
+                  user,
+                  BackendRoutes.desactivateService(BackendRoutes.google)
+                );
+              } catch (e) {
+                setState(() => _error = e);
+              }
+            }
+          }
+        ),
+        SizedBox(height: 10),
+        ErrorAuth(_error),
+      ],
     );
   }
 }
