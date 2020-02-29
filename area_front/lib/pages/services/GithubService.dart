@@ -37,127 +37,9 @@ class GithubServicePage extends StatefulWidget {
 
   @override
   _GithubServicePageState createState() => _GithubServicePageState();
-
-  // static Future<void> registerGithubToken(
-  //     String code, FirebaseUser firebaseUser) async {
-  //   try {
-  //     String clientSecret = (kIsWeb)
-  //         ? GlobalConfiguration().getString('GithubSignInWebClientSecretJ')
-  //         : GlobalConfiguration().getString('GithubSignInMobileClientSecret');
-  //     String clientId = (kIsWeb)
-  //         ? GlobalConfiguration().getString('GithubSignInWebClientIdJ')
-  //         : GlobalConfiguration().getString('GithubSignInMobileClientId');
-  //     http.Response response;
-
-  //     if (kIsWeb) {
-  //       await B.Backend.post(firebaseUser, BackendRoutes.syncService(BackendRoutes.github),
-  //           body: {"code": code});
-  //       return;
-  //     } else {
-  //       final String body = jsonEncode(GitHubLoginRequest(
-  //         clientId: clientId,
-  //         clientSecret: clientSecret,
-  //         code: code,
-  //       ).toJson());
-  //       response = await http.post(
-  //         GlobalConfiguration().getString('GithubAccessTokenUrl'),
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           "Accept": "application/json",
-  //         },
-  //         body: body,
-  //       );
-  //     }
-  //     final GitHubLoginResponse loginResponse =
-  //         GitHubLoginResponse.fromJson(json.decode(response.body));
-
-  //     await B.Backend.post(firebaseUser, BackendRoutes.syncService(BackendRoutes.github),
-  //         body: {"token": loginResponse.accessToken, "refresh": ""});
-  //   } catch (e) {
-  //     print('Got error when sign in with Github: $e');
-  //   }
-  // }
 }
 
 class _GithubServicePageState extends State<GithubServicePage> {
-  // FirebaseUser firebaseUser;
-
-  // String _error = '';
-  // StreamSubscription _subs;
-
-  // @override
-  // void dispose() {
-  //   if (!kIsWeb) _disposeDeepLinkListener();
-  //   super.dispose();
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   if (!kIsWeb) _initDeepLinkListener();
-  // }
-
-  // Future signInWithGithub() async {
-  //   String authorizeUrl = GlobalConfiguration().getString('GithubAuthorizeUrl');
-  //   String clientId;
-
-  //   if (kIsWeb) {
-  //     clientId = GlobalConfiguration().getString('GithubSignInWebClientIdJ');
-  //   } else if (Platform.isAndroid || Platform.isIOS) {
-  //     clientId = GlobalConfiguration().getString('GithubSignInMobileClientId');
-  //   }
-  //   String url = authorizeUrl +
-  //       "?client_id=" +
-  //       clientId +
-  //       "&scope=public_repo%20read:user%20user:email";
-
-  //   if (!kIsWeb) {
-  //     if (await canLaunch(url)) {
-  //       await launch(
-  //         url,
-  //         forceSafariVC: false,
-  //         forceWebView: false,
-  //       );
-  //     } else {
-  //       print("Cannot launch Github authorization URL");
-  //     }
-  //   } else {
-  //     openWindow(url, "Login", 300, 300);
-  //     await Future.delayed(Duration(seconds: 2));
-  //     if (code != null) {
-  //       try {
-  //         await GithubServicePage.registerGithubToken(code, firebaseUser);
-  //       } catch (e) {
-  //         setState(() => _error = e);
-  //       }
-  //     }
-  //   }
-  // }
-
-  // void _initDeepLinkListener() {
-  //   _subs = getLinksStream().listen((String link) async {
-  //     await _checkDeepLink(link);
-  //   }, cancelOnError: false);
-  // }
-
-  // Future<void> _checkDeepLink(String link) async {
-  //   if (link != null) {
-  //     String code = link.substring(link.indexOf(RegExp('code=')) + 5);
-  //     try {
-  //       await GithubServicePage.registerGithubToken(code, firebaseUser);
-  //     } catch (e) {
-  //       setState(() => _error = e);
-  //     }
-  //   }
-  // }
-
-  // void _disposeDeepLinkListener() {
-  //   if (_subs != null) {
-  //     _subs.cancel();
-  //     _subs = null;
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<FirebaseUser>(context);
@@ -180,49 +62,12 @@ class _GithubServicePageState extends State<GithubServicePage> {
                         );
                       } else if (snapshot.hasData == true) {
                         data = snapshot.data;
-                        // updateServiceData(snapshot.data);
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             ServiceHeader(data: data, textColor: Colors.black),
                             SizedBox(height: 20),
-                            // LiteRollingSwitch(
-                            //   value: data.enable,
-                            //   textOn: 'On',
-                            //   textOff: 'Off',
-                            //   colorOn: hexToColor(data.color),
-                            //   colorOff: Colors.grey[700],
-                            //   iconOn: Icons.done,
-                            //   iconOff: Icons.remove_circle_outline,
-                            //   textSize: 25.0,
-                            //   onChanged: (newValue) async {
-                            //     if (newValue == true) {
-                            //       try {
-                            //         await B.Backend.post(
-                            //             user,
-                            //             BackendRoutes.activateService(BackendRoutes.github));
-                            //       } catch (e) {
-                            //         setState(() => _error = e);
-                            //       }
-                            //       if (!data.sync) {
-                            //         await this.signInWithGithub();
-                            //         data = await Request.getService(
-                            //             user, 'github');
-                            //       }
-                            //     } else {
-                            //       try {
-                            //         await B.Backend.post(
-                            //             user,
-                            //             BackendRoutes.desactivateService(BackendRoutes.github));
-                            //       } catch (e) {
-                            //         setState(() => _error = e);
-                            //       }
-                            //     }
-                            //   },
-                            // ),
-                            // SizedBox(height: 10),
-                            // ErrorAuth(_error),
                             GithubSwitch(data: snapshot.data),
                             SizedBox(height: 10),
                             FutureBuilder(
