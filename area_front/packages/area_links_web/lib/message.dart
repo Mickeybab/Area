@@ -4,7 +4,7 @@ library message;
 import 'dart:html';
 import 'package:js/js.dart';
 
-@JS('toto')
-external get toto;
+@JS('functionImportedInDart')
+external get jsImportedFunction;
 @JS('jsReceiveMessage')
 external void jsReceiveMessage(Event a);

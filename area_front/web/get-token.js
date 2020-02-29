@@ -8,6 +8,6 @@ if (window.opener) {
 
 // Function to handle the missing
 // compatibility between dart and js function
-var toto = function jsReceiveMessage (event) {
+var functionImportedInDart = function jsReceiveMessage (event) {
     dartReceiveMessage(event.data);
 }

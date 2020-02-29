@@ -38,7 +38,7 @@ class AreaLinks extends AreaLinksPlatform {
   registerCallbackHandler(void Function(String) callback) {
     print("Je suis la icici tout la");
     context['dartReceiveMessage'] = callback;
-    html.window.addEventListener('message', toto);
+    html.window.addEventListener('message', jsImportedFunction);
   }
 
   /// Clear the link
