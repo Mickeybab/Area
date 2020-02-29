@@ -6,6 +6,7 @@ import 'package:area_front/pages/services/EpitechService.dart';
 import 'package:area_front/pages/services/GithubService.dart';
 import 'package:area_front/pages/services/GoogleMailService.dart';
 import 'package:area_front/pages/services/NotificationService.dart';
+import 'package:area_front/pages/services/SendGridService.dart';
 import 'package:area_front/pages/services/SlackService.dart';
 import 'package:area_front/pages/services/WeatherService.dart';
 import 'package:area_front/static/Constants.dart';
@@ -91,6 +92,9 @@ class Router {
         break;
       case Routes.googleMailService:
         return MaterialPageRoute(builder: (_) => CheckAuth(() => GoogleMailServicePage()));
+        break;
+      case Routes.sendGridService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => SendGridServicePage()));
         break;
       default:
         return MaterialPageRoute(
