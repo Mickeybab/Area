@@ -79,6 +79,14 @@ func sendMessageHandler(w http.ResponseWriter, r *http.Request) {
 func getMessageHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(200)
-	fmt.Fprintf(w, `{"status": "success", "code": %d, "data": %s}`, 200, "ok")
+
+	listB, err := json.Marshal(List)
+	if err != nil {
+		w.WriteHeader(500)
+		log.Println(err)
+		fmt.Fprintf(w, `{"status": "failure", "code": %d, "message": "%s"}`, 500, err)
+	}
+	List = make([]models.Event, 0)
+	fmt.Fprintf(w, `{"status": "success", "code": %d, "data": %s}`, 200, string(listB))
 	return
 }
