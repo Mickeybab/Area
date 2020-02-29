@@ -22,6 +22,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.11"
+  area_links:
+    dependency: "direct main"
+    description:
+      path: "packages/area_links"
+      relative: true
+    source: path
+    version: "0.0.1"
   area_links_platform_interface:
     dependency: transitive
     description:
@@ -30,7 +37,7 @@ packages:
     source: path
     version: "0.0.1"
   area_links_web:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "packages/area_links_web"
       relative: true
@@ -595,6 +602,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.6"
+  uni_links:
+    dependency: transitive
+    description:
+      name: uni_links
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   url_launcher:
     dependency: "direct main"
     description:

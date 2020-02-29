@@ -17,7 +17,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:area_links_web/area_links_web.dart';
+import 'package:area_links/area_links.dart';
 
 // My Widgets
 import 'package:area_front/widgets/topbar/TopBar.dart';

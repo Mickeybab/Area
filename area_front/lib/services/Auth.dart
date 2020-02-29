@@ -18,7 +18,8 @@ class AuthService {
   /// Google Handle the selection of the Google Account and ask for permission
   final GoogleSignIn _googleSignIn = GoogleSignIn(
       clientId: GlobalConfiguration().getString('GoogleSignInClientId'), scopes: [
-        'https://mail.google.com/'
+        'https://mail.google.com/',
+        'https://www.googleapis.com/auth/gmail.readonly'
       ]);
 
   /// Depending on the credential [FirebaseAuth] will sign In or Up the user

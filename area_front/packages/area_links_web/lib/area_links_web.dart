@@ -36,7 +36,6 @@ class AreaLinks extends AreaLinksPlatform {
   /// Register a callback to be call when :
   /// - The opened browser instance redirect to the correct url
   registerCallbackHandler(void Function(String) callback) {
-    print("Je suis la icici tout la");
     context['dartReceiveMessage'] = callback;
     html.window.addEventListener('message', jsImportedFunction);
   }

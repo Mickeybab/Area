@@ -32,11 +32,8 @@ dependencies:
   simple_auth_flutter: ^2.0.4
 
   url_launcher: ^5.4.2
-  # uni_links: ^0.2.0
-  # area_links:
-  #   path: ./packages/area_links
-  area_links_web:
-    path: ./packages/area_links_web
+  area_links:
+    path: ./packages/area_links
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
