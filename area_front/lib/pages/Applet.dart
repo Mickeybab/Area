@@ -4,6 +4,7 @@ import 'package:area_front/backend/Navigation.dart';
 import 'package:area_front/models/Service.dart';
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/static/Routes.dart';
+import 'package:area_front/static/backend/BackendRoutes.dart';
 import 'package:area_front/widgets/AreaLargeButton.dart';
 import 'package:area_front/widgets/AreaText.dart';
 import 'package:area_front/widgets/AreaTextField.dart';
@@ -11,6 +12,7 @@ import 'package:area_front/widgets/applets/AppletHeader.dart';
 import 'package:area_front/widgets/topbar/TopBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:area_front/backend/Backend.dart' as B;
 
 // Models
 import 'package:area_front/models/applets/Applet.dart';
@@ -199,6 +201,12 @@ class AppletFrom extends StatelessWidget {
                     final user = Provider.of<FirebaseUser>(context, listen: false);
                     try {
                       await Request.addOrUpdateApplet(user, widget.applet);
+                      await B.Backend.post(
+                        user,
+                        BackendRoutes.activateApplet(
+                          widget.applet.id.toString()
+                        )
+                      );
                       final snackbar = SnackBar(
                         content: Text(Constants.allOk),
                       );
