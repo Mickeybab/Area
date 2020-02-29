@@ -96,7 +96,6 @@ class _GithubServicePageState extends State<GithubServicePage> {
   void initState() {
     super.initState();
     _link.registerCallbackHandler((String link) async {
-      print("Je suis la $link");
       await _checkDeepLink(link);
     });
   }
@@ -124,7 +123,6 @@ class _GithubServicePageState extends State<GithubServicePage> {
     } else {
       print("Cannot launch Github authorization URL");
     }
-    print("Je suis la");
   }
 
   Future<void> _checkDeepLink(String link) async {
