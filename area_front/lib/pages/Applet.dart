@@ -3,7 +3,6 @@ import 'package:area_front/backend/Backend.dart';
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/widgets/AreaLargeButton.dart';
 import 'package:area_front/widgets/AreaText.dart';
-import 'package:area_front/widgets/AreaTitle.dart';
 import 'package:area_front/widgets/applets/AppletHeader.dart';
 import 'package:area_front/widgets/topbar/TopBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
