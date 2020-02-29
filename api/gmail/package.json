@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index_copy.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "julien.ollivier@epitech.eu",

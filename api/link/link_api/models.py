@@ -62,3 +62,18 @@ class Service(models.Model):
     user_id = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     enable = models.BooleanField(default=False)
+
+
+class Title(models.Model):
+    name = models.CharField(max_length=255)
+    value = models.CharField(max_length=255)
+
+
+class Description(models.Model):
+    name = models.CharField(max_length=255)
+    value = models.CharField(max_length=500)
+
+
+class Color(models.Model):
+    name = models.CharField(max_length=255)
+    value = models.CharField(max_length=50)

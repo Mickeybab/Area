@@ -1,6 +1,13 @@
 // Core
 import 'package:area_front/pages/Home.dart';
 import 'package:area_front/pages/auth/ResetPassword.dart';
+import 'package:area_front/pages/services/CurrencyService.dart';
+import 'package:area_front/pages/services/EpitechService.dart';
+import 'package:area_front/pages/services/GithubService.dart';
+import 'package:area_front/pages/services/GoogleMailService.dart';
+import 'package:area_front/pages/services/NotificationService.dart';
+import 'package:area_front/pages/services/SlackService.dart';
+import 'package:area_front/pages/services/WeatherService.dart';
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/pages/auth/SignUp.dart';
 import 'package:area_front/pages/auth/SignWith.dart';
@@ -21,7 +28,7 @@ import 'package:area_front/config.dart';
 // Pages
 import 'package:area_front/pages/Explore.dart';
 import 'package:area_front/pages/MyApplets.dart' show MyApplets;
-import 'package:area_front/pages/MyServices.dart' show MyServices;
+import 'package:area_front/pages/services/MyServices.dart' show MyServices;
 import 'package:area_front/pages/Landing.dart' show LandingPage;
 
 // Config
@@ -36,7 +43,6 @@ void main() async {
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    print(settings.toString());
     switch (settings.name) {
       case Routes.landing:
         return MaterialPageRoute(builder: (_) => CheckAuth(() => LandingPage()));
@@ -64,6 +70,27 @@ class Router {
         break;
       case Routes.explore:
         return MaterialPageRoute(builder: (_) => CheckAuth(() => Explore()));
+        break;
+      case Routes.notifService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => NotificationServicePage()));
+        break;
+      case Routes.githubService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => GithubServicePage()));
+        break;
+      case Routes.epitechService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => EpitechService()));
+        break;
+      case Routes.slackService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => SlackServicePage()));
+        break;
+      case Routes.currencyService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => CurrencyServicePage()));
+        break;
+      case Routes.weatherService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => WeatherServicePage()));
+        break;
+      case Routes.googleMailService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => GoogleMailServicePage()));
         break;
       default:
         return MaterialPageRoute(

@@ -7,10 +7,11 @@ import 'package:flutter/services.dart';
 class AreaTextField extends StatelessWidget {
   const AreaTextField(
       {Key key,
+      this.style = Constants.style,
       this.obscureText = false,
       this.hintText = '',
       this.enabledBorderColor = Constants.colorBorder,
-      this.focusedBorderColor = const Color.fromARGB(255, 0, 0, 0),
+      this.focusedBorderColor = Colors.black,
       this.borderWidth = 5.0,
       this.borderRadius = 10.0,
       this.contentPadding = Constants.defaultPadding,
@@ -18,9 +19,10 @@ class AreaTextField extends StatelessWidget {
       this.keyboardType,
       this.inputFormatters = const <TextInputFormatter>[],
       @required this.onChanged,
-      @required this.validator})
+      this.validator})
       : super(key: key);
 
+  final TextStyle style;
   final double borderRadius;
   final double borderWidth;
   final EdgeInsetsGeometry contentPadding;
@@ -38,7 +40,7 @@ class AreaTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       obscureText: this.obscureText,
-      style: Constants.style,
+      style: style,
       inputFormatters: this.inputFormatters,
       keyboardType: this.keyboardType,
       decoration: InputDecoration(

@@ -21,7 +21,7 @@ class GetMore extends StatelessWidget {
             ),
             SizedBox(height: 100.0),
             Container(
-                width: 300,
+                width: 550,
                 child: AreaLargeButton(
                   text: Constants.getMore,
                   onPressed: () {

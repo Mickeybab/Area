@@ -71,13 +71,29 @@ services:
      DEV_ENV: "TRUE"
    restart: always
 
-#  email_backup_api:
-#   build: 
-#     context: ./api/email-back-up
-#     dockerfile: Dockerfile
-#   environment:
-#     DEV_ENV: "TRUE"
-#   restart: always
+  email_backup_api:
+   build:
+     context: ./api/email-back-up
+     dockerfile: Dockerfile
+   environment:
+     DEV_ENV: "TRUE"
+   restart: always
+
+  slack_api:
+    build:
+      context: ./api/slack
+      dockerfile: Dockerfile
+    environment:
+      DEV_ENV: "TRUE"
+    restart: always
+
+  gmail_api:
+    build:
+      context: ./api/gmail
+      dockerfile: Dockerfile
+    environment:
+      DEV_ENV: "TRUE"
+    restart: always
 
   db:
     image: mysql:5.7
@@ -106,9 +122,27 @@ services:
     volumes:
       - /sessions
 
-  #front:
-  #  build:
-  #    context: ./area_front
-  #    dockerfile: Dockerfile
-  #  ports:
-  #    - 8081:80
+  front:
+    environment:
+      ANDROID_HOME: /usr/local/android-sdk
+      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
+    build:
+      context: ./area_front
+      dockerfile: Dockerfile
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./statics:/statics
+    ports:
+      - 8081:80
+    depends_on:
+      - link_api
+
+  front_apk:
+    environment:
+      ANDROID_HOME: /usr/local/android-sdk
+      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
+    build:
+      context: ./area_front
+      dockerfile: Dockerfile_apk
+    volumes:
+      - ./statics:/statics

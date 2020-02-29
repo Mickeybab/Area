@@ -8,6 +8,17 @@ class Constants {
   static const String signOut = "Sign out";
   static const String signIn = "Sign in";
   static const String signUp = "Sign up";
+  static const String epitechAuthLink = "Register Autologin Link";
+  static const String enableServiceStart = "Please Activate ";
+  static const String enableServiceEnd = " Service";
+
+  static const String notification = 'Notification';
+  static const String github = 'Github';
+  static const String epitech = 'Intra Epitech';
+  static const String slack = 'Slack';
+  static const String currency = 'Currency';
+  static const String weather = 'Weather';
+  static const String googlemail = 'Google Mail';
 
   static const List<String> userControl = <String>[
     explore,
@@ -22,7 +33,9 @@ class Constants {
   static const String errorMessagePasswordTooShort =
       'Enter at least 6 characters';
   static const String errorMessageEmailEmpty = 'Enter a valid email';
+  static const String errorMessageTokenEmpty = 'Enter a valid autologin link';
   static const String hintPasswordField = 'Password';
+  static const String hintTokenField = 'Autologin Link';
   static const String hintEmailField = 'Email';
   static const String forgotYourPassword = 'Forgot your password?';
   static const String resetPassword = 'Reset password';

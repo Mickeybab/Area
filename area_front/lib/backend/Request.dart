@@ -93,6 +93,20 @@ class Request {
     }
   }
 
+  static Future<List<Model.Applet>> getAppletsByService(FirebaseUser user, String service) async {
+    final http.Response response =
+        await Backend.get(user, BackendRoutes.specificApplet(service));
+
+    switch (response.statusCode) {
+      case 200:
+        return compute(parseApplets, response.body);
+        break;
+
+      default:
+        throw ('An error occured when fetching &service applets please try again later');
+    }
+  }
+
   static List<Model.Service> parseServices(String body) {
     final parsed = json.decode(body);
     return (parsed as List)

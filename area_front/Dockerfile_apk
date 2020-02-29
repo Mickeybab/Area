@@ -1,0 +1,44 @@
+FROM ubuntu:18.04 AS build-env
+
+RUN apt-get update && apt upgrade -y
+RUN apt-get install -y curl git wget unzip libgconf-2-4 gdb libstdc++6 libglu1-mesa fonts-droid-fallback lib32stdc++6 python3
+RUN apt-get install -y build-essential file apt-utils
+RUN apt-get install -y openjdk-8-jdk
+RUN apt-get clean
+
+# set the environment variables
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+
+ENV SDK_URL="https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip" \
+    ANDROID_HOME="/usr/local/android-sdk" \
+    ANDROID_VERSION=28 \
+    ANDROID_BUILD_TOOLS_VERSION=27.0.3
+# Download Android SDK
+RUN mkdir "$ANDROID_HOME" .android \
+    && cd "$ANDROID_HOME" \
+    && curl -o sdk.zip $SDK_URL \
+    && unzip sdk.zip \
+    && rm sdk.zip \
+    && mkdir "$ANDROID_HOME/licenses" || true \
+    && echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > "$ANDROID_HOME/licenses/android-sdk-license"
+#    && yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
+# Install Android Build Tool and Libraries
+RUN $ANDROID_HOME/tools/bin/sdkmanager --update
+RUN $ANDROID_HOME/tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" \
+    "platforms;android-${ANDROID_VERSION}" \
+    "platform-tools"
+
+
+RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
+
+RUN /usr/local/flutter/bin/flutter doctor -v
+RUN export PATH=$PATH:/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:
+
+RUN /usr/local/flutter/bin/flutter channel master
+RUN /usr/local/flutter/bin/flutter upgrade
+
+WORKDIR /area_front
+COPY . .
+
+CMD ["sh", "build_apk.sh"]

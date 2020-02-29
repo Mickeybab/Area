@@ -1,7 +1,7 @@
 # First stage -> Building / Compiling server
 FROM golang:1.12.5 AS builder
 
-WORKDIR /go/src/github.com/frouioui/AREA/
+WORKDIR /app
 
 COPY go.mod ./
 

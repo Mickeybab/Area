@@ -19,11 +19,17 @@ class AreaLargeButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(35.0),
       color: Colors.black,
       child: MaterialButton(
-          minWidth: MediaQuery.of(context).size.width,
-          padding: Constants.defaultPadding,
-          onPressed: this.onPressed,
-          child:
-              AreaText(this.text, textAlign: TextAlign.center, color: color)),
+        minWidth: MediaQuery.of(context).size.width,
+        padding: Constants.defaultPadding,
+        onPressed: this.onPressed,
+        child:
+          AreaText(
+            this.text,
+            textAlign: TextAlign.center,
+            fontWeight: FontWeight.w700,
+            color: color
+          )
+      ),
     );
   }
 }

@@ -25,13 +25,12 @@ class MyApplets extends StatelessWidget {
       appBar: TopBar(),
       body: Center(
         child: Container(
-          padding: const EdgeInsets.all(36.0),
-          width: 900,
           margin: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height / 100 * 8, bottom: 30),
+              top: MediaQuery.of(context).size.height / 100 * 8),
           child: Column(
             children: <Widget>[
               AreaTitle(Constants.myApplets),
+              SizedBox(height: 20),
               FutureBuilder(
                 future: Request.getApplets(user),
                 builder: (context, snapshot) {

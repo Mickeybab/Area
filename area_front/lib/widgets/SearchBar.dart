@@ -23,7 +23,11 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     const TextStyle style = TextStyle(
-        fontFamily: 'Montserrat', fontSize: 15.0, color: Colors.black);
+      fontFamily: 'Montserrat',
+      fontSize: 15.0,
+      fontWeight: FontWeight.w500,
+      color: Colors.black
+    );
 
     const textField = TextField(
       decoration: const InputDecoration(

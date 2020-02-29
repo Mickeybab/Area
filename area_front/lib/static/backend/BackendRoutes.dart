@@ -42,6 +42,9 @@ class BackendRoutes {
     return ('$applet/desactivate');
   }
 
+  /// service `identifier` for Notification
+  static const String notification = 'notification';
+
   /// service `identifier` for Github
   static const String github = 'github';
 
@@ -51,14 +54,23 @@ class BackendRoutes {
   /// service `identifier` for Slack
   static const String slack = 'slack';
 
-  /// service `identifier` for Microsoft
+  /// service `identifier` for Currency
+  static const String currency = 'currency';
+
+  /// service `identifier` for Weather
+  static const String weather = 'weather';
+
+  /// service `identifier` for Gmail
   static const String google = 'googlemail';
 
   /// All possible value of a `Service`
   static const List<String> possibleService = const [
+    notification,
     github,
     intraEpitech,
     slack,
+    currency,
+    weather,
     google
   ];
 
