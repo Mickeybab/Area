@@ -13,7 +13,6 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:area_front/backend/Backend.dart' as B;
-import 'package:area_front/backend/Auth.dart';
 import 'package:area_front/models/Service.dart';
 import 'package:area_front/static/backend/BackendRoutes.dart';
 import 'package:area_front/widgets/utils/Color.dart';
@@ -21,6 +20,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:area_links/area_links.dart';
 
 // My Widgets
 import 'package:area_front/widgets/topbar/TopBar.dart';
@@ -29,7 +29,6 @@ import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
 // Data
 import 'package:provider/provider.dart';
-import 'package:uni_links/uni_links.dart';
 
 /// `GithubService` Page of the Area Project
 class GithubServicePage extends StatefulWidget {
@@ -50,7 +49,8 @@ class GithubServicePage extends StatefulWidget {
       http.Response response;
 
       if (kIsWeb) {
-        await B.Backend.post(firebaseUser, BackendRoutes.syncService(BackendRoutes.github),
+        await B.Backend.post(
+            firebaseUser, BackendRoutes.syncService(BackendRoutes.github),
             body: {"code": code});
         return;
       } else {
@@ -71,7 +71,8 @@ class GithubServicePage extends StatefulWidget {
       final GitHubLoginResponse loginResponse =
           GitHubLoginResponse.fromJson(json.decode(response.body));
 
-      await B.Backend.post(firebaseUser, BackendRoutes.syncService(BackendRoutes.github),
+      await B.Backend.post(
+          firebaseUser, BackendRoutes.syncService(BackendRoutes.github),
           body: {"token": loginResponse.accessToken, "refresh": ""});
     } catch (e) {
       print('Got error when sign in with Github: $e');
@@ -82,19 +83,21 @@ class GithubServicePage extends StatefulWidget {
 class _GithubServicePageState extends State<GithubServicePage> {
   FirebaseUser firebaseUser;
 
+  AreaLinks _link = AreaLinks();
   String _error = '';
-  StreamSubscription _subs;
 
   @override
   void dispose() {
-    if (!kIsWeb) _disposeDeepLinkListener();
+    _link.cancel();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    if (!kIsWeb) _initDeepLinkListener();
+    _link.registerCallbackHandler((String link) async {
+      await _checkDeepLink(link);
+    });
   }
 
   Future signInWithGithub() async {
@@ -111,33 +114,15 @@ class _GithubServicePageState extends State<GithubServicePage> {
         clientId +
         "&scope=public_repo%20read:user%20user:email";
 
-    if (!kIsWeb) {
-      if (await canLaunch(url)) {
-        await launch(
-          url,
-          forceSafariVC: false,
-          forceWebView: false,
-        );
-      } else {
-        print("Cannot launch Github authorization URL");
-      }
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+      );
     } else {
-      openWindow(url, "Login", 300, 300);
-      await Future.delayed(Duration(seconds: 2));
-      if (code != null) {
-        try {
-          await GithubServicePage.registerGithubToken(code, firebaseUser);
-        } catch (e) {
-          setState(() => _error = e);
-        }
-      }
+      print("Cannot launch Github authorization URL");
     }
-  }
-
-  void _initDeepLinkListener() {
-    _subs = getLinksStream().listen((String link) async {
-      await _checkDeepLink(link);
-    }, cancelOnError: false);
   }
 
   Future<void> _checkDeepLink(String link) async {
@@ -148,13 +133,6 @@ class _GithubServicePageState extends State<GithubServicePage> {
       } catch (e) {
         setState(() => _error = e);
       }
-    }
-  }
-
-  void _disposeDeepLinkListener() {
-    if (_subs != null) {
-      _subs.cancel();
-      _subs = null;
     }
   }
 
@@ -197,11 +175,13 @@ class _GithubServicePageState extends State<GithubServicePage> {
                               iconOff: Icons.remove_circle_outline,
                               textSize: 25.0,
                               onChanged: (newValue) async {
+                                print("Ici");
                                 if (newValue == true) {
                                   try {
                                     await B.Backend.post(
                                         user,
-                                        BackendRoutes.activateService(BackendRoutes.github));
+                                        BackendRoutes.activateService(
+                                            BackendRoutes.github));
                                   } catch (e) {
                                     setState(() => _error = e);
                                   }
@@ -209,14 +189,15 @@ class _GithubServicePageState extends State<GithubServicePage> {
                                     await this.signInWithGithub();
                                     data = await Request.getService(
                                         user, 'github');
-                                  }
-                                } else {
-                                  try {
-                                    await B.Backend.post(
-                                        user,
-                                        BackendRoutes.desactivateService(BackendRoutes.github));
-                                  } catch (e) {
-                                    setState(() => _error = e);
+                                  } else {
+                                    try {
+                                      await B.Backend.post(
+                                          user,
+                                          BackendRoutes.desactivateService(
+                                              BackendRoutes.github));
+                                    } catch (e) {
+                                      setState(() => _error = e);
+                                    }
                                   }
                                 }
                               },
@@ -225,7 +206,8 @@ class _GithubServicePageState extends State<GithubServicePage> {
                             ErrorAuth(_error),
                             SizedBox(height: 10),
                             FutureBuilder(
-                              future: Request.getAppletsByService(user, BackendRoutes.github),
+                              future: Request.getAppletsByService(
+                                  user, BackendRoutes.github),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError == true) {
                                   return Column(

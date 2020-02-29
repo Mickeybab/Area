@@ -72,7 +72,7 @@ services:
    restart: always
 
   email_backup_api:
-   build: 
+   build:
      context: ./api/email-back-up
      dockerfile: Dockerfile
    environment:
@@ -80,7 +80,7 @@ services:
    restart: always
 
   slack_api:
-    build: 
+    build:
       context: ./api/slack
       dockerfile: Dockerfile
     environment:
@@ -88,7 +88,7 @@ services:
     ports:
       - 4444:8080
     restart: always
-  
+
   gmail_api:
     build:
       context: ./api/gmail
