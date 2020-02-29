@@ -9,6 +9,8 @@ class Constants {
   static const String signIn = "Sign in";
   static const String signUp = "Sign up";
   static const String epitechAuthLink = "Register Autologin Link";
+  static const String enableServiceStart = "Please activate ";
+  static const String enableServiceEnd = " service";
 
   static const String github = 'Github';
   static const String epitech = 'Intra Epitech';

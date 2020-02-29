@@ -1,12 +1,5 @@
 // Core
 import 'package:area_front/backend/Navigation.dart';
-import 'package:area_front/pages/services/CurrencyService.dart';
-import 'package:area_front/pages/services/EpitechNoSyncService.dart';
-import 'package:area_front/pages/services/EpitechSyncService.dart';
-import 'package:area_front/pages/services/GithubService.dart';
-import 'package:area_front/pages/services/GoogleMailService.dart';
-import 'package:area_front/pages/services/SlackService.dart';
-import 'package:area_front/pages/services/WeatherService.dart';
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/static/Routes.dart';
 import 'package:flutter/material.dart';

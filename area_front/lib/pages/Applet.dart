@@ -1,6 +1,9 @@
 // Core
 import 'package:area_front/backend/Backend.dart';
+import 'package:area_front/backend/Navigation.dart';
+import 'package:area_front/models/Service.dart';
 import 'package:area_front/static/Constants.dart';
+import 'package:area_front/static/Routes.dart';
 import 'package:area_front/widgets/AreaLargeButton.dart';
 import 'package:area_front/widgets/AreaText.dart';
 import 'package:area_front/widgets/AreaTextField.dart';
@@ -29,17 +32,128 @@ class _AppletsDetailsPageState extends State<AppletsDetailsPage> {
   final form = GlobalKey<FormState>();
   String message;
 
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<FirebaseUser>(context, listen: false);
+
+  Service _aService;
+  Service _rService;
+    Future<bool> checkServicesEnable() async {
+      try {
+        _aService = await Request.getService(user, widget.applet.action.service);
+        _rService = await Request.getService(user, widget.applet.reaction.service);
+        if (!_aService.enable || !_rService.enable)
+          return false;
+        return true;
+      } catch (e) {
+        print(e);
+        return false;
+      }
+    }
+
     return Scaffold(
       appBar: TopBar(),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: AppletFrom(form: form, widget: widget)
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: FutureBuilder<bool>(
+              future: checkServicesEnable(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError == true) {
+                  return Column(
+                    children: <Widget>[
+                      Icon(Icons.error_outline),
+                      Text(snapshot.error.toString())
+                    ],
+                  );
+                } else if (snapshot.hasData == true) {
+                  if (snapshot.data == true) {
+                    return AppletFrom(form: form, widget: widget);
+                  } else {
+                    return AppletEnable(widget: widget, aService: _aService, rService: _rService);
+                  }
+                } else
+                  return CircularProgressIndicator();
+              }
+            )
+          ),
         )
       ),
+    );
+  }
+}
+
+class AppletEnable extends StatelessWidget {
+  const AppletEnable({
+    Key key,
+    @required this.widget,
+    @required this.aService,
+    @required this.rService
+  }) : super(key: key);
+
+  final AppletsDetailsPage widget;
+
+  final Service aService;
+  final Service rService;
+
+  @override
+  Widget build(BuildContext context) {
+    Widget redirectionButtons() {
+      if (!aService.enable && !rService.enable) {
+        return Column(
+          children: <Widget>[
+            AreaLargeButton(
+              text: Constants.enableServiceStart + aService.service + Constants.enableServiceEnd,
+              onPressed: () async {
+                Navigation.navigate(context, Routes.specificService(widget.applet.action.service));
+              }
+            ),
+            SizedBox(height: 20),
+            AreaLargeButton(
+              text: Constants.enableServiceStart + rService.service + Constants.enableServiceEnd,
+              onPressed: () async {
+                Navigation.navigate(context, Routes.specificService(widget.applet.reaction.service));
+              }
+            ),
+          ]
+        );
+      }
+      if (!aService.enable && rService.enable) {
+        return AreaLargeButton(
+          text: Constants.enableServiceStart + aService.service + Constants.enableServiceEnd,
+          onPressed: () async {
+            Navigation.navigate(context, Routes.specificService(widget.applet.action.service));
+          }
+        );
+      }
+      return AreaLargeButton(
+        text: Constants.enableServiceStart + rService.service + Constants.enableServiceEnd,
+        onPressed: () async {
+          Navigation.navigate(context, Routes.specificService(widget.applet.reaction.service));
+        }
+      );
+    }
+
+    return Center(
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            AppletHeader(
+              applet: widget.applet,
+              action: widget.applet.action,
+              reaction: widget.applet.reaction,
+            ),
+            SizedBox(height: 20),
+            Container(
+              width: 550,
+              child: redirectionButtons()
+            )
+          ]
+        )
+      )
     );
   }
 }
