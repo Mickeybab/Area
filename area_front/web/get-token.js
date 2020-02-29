@@ -1,33 +1,13 @@
-var url = window.location;
-var code = null;
-var notloged = false;
+// We are closing the window is a window opened
+// but just before we send the href to the opener window
+// to be able to get `code` when loging on oauth2 flow
 if (window.opener) {
-    var code = new URLSearchParams(url.search).get('code');
-    console.log(window.location);
-    window.opener.postMessage(code, "*");
+    window.opener.postMessage(window.location.href, "*");
     window.close();
 }
 
-
-console.log(code);
-var receiveMessage = function (event) {
-    console.log(event);
-    code = event.data;
-}
-function openWindow(url, title, w, h) {
-    window.removeEventListener('message', receiveMessage);
-    var popup = window.open(url, title,
-      'width='+w+',height='+h+',modal=yes,resizable=no,toolbar=no,menubar=no,'+
-      'scrollbars=no, alwaysRaise=yes'
-    );
-    popup.onclose = () => {
-        setTimeout(() => {
-            notloged = true;
-            console.log("Pas log");
-        }, 3000);
-    }
-    popup.resizeBy(0, 0.50);
-    popup.focus();
-    window.addEventListener('message', receiveMessage);
-
+// Function to handle the missing
+// compatibility between dart and js function
+var toto = function jsReceiveMessage (event) {
+    dartReceiveMessage(event.data);
 }

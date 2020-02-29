@@ -9,7 +9,6 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:area_front/backend/Backend.dart' as B;
-import 'package:area_front/backend/Auth.dart';
 import 'package:area_front/models/Service.dart';
 import 'package:area_front/static/backend/BackendRoutes.dart';
 import 'package:area_front/widgets/AreaTitle.dart';
@@ -18,6 +17,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:area_links_web/area_links_web.dart';
 
 // My Widgets
 import 'package:area_front/widgets/topbar/TopBar.dart';
@@ -26,7 +26,6 @@ import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
 // Data
 import 'package:provider/provider.dart';
-import 'package:uni_links/uni_links.dart';
 
 /// `My Applets` Page of the Area Project
 class GithubServicePage extends StatefulWidget {
@@ -86,18 +85,21 @@ class GithubServicePage extends StatefulWidget {
 class _GithubServicePageState extends State<GithubServicePage> {
   FirebaseUser firebaseUser;
 
-  StreamSubscription _subs;
+  AreaLinks _link = AreaLinks();
 
   @override
   void dispose() {
-    if (!kIsWeb) _disposeDeepLinkListener();
+    _link.cancel();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    if (!kIsWeb) _initDeepLinkListener();
+    _link.registerCallbackHandler((String link) async {
+      print("Je suis la $link");
+      await _checkDeepLink(link);
+    });
   }
 
   Future signInWithGithub() async {
@@ -114,47 +116,29 @@ class _GithubServicePageState extends State<GithubServicePage> {
         clientId +
         "&scope=public_repo%20read:user%20user:email";
 
-    if (!kIsWeb) {
-      if (await canLaunch(url)) {
-        await launch(
-          url,
-          forceSafariVC: false,
-          forceWebView: false,
-        );
-      } else {
-        print("Cannot launch Github authorization URL");
-      }
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+      );
     } else {
-      print("Je suis la");
-      print(
-          "${(MediaQuery.of(context).size.width / 30).round()}  ${(MediaQuery.of(context).size.height / 30).round()}");
-      openWindow(url, "Login", 300, 300);
-      await Future.delayed(Duration(seconds: 2));
-      print("code: $code notloged: $notloged");
-      if (code != null)
-        await GithubServicePage.registerGithubToken(code, firebaseUser);
+      print("Cannot launch Github authorization URL");
     }
-  }
-
-  void _initDeepLinkListener() {
-    print("On va trouver");
-    _subs = getLinksStream().listen((String link) async {
-      print("Je suis la $link");
-      await _checkDeepLink(link);
-    }, cancelOnError: false);
+    print("Je suis la");
+    // print(
+    //     "${(MediaQuery.of(context).size.width / 30).round()}  ${(MediaQuery.of(context).size.height / 30).round()}");
+    // openWindow(url, "Login", 300, 300);
+    // await Future.delayed(Duration(seconds: 2));
+    // print("code: $code notloged: $notloged");
+    // if (code != null)
+    //   await GithubServicePage.registerGithubToken(code, firebaseUser);
   }
 
   Future<void> _checkDeepLink(String link) async {
     if (link != null) {
       String code = link.substring(link.indexOf(RegExp('code=')) + 5);
       await GithubServicePage.registerGithubToken(code, firebaseUser);
-    }
-  }
-
-  void _disposeDeepLinkListener() {
-    if (_subs != null) {
-      _subs.cancel();
-      _subs = null;
     }
   }
 
@@ -217,6 +201,7 @@ class _GithubServicePageState extends State<GithubServicePage> {
                               iconOff: Icons.remove_circle_outline,
                               textSize: 25.0,
                               onChanged: (newValue) async {
+                                print("Ici");
                                 if (newValue == true) {
                                   await B.Backend.post(
                                       user,
@@ -224,11 +209,12 @@ class _GithubServicePageState extends State<GithubServicePage> {
                                           .toLowerCase()
                                           .replaceAll(
                                               RegExp(r"\s+\b|\b\s"), "")));
-                                  if (!data.sync) {
+                                  print("Ici la: ${data.sync}");
+                                  // if (!data.sync) {
                                     await this.signInWithGithub();
                                     data = await Request.getService(
                                         user, 'github');
-                                  }
+                                  // }
                                 } else {
                                   B.Backend.post(
                                       user,

@@ -106,9 +106,9 @@ services:
     volumes:
       - /sessions
 
-  front:
-    build:
-      context: ./area_front
-      dockerfile: Dockerfile
-    ports:
-      - 8081:80
+  #front:
+  #  build:
+  #    context: ./area_front
+  #    dockerfile: Dockerfile
+  #  ports:
+  #    - 8081:80
