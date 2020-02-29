@@ -45,6 +45,9 @@ class TitleAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
     
     def __str__(self):
         return self.name
@@ -59,6 +62,9 @@ class DescriptionAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return False
     
+    def has_delete_permission(self, request, obj=None):
+        return False
+    
     def __str__(self):
         return self.name
 
@@ -70,6 +76,9 @@ class ColorAdmin(admin.ModelAdmin):
     readonly_fields = ('name',)
 
     def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
         return False
     
     def __str__(self):
