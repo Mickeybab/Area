@@ -31,6 +31,9 @@ class ListServices extends StatelessWidget {
               services[index],
               onPressed: () {
                 switch (services[index].service) {
+                  case Constants.notification:
+                      Navigation.navigate(context, Routes.notifService);
+                    break;
                   case Constants.github:
                       Navigation.navigate(context, Routes.githubService);
                     break;

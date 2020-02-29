@@ -12,6 +12,7 @@ class Constants {
   static const String enableServiceStart = "Please activate ";
   static const String enableServiceEnd = " service";
 
+  static const String notification = 'Notifications';
   static const String github = 'Github';
   static const String epitech = 'Intra Epitech';
   static const String slack = 'Slack';

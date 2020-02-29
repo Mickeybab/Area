@@ -6,6 +6,7 @@ import 'package:area_front/pages/services/EpitechNoSyncService.dart';
 import 'package:area_front/pages/services/EpitechSyncService.dart';
 import 'package:area_front/pages/services/GithubService.dart';
 import 'package:area_front/pages/services/GoogleMailService.dart';
+import 'package:area_front/pages/services/NotificationService.dart';
 import 'package:area_front/pages/services/SlackService.dart';
 import 'package:area_front/pages/services/WeatherService.dart';
 import 'package:area_front/static/Constants.dart';
@@ -70,6 +71,9 @@ class Router {
         break;
       case Routes.explore:
         return MaterialPageRoute(builder: (_) => CheckAuth(() => Explore()));
+        break;
+      case Routes.notifService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => NotificationServicePage()));
         break;
       case Routes.githubService:
         return MaterialPageRoute(builder: (_) => CheckAuth(() => GithubServicePage()));

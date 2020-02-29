@@ -11,6 +11,7 @@ class Routes {
   static const String signWith = "/sign-with";
   static const String resetPassword = "/reset-password";
   static const String myPage = "/my-page";
+  static const String notifService = "/my-services/notifications";
   static const String githubService = "/my-services/github";
   static const String epitechService = "/my-services/intra-epitech-sync";
   static const String epitechNoSyncService = "/my-services/intraepitech";
@@ -19,6 +20,10 @@ class Routes {
   static const String weatherService = "/my-services/weather";
   static const String googleMailService = "/my-services/googlemail";
 
+  /// service `identifier` for Notification
+  static const String notification = 'notifications';
+
+  /// service `identifier` for Github
   static const String github = 'github';
 
   /// service `identifier` for Epitech intra
@@ -38,6 +43,7 @@ class Routes {
 
   /// All possible value of a `Service`
   static const List<String> possibleService = const [
+    notification,
     github,
     intraEpitech,
     slack,

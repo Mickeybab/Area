@@ -42,6 +42,9 @@ class BackendRoutes {
     return ('$applet/desactivate');
   }
 
+  /// service `identifier` for Notification
+  static const String notification = 'notification';
+
   /// service `identifier` for Github
   static const String github = 'github';
 
@@ -62,6 +65,7 @@ class BackendRoutes {
 
   /// All possible value of a `Service`
   static const List<String> possibleService = const [
+    notification,
     github,
     intraEpitech,
     slack,
