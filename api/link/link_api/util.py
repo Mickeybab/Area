@@ -1,4 +1,4 @@
-from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User, Notif, Service
+from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User, Notif, Service, Title, Description, Color
 from firebase_admin import auth
 from django.shortcuts import get_object_or_404
 from link_api import settings
@@ -9,114 +9,15 @@ import json
 
 
 def applet_id_to_name(id):
-    return ["Notifier un commit sur slack", # 0
-            "Notifier un commit par email", # 1
-            "Notifier un commit par notification", # 2
-            "Notifier l'augmentation de la température sur slack", # 3
-            "Notifier l'augmentation de la température sur email", # 4
-            "Notifier l'augmentation de la température sur notification", # 5
-            "Notifier la diminution de la température sur slack", # 6
-            "Notifier la diminution de la température sur email", # 7
-            "Notifier la diminution de la température sur notification", # 8
-            "Notifier la reception d'une email sur slack", # 9
-            "Notifier la reception d'une email sur email", # 10
-            "Notifier la reception d'une email sur notification", # 11
-            "Notifier une note sur slack", # 12
-            "Notifier une note sur email", # 13
-            "Notifier une note sur notification", # 14
-            "Notifier une crédit sur slack", # 15
-            "Notifier une crédit sur email", # 16
-            "Notifier une crédit sur notification", #17
-            "Notifier une baise de gpa sur slack", # 18
-            "Notifier une baise de gpa sur email", # 19
-            "Notifier une baise de gpa sur notification", #20
-            "Notifier une augmentation de gpa sur slack", # 21
-            "Notifier une augmentation de gpa sur email", # 22
-            "Notifier une augmentation de gpa sur notification", #23
-            "Notifier la baise d'une monnaie en fonction de l'euro sur slack", # 24
-            "Notifier la baise d'une monnaie en fonction de l'euro sur email", # 25
-            "Notifier la baise d'une monnaie en fonction de l'euro sur notification", #26
-            "Notifier l'augmentation d'une monnaie en fonction de l'euro sur slack", # 27
-            "Notifier l'augmentation d'une monnaie en fonction de l'euro sur email", # 28
-            "Notifier l'augmentation d'une monnaie en fonction de l'euro sur notification", #29
-            "Notifier une notification slack sur slack", # 30
-            "Notifier une notification slack sur email", # 31
-            "Notifier une notification slack sur notification", #32
-            "H"][id]
+    return Title.objects.get(id=int(id) + 1).value
 
 
 def applet_id_to_description(id):
-    return ["Envoyer un méssage sur slack lors de l'arrivé d'un nouveau commit sur un repository à spécifier", # 0
-            "Envoyer un email sur slack lors de l'arrivé d'un nouveau commit sur un repository à spécifier", # 1
-            "Envoyer une notification sur slack lors de l'arrivé d'un nouveau commit sur un repository à spécifier", # 2
-            "Envoyer un méssage sur slack lors que la température dépasse un seuil donné", # 3
-            "Envoyer un email via google mail lors que la température dépasse un seuil donné", # 4
-            "Envoyer une notification lors que la température dépasse un seuil donné", # 5
-            "Envoyer un méssage sur slack lors que la température descent en dessous d'un seuil donné", # 6
-            "Envoyer un email via google mail lors que la température descent en dessous d'un seuil donné", # 7
-            "Envoyer une notification lors que la température descent en dessous d'un seuil donné", # 8
-            "Envoyer un méssage sur slack lors de la reception d'un email sur gmail", # 9
-            "Envoyer un email via google mail lors de la reception d'un email sur gmail", # 10
-            "Envoyer une notification lors de la reception d'un email sur gmail", # 11
-            "Envoyer un méssage sur slack lors qu'une note venant de l'intra epitech est en dessous d'un seuil donné", # 12
-            "Envoyer un email via google mail lors qu'une note venant de l'intra epitech est en dessous d'un seuil donné", # 13
-            "Envoyer une notification lors qu'une note venant de l'intra epitech est en dessous d'un seuil donné", # 14
-            "Envoyer un méssage sur slack lors que un crédit de l'intra epitech est au dessus d'un seuil donné", # 15
-            "Envoyer un email via google mail lors que un crédit de l'intra epitech est au dessus d'un seuil donné", # 16
-            "Envoyer une notification lors que un crédit de l'intra epitech est au dessus d'un seuil donné", # 17
-            "Envoyer un méssage sur slack lors que le GPA de l'intra epitech en dessous d'un seuil donné", # 18
-            "Envoyer un email via google mail lors que le GPA de l'intra epitech en dessous d'un seuil donné", # 19
-            "Envoyer une notification lors que le GPA de l'intra epitech en dessous d'un seuil donné", # 20
-            "Envoyer un méssage sur slack lors que le GPA de l'intra epitech au dessus d'un seuil donné", # 21
-            "Envoyer un email via google mail lors que le GPA de l'intra epitech au dessus d'un seuil donné", # 22
-            "Envoyer une notification lors que le GPA de l'intra epitech au dessus d'un seuil donné", # 23
-            "Envoyer un méssage sur slack lors qu'une monnaie passe en dessous d'un seuil donné en fonction de l'euro", # 24
-            "Envoyer un email via google mail lors qu'une monnaie passe en dessous d'un seuil donné en fonction de l'euro", # 25
-            "Envoyer une notification lors qu'une monnaie passe en dessous d'un seuil donné en fonction de l'euro", # 26
-            "Envoyer un méssage sur slack lors qu'une monnaie passe au dessus d'un seuil donné en fonction de l'euro", # 27
-            "Envoyer un email via google mail lors qu'une monnaie passe au dessus d'un seuil donné en fonction de l'euro", # 28
-            "Envoyer une notification lors qu'une monnaie passe au dessus d'un seuil donné en fonction de l'euro", # 29
-            "Envoyer un méssage sur slack lors de la reception d'une nouvelle notification slack", # 30
-            "Envoyer un email via google mail lors de la reception d'une nouvelle notification slack", # 31
-            "Envoyer une notification lors de la reception d'une nouvelle notification slack", # 32
-            "HH"][id]
+    return Description.objects.get(id=int(id) + 1).value
 
 
 def applet_id_to_color(id):
-    return ["0xff0366d6", # 0
-            "0xffffd33d", # 1
-            "0xffd73a49", # 2
-            "0xffe3f4fe", # 3
-            "0xff19c3fb", # 4
-            "0xffe3f4fe", # 5
-            "0xff1d71f2", # 6
-            "0xff1c9cf6", # 7
-            "0xfffffae0", # 8
-            "0xffb23121", # 9
-            "0xffc6c6c6", # 10
-            "0xffd44638", # 11
-            "0xffBFE4FF", # 12
-            "0xffD3D4D4", # 13
-            "0xffEAF6FF", # 14
-            "0xffBFE4FF", # 15
-            "0xff009FFD", # 16
-            "0xffD3D4D4", # 17
-            "0xffEAF6FF", # 18
-            "0xffD3D4D4", # 19
-            "0xffBFE4FF", # 20
-            "0xff009FFD", # 21
-            "0xffEAF6FF", # 22
-            "0xffBFE4FF", # 23
-            "0xffffffff", # 24
-            "0xff4d4d4d", # 25
-            "0xff329239", # 26
-            "0xff0d579b", # 27
-            "0xff4d4d4d", # 28
-            "0xffffffff", # 29
-            "0xfff2606a", # 30
-            "0xff779846", # 31
-            "0xffffd57e", # 32
-            "0xffb74093"][id]
+    return Color.objects.get(id=int(id) + 1).value
 
 
 def firebase_get_user_id(token):
