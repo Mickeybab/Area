@@ -18,6 +18,7 @@ class Routes {
   static const String currencyService = "/my-services/currency";
   static const String weatherService = "/my-services/weather";
   static const String googleMailService = "/my-services/googlemail";
+  static const String sendGridService = "/my-services/email";
 
   /// service `identifier` for Notification
   static const String notification = 'notification';
@@ -40,6 +41,9 @@ class Routes {
   /// service `identifier` for Gmail
   static const String google = 'googlemail';
 
+    /// service `identifier` for SendGrid
+  static const String email = 'email';
+
   /// All possible value of a `Service`
   static const List<String> possibleService = const [
     notification,
@@ -48,7 +52,8 @@ class Routes {
     slack,
     currency,
     weather,
-    google
+    google,
+    email
   ];
 
   /// return the url to interact with a `Service`

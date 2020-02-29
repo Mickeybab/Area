@@ -42,7 +42,7 @@ def create_user(user_id):
 
     ## Exchange
     Applet(id_applet=1, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[0], action=settings.GITHUB_ACTION[0], action_logo=settings.MY_IP + 'static/github.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
+        reaction_service=settings.SERVICE_NAME[7], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
     ParamApplet(name="Owner Name", type=True, side=True, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=1).get().id).save()
     ParamApplet(name="Repository Name", type=True, side=True, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=1).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=1).get().id).save()
@@ -67,7 +67,7 @@ def create_user(user_id):
 
     ## Exchange
     Applet(id_applet=4, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action=settings.WEATHER_ACTION[1], action_logo=settings.MY_IP + 'static/weather.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
+        reaction_service=settings.SERVICE_NAME[7], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
     ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=4).get().id).save()
@@ -92,7 +92,7 @@ def create_user(user_id):
 
     ## Exchange
     Applet(id_applet=7, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[4], action=settings.WEATHER_ACTION[0], action_logo=settings.MY_IP + 'static/weather.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
+        reaction_service=settings.SERVICE_NAME[7], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
     ParamApplet(name="Temperature", type=False, side=True, value="20", applet_id=Applet.objects.filter(user_id=user_id, id_applet=7).get().id).save()
     ParamApplet(name="City", type=True, side=True, value="Toulouse", applet_id=Applet.objects.filter(user_id=user_id, id_applet=7).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=7).get().id).save()
@@ -115,7 +115,7 @@ def create_user(user_id):
 
     ## Exchange
     Applet(id_applet=10, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[5], action=settings.GOOGLE_ACTION[0], action_logo=settings.MY_IP + 'static/googlemail.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
+        reaction_service=settings.SERVICE_NAME[7], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=10).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Reception d'email", applet_id=Applet.objects.filter(user_id=user_id, id_applet=10).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Vous avez reçu un email", applet_id=Applet.objects.filter(user_id=user_id, id_applet=10).get().id).save()
@@ -135,7 +135,7 @@ def create_user(user_id):
 
     ## Exchange
     Applet(id_applet=13, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[0], action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
+        reaction_service=settings.SERVICE_NAME[7], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
     ParamApplet(name="Limit", type=False, side=True, value='10', applet_id=Applet.objects.filter(user_id=user_id, id_applet=13).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=13).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Une note a etait ajouté", applet_id=Applet.objects.filter(user_id=user_id, id_applet=13).get().id).save()
@@ -157,7 +157,7 @@ def create_user(user_id):
 
     ## Exchange
     Applet(id_applet=16, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[1], action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
+        reaction_service=settings.SERVICE_NAME[7], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
     ParamApplet(name="Limit", type=False, side=True, value='120', applet_id=Applet.objects.filter(user_id=user_id, id_applet=16).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=16).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Nouveau crédit", applet_id=Applet.objects.filter(user_id=user_id, id_applet=16).get().id).save()
@@ -179,7 +179,7 @@ def create_user(user_id):
 
     ## Exchange
     Applet(id_applet=19, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[2], action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
+        reaction_service=settings.SERVICE_NAME[7], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
     ParamApplet(name="Limit", type=False, side=True, value='2', applet_id=Applet.objects.filter(user_id=user_id, id_applet=19).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=19).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Nouveau GPA", applet_id=Applet.objects.filter(user_id=user_id, id_applet=19).get().id).save()
@@ -201,7 +201,7 @@ def create_user(user_id):
 
     ## Exchange
     Applet(id_applet=22, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[1], action=settings.INTRA_ACTION[3], action_logo=settings.MY_IP + 'static/intra.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
+        reaction_service=settings.SERVICE_NAME[7], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
     ParamApplet(name="Limit", type=False, side=True, value='3', applet_id=Applet.objects.filter(user_id=user_id, id_applet=22).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=22).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Nouveau GPA", applet_id=Applet.objects.filter(user_id=user_id, id_applet=22).get().id).save()
@@ -224,7 +224,7 @@ def create_user(user_id):
 
     ## Exchange
     Applet(id_applet=25, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action=settings.CURRENCY_ACTION[0], action_logo=settings.MY_IP + 'static/bitcoin.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
+        reaction_service=settings.SERVICE_NAME[7], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
     ParamApplet(name="Currency", type=True, side=True, value="USD", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
     ParamApplet(name="Value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=25).get().id).save()
@@ -249,7 +249,7 @@ def create_user(user_id):
 
     ## Exchange
     Applet(id_applet=28, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[3], action=settings.CURRENCY_ACTION[1], action_logo=settings.MY_IP + 'static/bitcoin.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
+        reaction_service=settings.SERVICE_NAME[7], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
     ParamApplet(name="Currency", type=True, side=True, value="USD", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
     ParamApplet(name="Value", type=False, side=True, value="200", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=28).get().id).save()
@@ -272,7 +272,7 @@ def create_user(user_id):
 
     ## Exchange
     Applet(id_applet=31, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[2], action=settings.SLACK_ACTION[0], action_logo=settings.MY_IP + 'static/slack.png',
-        reaction_service=settings.SERVICE_NAME[5], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
+        reaction_service=settings.SERVICE_NAME[7], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=31).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="Nouveau GPA", applet_id=Applet.objects.filter(user_id=user_id, id_applet=31).get().id).save()
     ParamApplet(name="Message", type=True, side=False, value="Le GPA est passé en dessous de ...", applet_id=Applet.objects.filter(user_id=user_id, id_applet=31).get().id).save()

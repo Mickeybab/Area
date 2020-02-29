@@ -18,15 +18,16 @@ import 'package:area_front/widgets/services/ServiceSwitch.dart';
 
 // Data
 import 'package:provider/provider.dart';
-/// `NotificationService` Page of the Area Project
-class NotificationServicePage extends StatefulWidget {
-  NotificationServicePage({Key key}) : super(key: key);
+
+/// `SendGridService` Page of the Area Project
+class SendGridServicePage extends StatefulWidget {
+  SendGridServicePage({Key key}) : super(key: key);
 
   @override
-  _NotificationServicePageState createState() => _NotificationServicePageState();
+  _SendGridServicePageState createState() => _SendGridServicePageState();
 }
 
-class _NotificationServicePageState extends State<NotificationServicePage> {
+class _SendGridServicePageState extends State<SendGridServicePage> {
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class _NotificationServicePageState extends State<NotificationServicePage> {
         body: Center(
             child: Container(
                 child: FutureBuilder(
-                    future: Request.getService(user, BackendRoutes.notification),
+                    future: Request.getService(user, BackendRoutes.email),
                     builder: (context, snapshot) {
                       Service data;
                       if (snapshot.hasError == true) {
@@ -48,20 +49,21 @@ class _NotificationServicePageState extends State<NotificationServicePage> {
                           ],
                         );
                       } else if (snapshot.hasData == true) {
+                        print('DATA');
                         data = snapshot.data;
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            ServiceHeader(data: data, textColor: Colors.black),
+                            ServiceHeader(data: data, textColor: Colors.white),
                             SizedBox(height: 20),
                             ServiceSwitch(
                               data: data,
                               user: user,
-                              serviceName: BackendRoutes.notification
+                              serviceName: BackendRoutes.email
                             ),
                             FutureBuilder(
-                              future: Request.getAppletsByService(user, BackendRoutes.notification),
+                              future: Request.getAppletsByService(user, BackendRoutes.email),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError == true) {
                                   return Column(

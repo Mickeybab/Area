@@ -85,6 +85,8 @@ services:
       dockerfile: Dockerfile
     environment:
       DEV_ENV: "TRUE"
+    ports:
+      - 4444:8080
     restart: always
 
   gmail_api:
