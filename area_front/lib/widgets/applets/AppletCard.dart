@@ -75,7 +75,9 @@ class _AppletCardState extends State<AppletCard> {
                       child: AreaText(
                         (this.widget.data.action.service == null)
                             ? ""
-                            : this.widget.data.action.service[0].toUpperCase() + this.widget.data.action.service.substring(1),
+                            : this.widget.data.action.service[0]
+                            .toUpperCase() +
+                            this.widget.data.action.service.substring(1),
                         fontSize: 20,
                         fontWeight: FontWeight.w500
                       ),
