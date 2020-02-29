@@ -116,7 +116,7 @@ def service_to_json(id, user_id):
         {
             "service": "SendGrid",
             "logo": settings.STATIC_URL + 'mail.png',
-            "color" : "0xffx1a82e2",
+            "color" : "0xff294661",
             "enable": Service.objects.get(name=settings.SERVICE_NAME[7], user_id=user_id).enable,
             "sync": True
         }
@@ -261,7 +261,10 @@ def search_applets(request):
 @require_http_methods(['GET'])
 def get_applets_by_services(request, service):
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
-    return JsonResponse([applet_to_json(a) for a in Applet.objects.filter(user_id=user_id, action_service=service)])
+    result = [applet_to_json(a) for a in Applet.objects.filter(user_id=user_id, action_service=service)]
+    for v in Applet.objects.filter(user_id=user_id, reaction_service=service):
+        result.append(applet_to_json(v))
+    return JsonResponse(result)
 
 
 ## SERVICE ##

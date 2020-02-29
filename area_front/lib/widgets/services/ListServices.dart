@@ -52,6 +52,9 @@ class ListServices extends StatelessWidget {
                   case Constants.googlemail:
                     Navigation.navigate(context, Routes.googleMailService);
                     break;
+                  case Constants.sendgrid:
+                    Navigation.navigate(context, Routes.sendGridService);
+                    break;
                   default:
                 }
               },

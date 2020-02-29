@@ -23,3 +23,7 @@ func SendMessage(message string) (err error) {
 
 	return err
 }
+
+func GetMessage() {
+
+}
