@@ -110,14 +110,14 @@ def service_to_json(id, user_id):
             "service": "Notification",
             "logo": settings.STATIC_URL + 'notification.png',
             "color" : "0xffdadada",
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[5], user_id=user_id).enable,
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[6], user_id=user_id).enable,
             "sync": True
         },
         {
-            "service": "Email",
+            "service": "SendGrid",
             "logo": settings.STATIC_URL + 'mail.png',
-            "color" : "0xff5dff30",
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[5], user_id=user_id).enable,
+            "color" : "0xffx1a82e2",
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[7], user_id=user_id).enable,
             "sync": True
         }
     ][id]

@@ -159,7 +159,7 @@ SERVICE_NAME = [
     'weather',
     'googlemail',
     'notification',
-    'email',
+    'sendgrid',
 ]
 
 
