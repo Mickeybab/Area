@@ -19,7 +19,7 @@ import 'package:area_front/widgets/services/ServiceHeader.dart';
 
 // Data
 import 'package:provider/provider.dart';
-/// `My Applets` Page of the Area Project
+/// `EpitechNoSyncService` Page of the Area Project
 class EpitechNoSyncServicePage extends StatefulWidget {
   EpitechNoSyncServicePage({Key key}) : super(key: key);
 

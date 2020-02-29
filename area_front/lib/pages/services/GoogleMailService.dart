@@ -22,7 +22,7 @@ import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
 // Data
 import 'package:provider/provider.dart';
-/// `My Applets` Page of the Area Project
+/// `GoogleMailService` Page of the Area Project
 class GoogleMailServicePage extends StatefulWidget {
   GoogleMailServicePage({Key key}) : super(key: key);
 

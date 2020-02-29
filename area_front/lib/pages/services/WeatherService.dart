@@ -19,7 +19,7 @@ import 'package:area_front/widgets/services/ServiceSwitch.dart';
 // Data
 import 'package:provider/provider.dart';
 
-/// `My Applets` Page of the Area Project
+/// `WeatherService` Page of the Area Project
 class WeatherServicePage extends StatefulWidget {
   WeatherServicePage({Key key}) : super(key: key);
 

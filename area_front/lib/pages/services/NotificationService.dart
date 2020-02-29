@@ -18,7 +18,7 @@ import 'package:area_front/widgets/services/ServiceSwitch.dart';
 
 // Data
 import 'package:provider/provider.dart';
-/// `My Applets` Page of the Area Project
+/// `NotificationService` Page of the Area Project
 class NotificationServicePage extends StatefulWidget {
   NotificationServicePage({Key key}) : super(key: key);
 

@@ -31,7 +31,7 @@ import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:provider/provider.dart';
 import 'package:uni_links/uni_links.dart';
 
-/// `My Applets` Page of the Area Project
+/// `GithubService` Page of the Area Project
 class GithubServicePage extends StatefulWidget {
   GithubServicePage({Key key}) : super(key: key);
 

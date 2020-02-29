@@ -1,6 +1,7 @@
 // Core
 
 import 'package:area_front/backend/Backend.dart' as B;
+import 'package:area_front/models/Service.dart';
 import 'package:area_front/static/backend/BackendRoutes.dart';
 import 'package:area_front/widgets/AreaText.dart';
 import 'package:area_front/widgets/utils/Color.dart';
@@ -26,12 +27,23 @@ class AppletCard extends StatefulWidget {
 class _AppletCardState extends State<AppletCard> {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<FirebaseUser>(context);
+    final user = Provider.of<FirebaseUser>(context, listen: false);
 
-    onSwitchChangeState(bool newValue) {
-      setState(() {
-        widget.data.enable = newValue;
-      });
+    Service _aService;
+    Service _rService;
+
+    Future<bool> _checkServicesEnable() async {
+      try {
+        _aService = await B.Request.getService(user, widget.data.action.service);
+        _rService = await B.Request.getService(user, widget.data.reaction.service);
+        if (!_aService.enable || !_rService.enable) {
+          return false;
+        }
+        return true;
+      } catch (e) {
+        print(e);
+        return false;
+      }
     }
 
     return Card(
@@ -85,45 +97,116 @@ class _AppletCardState extends State<AppletCard> {
                   ],
                 ),
                 SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Switch(
-                      value: widget.data.enable,
-                      onChanged: (newValue) async {
-                        onSwitchChangeState(newValue);
-                        if (newValue == true) {
-                          try {
-                            await B.Backend.post(
-                                user,
-                                BackendRoutes.activateApplet(
-                                    widget.data.id.toString()));
-                          } catch (e) {
-                            print(e);
-                          }
-                        } else {
-                          try {
-                            await B.Backend.post(
-                                user,
-                                BackendRoutes.desactivateApplet(
-                                    widget.data.id.toString()));
-                          } catch (e) {
-                            print(e);
-                          }
-                        }
+                FutureBuilder<bool>(
+                  future: _checkServicesEnable(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError == true) {
+                      return Column(
+                        children: <Widget>[
+                          Icon(Icons.error_outline),
+                          Text(snapshot.error.toString())
+                        ],
+                      );
+                    } else if (snapshot.hasData == true) {
+                      if (snapshot.data == true) {
+                        return ActivedCardBottom(card: this.widget);
+                      } else {
+                        return DesactivatedCardBottom(card: this.widget);
                       }
-                    ),
-                    Image.network(
-                      this.widget.data.reaction.logo,
-                      height: 20,
-                      width: 20,
-                    ),
-                  ],
-                ),
+                    } else
+                      return CircularProgressIndicator();
+                  }
+                )
               ]),
         ),
       ),
+    );
+  }
+}
+
+class ActivedCardBottom extends StatefulWidget {
+  ActivedCardBottom({
+    Key key,
+    @required this.card
+    }) : super(key: key);
+
+  final AppletCard card;
+
+  @override
+  _ActivedCardBottomState createState() => _ActivedCardBottomState();
+}
+
+class _ActivedCardBottomState extends State<ActivedCardBottom> {
+
+  onSwitchChangeState(bool newValue) {
+    setState(() {
+      this.widget.card.data.enable = newValue;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final user = Provider.of<FirebaseUser>(context, listen: false);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Switch(
+          value: widget.card.data.enable,
+          onChanged: (newValue) async {
+            onSwitchChangeState(newValue);
+            if (newValue == true) {
+              try {
+                await B.Backend.post(
+                    user,
+                    BackendRoutes.activateApplet(
+                        widget.card.data.id.toString()));
+              } catch (e) {
+                print(e);
+              }
+            } else {
+              try {
+                await B.Backend.post(
+                    user,
+                    BackendRoutes.desactivateApplet(
+                        widget.card.data.id.toString()));
+              } catch (e) {
+                print(e);
+              }
+            }
+          }
+        ),
+        Image.network(
+          this.widget.card.data.reaction.logo,
+          height: 20,
+          width: 20,
+        ),
+      ],
+    );
+  }
+}
+
+class DesactivatedCardBottom extends StatelessWidget {
+  const DesactivatedCardBottom({
+    Key key,
+    @required this.card
+    }) : super(key: key);
+
+  final AppletCard card;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        SizedBox(width: 20, height: 20),
+        Image.network(
+          this.card.data.reaction.logo,
+          height: 20,
+          width: 20,
+        ),
+      ],
     );
   }
 }

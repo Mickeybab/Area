@@ -11,17 +11,16 @@ class Routes {
   static const String signWith = "/sign-with";
   static const String resetPassword = "/reset-password";
   static const String myPage = "/my-page";
-  static const String notifService = "/my-services/notifications";
+  static const String notifService = "/my-services/notification";
   static const String githubService = "/my-services/github";
-  static const String epitechService = "/my-services/intra-epitech-sync";
-  static const String epitechNoSyncService = "/my-services/intraepitech";
+  static const String epitechService = "/my-services/intraepitech";
   static const String slackService = "/my-services/slack";
   static const String currencyService = "/my-services/currency";
   static const String weatherService = "/my-services/weather";
   static const String googleMailService = "/my-services/googlemail";
 
   /// service `identifier` for Notification
-  static const String notification = 'notifications';
+  static const String notification = 'notification';
 
   /// service `identifier` for Github
   static const String github = 'github';
