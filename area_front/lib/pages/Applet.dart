@@ -3,6 +3,7 @@ import 'package:area_front/backend/Backend.dart';
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/widgets/AreaLargeButton.dart';
 import 'package:area_front/widgets/AreaText.dart';
+import 'package:area_front/widgets/AreaTextField.dart';
 import 'package:area_front/widgets/applets/AppletHeader.dart';
 import 'package:area_front/widgets/topbar/TopBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -249,12 +250,15 @@ class ActionParam extends StatelessWidget {
           fontWeight: FontWeight.w400,
         ),
         Container(
-          child: TextFormField(
+          child: AreaTextField(
             initialValue: widget.applet.action.param[index].value,
             onChanged: (value) =>
                 widget.applet.action.param[index].value = value,
             keyboardType: textInputType,
             inputFormatters: <TextInputFormatter>[textInputFormatter],
+            style: TextStyle(
+              fontSize: 18,
+            ),
           ),
         ),
       ],
@@ -292,7 +296,7 @@ class ReactionParam extends StatelessWidget {
           fontWeight: FontWeight.w400
         ),
         Container(
-          child: TextFormField(
+          child: AreaTextField(
             initialValue: widget.applet.reaction.param[index].value,
             onChanged: (value) =>
                 widget.applet.reaction.param[index].value = value,

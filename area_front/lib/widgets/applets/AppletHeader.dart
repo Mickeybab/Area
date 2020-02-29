@@ -45,7 +45,7 @@ class AppletHeader extends StatelessWidget {
               SizedBox(height: 20),
               AreaText(applet.title,
                 fontSize: 30,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 10),

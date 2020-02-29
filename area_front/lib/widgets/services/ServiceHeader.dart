@@ -30,7 +30,7 @@ class ServiceHeader extends StatelessWidget {
               SizedBox(width: 20),
               AreaText(data.service,
                 fontSize: 70,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
                 textAlign: TextAlign.center,
                 color: textColor
               )
