@@ -1,4 +1,5 @@
 // Core
+import 'package:area_front/backend/Navigation.dart';
 import 'package:area_front/pages/services/CurrencyService.dart';
 import 'package:area_front/pages/services/EpitechNoSyncService.dart';
 import 'package:area_front/pages/services/EpitechSyncService.dart';
@@ -7,6 +8,7 @@ import 'package:area_front/pages/services/GoogleMailService.dart';
 import 'package:area_front/pages/services/SlackService.dart';
 import 'package:area_front/pages/services/WeatherService.dart';
 import 'package:area_front/static/Constants.dart';
+import 'package:area_front/static/Routes.dart';
 import 'package:flutter/material.dart';
 
 // Modals
@@ -46,52 +48,22 @@ class ListServices extends StatelessWidget {
                     break;
                   case Constants.epitech:
                     if (services[index].sync) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EpitechSyncServicePage(),
-                        ),
-                      );
+                      Navigation.navigate(context, Routes.epitechService);
                     } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EpitechNoSyncServicePage(),
-                        ),
-                      );
+                      Navigation.navigate(context, Routes.epitechNoSyncService);
                     }
                     break;
                   case Constants.slack:
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SlackServicePage(),
-                      ),
-                    );
+                    Navigation.navigate(context, Routes.slackService);
                     break;
                   case Constants.currency:
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CurrencyServicePage(),
-                      ),
-                    );
+                    Navigation.navigate(context, Routes.currencyService);
                     break;
                   case Constants.weather:
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WeatherServicePage(),
-                      ),
-                    );
+                    Navigation.navigate(context, Routes.weatherService);
                     break;
                   case Constants.googlemail:
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => GoogleMailServicePage(),
-                      ),
-                    );
+                    Navigation.navigate(context, Routes.googleMailService);
                     break;
                   default:
                 }
