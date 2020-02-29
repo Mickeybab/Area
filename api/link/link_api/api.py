@@ -106,6 +106,13 @@ def service_to_json(id, user_id):
             "enable": Service.objects.get(name=settings.SERVICE_NAME[5], user_id=user_id).enable,
             "sync": True if Google.objects.get(user_id=user_id).token else False
         },
+        {
+            "service": "Notification",
+            "logo": settings.STATIC_URL + 'notification.png',
+            "color" : "0xffdadada",
+            "enable": True,
+            "sync": True
+        }
     ][id]
 
 
@@ -279,7 +286,7 @@ def sync_token(request, service):
 @require_http_methods(['GET'])
 def get_services(request):
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
-    response = [service_to_json(i, user_id) for i in range(6)]
+    response = [service_to_json(i, user_id) for i in range(7)]
     return JsonResponse(response)
 
 
