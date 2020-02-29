@@ -18,7 +18,7 @@ import 'package:area_front/widgets/services/ServiceSwitch.dart';
 
 // Data
 import 'package:provider/provider.dart';
-/// `My Applets` Page of the Area Project
+/// `CurrencyServicePage` Page of the Area Project
 class CurrencyServicePage extends StatefulWidget {
   CurrencyServicePage({Key key}) : super(key: key);
 

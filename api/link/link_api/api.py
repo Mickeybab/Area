@@ -188,7 +188,7 @@ def set_applet(request, id):
 @csrf_exempt
 @require_http_methods(['POST'])
 def activate_applet(request, id):
-    
+
     def get_service(name):
         tab = [
             Github,

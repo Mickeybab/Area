@@ -37,9 +37,10 @@ class _AppletsDetailsPageState extends State<AppletsDetailsPage> {
   Widget build(BuildContext context) {
     final user = Provider.of<FirebaseUser>(context, listen: false);
 
-  Service _aService;
-  Service _rService;
-    Future<bool> checkServicesEnable() async {
+    Service _aService;
+    Service _rService;
+
+    Future<bool> _checkServicesEnable() async {
       try {
         _aService = await Request.getService(user, widget.applet.action.service);
         _rService = await Request.getService(user, widget.applet.reaction.service);
@@ -60,7 +61,7 @@ class _AppletsDetailsPageState extends State<AppletsDetailsPage> {
             padding: EdgeInsets.only(
               bottom: MediaQuery.of(context).viewInsets.bottom),
             child: FutureBuilder<bool>(
-              future: checkServicesEnable(),
+              future: _checkServicesEnable(),
               builder: (context, snapshot) {
                 if (snapshot.hasError == true) {
                   return Column(
@@ -372,6 +373,7 @@ class ActionParam extends StatelessWidget {
             inputFormatters: <TextInputFormatter>[textInputFormatter],
             style: TextStyle(
               fontSize: 18,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ),
@@ -416,6 +418,10 @@ class ReactionParam extends StatelessWidget {
                 widget.applet.reaction.param[index].value = value,
             keyboardType: textInputType,
             inputFormatters: <TextInputFormatter>[textInputFormatter],
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+            ),
           ),
         ),
       ],

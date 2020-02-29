@@ -38,11 +38,7 @@ class ListServices extends StatelessWidget {
                       Navigation.navigate(context, Routes.githubService);
                     break;
                   case Constants.epitech:
-                    if (services[index].sync) {
                       Navigation.navigate(context, Routes.epitechService);
-                    } else {
-                      Navigation.navigate(context, Routes.epitechNoSyncService);
-                    }
                     break;
                   case Constants.slack:
                     Navigation.navigate(context, Routes.slackService);

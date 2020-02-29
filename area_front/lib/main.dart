@@ -2,8 +2,7 @@
 import 'package:area_front/pages/Home.dart';
 import 'package:area_front/pages/auth/ResetPassword.dart';
 import 'package:area_front/pages/services/CurrencyService.dart';
-import 'package:area_front/pages/services/EpitechNoSyncService.dart';
-import 'package:area_front/pages/services/EpitechSyncService.dart';
+import 'package:area_front/pages/services/EpitechService.dart';
 import 'package:area_front/pages/services/GithubService.dart';
 import 'package:area_front/pages/services/GoogleMailService.dart';
 import 'package:area_front/pages/services/NotificationService.dart';
@@ -78,11 +77,8 @@ class Router {
       case Routes.githubService:
         return MaterialPageRoute(builder: (_) => CheckAuth(() => GithubServicePage()));
         break;
-      case Routes.epitechNoSyncService:
-        return MaterialPageRoute(builder: (_) => CheckAuth(() => EpitechNoSyncServicePage()));
-        break;
       case Routes.epitechService:
-        return MaterialPageRoute(builder: (_) => CheckAuth(() => EpitechSyncServicePage()));
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => EpitechService()));
         break;
       case Routes.slackService:
         return MaterialPageRoute(builder: (_) => CheckAuth(() => SlackServicePage()));
