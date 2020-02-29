@@ -15,6 +15,8 @@ func Assign(r *mux.Router) {
 	r.HandleFunc("/v1/slack/", homeRoute).Methods(http.MethodGet, http.MethodOptions)
 	r.HandleFunc("/v1/slack", homeRoute).Methods(http.MethodGet, http.MethodOptions)
 	r.HandleFunc("/v1/slack/send", sendMessageHandler).Methods(http.MethodPost, http.MethodOptions)
+	r.HandleFunc("/v1/slack/message", getMessageHandler).Methods(http.MethodGet, http.MethodOptions)
+
 	log.Println("Routes set.")
 }
 
@@ -32,6 +34,15 @@ func sendMessageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	client.SendMessage(msg[0])
+
+	w.WriteHeader(200)
+	fmt.Fprintf(w, `{"status": "success", "code": %d, "data": %s}`, 200, "ok")
+	return
+}
+
+func getMessageHandler(w http.ResponseWriter, r *http.Request) {
+
+	// client.SendMessage(msg[0])
 
 	w.WriteHeader(200)
 	fmt.Fprintf(w, `{"status": "success", "code": %d, "data": %s}`, 200, "ok")
