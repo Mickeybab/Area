@@ -13,3 +13,9 @@ type Event struct {
 type Payload struct {
 	Event Event `json:"event"`
 }
+
+type Challenge struct {
+	Token     string `json:"token"`
+	Challenge string `json:"challenge"`
+	Type      string `json:"type"`
+}
