@@ -1,5 +1,6 @@
 // Core
 import 'package:area_front/backend/Backend.dart';
+import 'package:area_front/backend/CheckAuth.dart';
 import 'package:area_front/models/Service.dart';
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/static/backend/BackendRoutes.dart';
@@ -135,7 +136,7 @@ class _AppletEnableState extends State<AppletEnable> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AppletsDetailsPage(widget.widget.applet),
+                    builder: (context) => CheckAuth(() => AppletsDetailsPage(widget.widget.applet)),
                   ),
                 );
               }
@@ -160,7 +161,7 @@ class _AppletEnableState extends State<AppletEnable> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AppletsDetailsPage(widget.widget.applet),
+                    builder: (context) => CheckAuth(() => AppletsDetailsPage(widget.widget.applet)),
                   ),
                 );
               }
@@ -184,7 +185,7 @@ class _AppletEnableState extends State<AppletEnable> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AppletsDetailsPage(widget.widget.applet),
+                  builder: (context) => CheckAuth(() => AppletsDetailsPage(widget.widget.applet)),
                 ),
               );
             }
