@@ -2,6 +2,7 @@
 class BackendRoutes {
   static const String applets = "/applets/";
   static const String services = '/services';
+  static const String notif = '/notif';
 
 
   /// return the url to `sync` a service from the service name
@@ -77,6 +78,7 @@ class BackendRoutes {
     google,
     email
   ];
+
 
   /// return the url to interact with a `Service`
   static String specificService(String service) {
