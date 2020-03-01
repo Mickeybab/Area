@@ -29,6 +29,7 @@ This API uses the Richardson Maturity Model, more info [here](https://martinfowl
 | Action | Method | Route |
 | ---- | ---- | ---- |
 | Send a Slack message | `POST` | `/v1/slack/send?msg=xxx` |
+| Get Slack's messages | `GET` | `/v1/slack/message` |
 
 
 ### ***Development URL***
@@ -51,5 +52,30 @@ Here is an example of a **response**:
     "status": "success",
     "code": 200,
     "data": "ok"
+}
+```
+
+### **Get messages**
+
+Request type: `GET`.
+
+URL: `/v1/slack/message`
+
+Get all the awaiting slack messages.
+
+Here is an example of a **response**:
+```json
+{
+    "status": "success",
+    "code": 200,
+    "data": [{
+            "user": "toto",
+            "text": "salut"
+        },
+        {
+            "user": "enzo",
+            "text": "autodicar"
+        }
+    ]
 }
 ```
