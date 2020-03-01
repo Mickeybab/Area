@@ -1,4 +1,5 @@
 // Core
+import 'package:area_front/Notification.dart';
 import 'package:area_front/pages/Home.dart';
 import 'package:area_front/pages/auth/ResetPassword.dart';
 import 'package:area_front/pages/services/CurrencyService.dart';
@@ -34,12 +35,16 @@ import 'package:area_front/pages/Landing.dart' show LandingPage;
 
 // Config
 import 'package:global_configuration/global_configuration.dart';
+import 'package:flutter/foundation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  if (!kIsWeb) await initializeNotif();
+
   GlobalConfiguration().loadFromMap(config);
   runApp(MyApp());
+
 }
 
 class Router {

@@ -25,6 +25,10 @@ dependencies:
   provider: ^4.0.2
   global_configuration: ^1.4.0
   lite_rolling_switch: ^0.1.1
+  # Used for Notifications
+  flutter_local_notifications: ^1.2.0+3
+  rxdart: ^0.23.1
+  js: ^0.6.0
 
   # Authentification
   firebase_auth: ^0.15.4
