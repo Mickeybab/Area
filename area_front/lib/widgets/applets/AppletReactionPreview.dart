@@ -30,11 +30,9 @@ class _AppletReactionPreviewState extends State<AppletReactionPreview> {
               if (newValue == true) {
                 // user.client.post(BackendRoutes.activateApplet(widget.data.id));
                 onSwitchChangeState(newValue);
-                print("APPLET ACTIVATED");
               } else {
                 // user.client.post(BackendRoutes.desactivateApplet(widget.data.id));
                 onSwitchChangeState(newValue);
-                print("APPLET DESACTIVATED");
               }
             }),
         widget.icon

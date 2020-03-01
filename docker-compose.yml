@@ -2,7 +2,7 @@ version: "3"
 
 services:
   link_api:
-    build: 
+    build:
       context: ./api/link
       dockerfile: Dockerfile
     volumes:
@@ -21,7 +21,7 @@ services:
     restart: always
 
   start_service_api:
-    build: 
+    build:
       context: ./api/link
       dockerfile: Dockerfile
     volumes:
@@ -39,7 +39,7 @@ services:
     restart: always
 
   intra_api:
-    build: 
+    build:
       context: ./api/intra
       dockerfile: Dockerfile
     environment:
@@ -47,7 +47,7 @@ services:
     restart: always
 
   github_api:
-    build: 
+    build:
       context: ./api/github
       dockerfile: Dockerfile
     environment:
@@ -56,34 +56,50 @@ services:
     restart: always
 
   currency_api:
-    build: 
+    build:
       context: ./api/currency
       dockerfile: Dockerfile
     environment:
       DEV_ENV: "TRUE"
     restart: always
-  
+
   weather_api:
-   build: 
+   build:
      context: ./api/weather
      dockerfile: Dockerfile
    environment:
      DEV_ENV: "TRUE"
    restart: always
 
-  #email_backup_api:
-  #  build: 
-  #    context: ./api/email-back-up
-  #    dockerfile: Dockerfile
-  #  environment:
-  #    DEV_ENV: "TRUE"
-  #  ports:
-  #    - 9007:8080
-  #  restart: always
+  email_backup_api:
+   build:
+     context: ./api/email-back-up
+     dockerfile: Dockerfile
+   environment:
+     DEV_ENV: "TRUE"
+   restart: always
+
+  slack_api:
+    build:
+      context: ./api/slack
+      dockerfile: Dockerfile
+    environment:
+      DEV_ENV: "TRUE"
+    ports:
+      - 4444:8080
+    restart: always
+
+  gmail_api:
+    build:
+      context: ./api/gmail
+      dockerfile: Dockerfile
+    environment:
+      DEV_ENV: "TRUE"
+    restart: always
 
   db:
     image: mysql:5.7
-    ports: 
+    ports:
       - "3306:3306"
     environment:
       MYSQL_DATABASE: area
@@ -95,7 +111,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    links: 
+    links:
       - db
     depends_on:
       - db
@@ -107,10 +123,28 @@ services:
       MYSQL_ROOT_PASSWORD: test
     volumes:
       - /sessions
-    
+
   front:
+    environment:
+      ANDROID_HOME: /usr/local/android-sdk
+      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
     build:
       context: ./area_front
       dockerfile: Dockerfile
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./statics:/statics
     ports:
       - 8081:80
+    depends_on:
+      - link_api
+
+  front_apk:
+    environment:
+      ANDROID_HOME: /usr/local/android-sdk
+      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
+    build:
+      context: ./area_front
+      dockerfile: Dockerfile_apk
+    volumes:
+      - ./statics:/statics

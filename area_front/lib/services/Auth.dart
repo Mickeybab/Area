@@ -1,17 +1,15 @@
 // Auths Tools
-
 import 'package:area_front/backend/Backend.dart';
+import 'package:area_front/static/backend/BackendRoutes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 // Config
 import 'package:global_configuration/global_configuration.dart';
+import 'package:http/http.dart' as http;
 
 //Model
-import 'package:area_front/models/Github.dart';
 
 /// Responsible of all Auth Process
 class AuthService {
@@ -20,12 +18,15 @@ class AuthService {
 
   /// Google Handle the selection of the Google Account and ask for permission
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-      clientId: GlobalConfiguration().getString('GoogleSignInClientId'));
+      clientId: GlobalConfiguration().getString('GoogleSignInClientId'), scopes: [
+        'https://mail.google.com/',
+        'https://www.googleapis.com/auth/gmail.readonly'
+      ]);
 
   /// Depending on the credential [FirebaseAuth] will sign In or Up the user
   ///
   /// If the crédential are invalid, we throw an Exception
-  Future signWithCredential(AuthCredential credential) async {
+  Future<FirebaseUser> signWithCredential(AuthCredential credential, ) async {
     final AuthResult authResult = await _auth.signInWithCredential(credential);
     if (authResult == null) throw ("Look's like credential are invalid");
     final FirebaseUser user = authResult.user;
@@ -37,41 +38,6 @@ class AuthService {
     assert(user.uid == currentUser.uid);
 
     return currentUser;
-  }
-  /// SignIn with Github
-  Future signInWithGitHub(String code) async {
-    try {
-      final response = await http.post(
-        GlobalConfiguration().getString('GithubAccessTokenUrl'),
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: jsonEncode(GitHubLoginRequest(
-          clientId: GlobalConfiguration().getString('GithubSignInClientId'),
-          clientSecret: GlobalConfiguration().getString('GithubSignInClientSecret'),
-          code: code,
-        )),
-      );
-
-      final GitHubLoginResponse loginResponse =
-          GitHubLoginResponse.fromJson(json.decode(response.body));
-
-      final AuthCredential credential = GithubAuthProvider.getCredential(
-        token: loginResponse.accessToken,
-      );
-      final FirebaseUser user = await this.signWithCredential(credential);
-      Backend.post(user, '/services/github',
-        headers: {
-        }, body: {
-          "token": loginResponse.accessToken,
-          "refresh" : ""
-        });
-      return user;
-    } catch (e) {
-      print('Got error when sign in with Github: $e');
-      return null;
-    }
   }
 
   /// SignIn with Google
@@ -86,11 +52,39 @@ class AuthService {
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,
       );
-      return this.signWithCredential(credential);
+      final user = await this.signWithCredential(credential);
+      return Backend.post(user, BackendRoutes.syncService(BackendRoutes.github), body: {"token": googleSignInAuthentication.accessToken});
     } catch (e) {
       print('Got error when sign in with Google: $e');
       return null;
     }
+  }
+
+  /// Get tokens and Sync it with `Backend`
+  Future syncInWithGoogle(user) async {
+    try {
+      final GoogleSignInAccount googleSignInAccount =
+          await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      return Backend.post(user, BackendRoutes.syncService(BackendRoutes.google), body: {"token": googleSignInAuthentication.accessToken});
+    } catch (e) {
+      print('Got error when sign in with Google: $e');
+      return null;
+    }
+  }
+
+    /// Sync Epitech token with `Backend`
+  Future syncInWithEpitechIntra(FirebaseUser user, String accessToken) async {
+      final http.Response response =
+        await Backend.post(user, BackendRoutes.syncService(BackendRoutes.intraEpitech), body: {"token": accessToken});
+      switch (response.statusCode) {
+        case 200:
+          break;
+        default:
+          throw (response.body);
+      }
   }
 
   /// Detect auth changes

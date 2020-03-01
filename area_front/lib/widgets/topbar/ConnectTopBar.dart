@@ -11,7 +11,6 @@ import 'package:area_front/static/Routes.dart';
 
 // My Widgets
 import 'package:area_front/widgets/UserControl.dart';
-import 'package:area_front/widgets/SearchBar.dart';
 
 class ConnectTopBar extends StatelessWidget with PreferredSizeWidget {
   final AuthService _auth = AuthService();
@@ -39,15 +38,14 @@ class ConnectTopBar extends StatelessWidget with PreferredSizeWidget {
           Container(
             child: GestureDetector(
               onTap: () {
-                Navigation.navigate(context, Routes.wrapper);
+                Navigation.navigate(context, Routes.myApplets);
               },
               child: Text(Constants.title,
                   style: Constants.style
-                      .copyWith(fontWeight: FontWeight.w600, fontSize: 40)),
+                      .copyWith(fontWeight: FontWeight.w700, fontSize: 40)),
             ),
           ),
           SizedBox(width: 10.0),
-          SearchBar(),
         ],
       ),
       backgroundColor: Colors.white,

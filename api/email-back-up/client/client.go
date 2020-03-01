@@ -14,9 +14,9 @@ var (
 )
 
 func Send(email models.Email) (err error) {
-	from := mail.NewEmail("Example User", "florent.poinsard@epitech.eu")
+	from := mail.NewEmail("AREA", "florent.poinsard@epitech.eu")
 	subject := email.Subject
-	to := mail.NewEmail("Example User", email.To)
+	to := mail.NewEmail("AREA", email.To)
 	plainTextContent := email.Content
 	htmlContent := email.Content
 	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)

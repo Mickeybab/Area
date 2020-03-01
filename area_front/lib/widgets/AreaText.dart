@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AreaText extends StatelessWidget {
@@ -19,11 +20,13 @@ class AreaText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double _fontSize = fontSize;
+
     return Text(
       this.data,
       style: TextStyle(
         fontFamily: this.fontFamily,
-        fontSize: this.fontSize,
+        fontSize: _fontSize,
         color: this.color,
         fontWeight: this.fontWeight,
       ),

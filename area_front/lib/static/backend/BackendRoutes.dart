@@ -2,6 +2,23 @@
 class BackendRoutes {
   static const String applets = "/applets/";
   static const String services = '/services';
+  static const String notif = '/notif';
+
+
+  /// return the url to `sync` a service from the service name
+  static String syncService(String id) {
+    return ('$services/$id/sync');
+  }
+
+   /// return the url to `activate` a service from the service name
+  static String activateService(String id) {
+    return ('$services/$id/activate');
+  }
+
+    /// return the url to `desactivate` a service from the service name
+  static String desactivateService(String id) {
+    return ('$services/$id/desactivate');
+  }
 
   /// return the url to `interact` with an applet from the applet `id`
   static String specificApplet(String id) {
@@ -26,6 +43,9 @@ class BackendRoutes {
     return ('$applet/desactivate');
   }
 
+  /// service `identifier` for Notification
+  static const String notification = 'notification';
+
   /// service `identifier` for Github
   static const String github = 'github';
 
@@ -35,16 +55,30 @@ class BackendRoutes {
   /// service `identifier` for Slack
   static const String slack = 'slack';
 
-  /// service `identifier` for Microsoft
-  static const String microsoft = 'microsoft';
+  /// service `identifier` for Currency
+  static const String currency = 'currency';
+
+  /// service `identifier` for Weather
+  static const String weather = 'weather';
+
+  /// service `identifier` for Gmail
+  static const String google = 'googlemail';
+
+    /// service `identifier` for SendGrid
+  static const String email = 'email';
 
   /// All possible value of a `Service`
   static const List<String> possibleService = const [
+    notification,
     github,
     intraEpitech,
     slack,
-    microsoft
+    currency,
+    weather,
+    google,
+    email
   ];
+
 
   /// return the url to interact with a `Service`
   static String specificService(String service) {

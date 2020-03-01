@@ -20,6 +20,8 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
+    path('', api.redirect_to_front),
+
     path('admin/', admin.site.urls),
 
     path('about.json', api.get_about_json),
@@ -37,7 +39,8 @@ urlpatterns = [
     path('users/<str:user_id>', api.update_user),
 
     path('services', api.get_services),
-    path('services/<str:service>', api.sync_token),
+    path('services/<str:service>', api.get_one_service),
+    path('services/<str:service>/sync', api.sync_token),
     path('services/<str:service>/activate', api.activate_service),
     path('services/<str:service>/desactivate', api.desactivate_service),
 

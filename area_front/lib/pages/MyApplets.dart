@@ -1,5 +1,6 @@
 // Core
 import 'package:area_front/backend/Backend.dart';
+import 'package:area_front/models/applets/Applet.dart';
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/widgets/AreaTitle.dart';
 import 'package:area_front/widgets/applets/ListApplets.dart';
@@ -25,13 +26,12 @@ class MyApplets extends StatelessWidget {
       appBar: TopBar(),
       body: Center(
         child: Container(
-          padding: const EdgeInsets.all(36.0),
-          width: 900,
           margin: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height / 100 * 8, bottom: 30),
+              top: MediaQuery.of(context).size.height / 100 * 8),
           child: Column(
             children: <Widget>[
               AreaTitle(Constants.myApplets),
+              SizedBox(height: 20),
               FutureBuilder(
                 future: Request.getApplets(user),
                 builder: (context, snapshot) {
@@ -44,7 +44,9 @@ class MyApplets extends StatelessWidget {
                     );
                   } else if (snapshot.hasData) {
                     if (snapshot.data != null) {
-                      return ListApplet(applets: snapshot.data);
+                      print(snapshot.data);
+                      final List<Applet> list = (snapshot.data as List<Applet>).where((element) => element.enable).toList();
+                      return (list.length != 0) ? ListApplet(applets: (list)) : GetMore();
                     } else {
                       return GetMore();
                     }

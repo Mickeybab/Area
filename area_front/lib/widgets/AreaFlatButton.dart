@@ -30,7 +30,7 @@ class AreaFlatButton extends StatelessWidget {
         style: Constants.style.copyWith(
           decoration: TextDecoration.underline,
           fontSize: this.fontSize,
-          fontWeight: FontWeight.w600,
+          fontWeight: this.fontWeight,
           color: this.color,
         ),
       ),

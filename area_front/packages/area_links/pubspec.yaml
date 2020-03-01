@@ -1,0 +1,25 @@
+name: area_links
+description: A new Flutter package project.
+version: 0.0.1
+
+flutter:
+  plugin:
+    platforms:
+      web:
+        default_package: area_links_web
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  area_links_web:
+    path: ../area_links_web
+  flutter:
+    sdk: flutter
+  uni_links: ^0.2.0
+  area_links_platform_interface:
+    path: ../area_links_platform_interface
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

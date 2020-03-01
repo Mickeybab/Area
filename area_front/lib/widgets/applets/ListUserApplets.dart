@@ -1,4 +1,5 @@
 // Core
+import 'package:area_front/backend/CheckAuth.dart';
 import 'package:area_front/pages/Applet.dart';
 import 'package:flutter/material.dart';
 
@@ -34,10 +35,9 @@ class ListUserApplet extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AppletsDetailsPage(applets[index]),
+                builder: (context) => CheckAuth(() => AppletsDetailsPage(applets[index])),
               ),
             );
-            print('Card pressed');
           },
         );
       },

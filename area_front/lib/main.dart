@@ -1,6 +1,15 @@
 // Core
+import 'package:area_front/Notification.dart';
 import 'package:area_front/pages/Home.dart';
 import 'package:area_front/pages/auth/ResetPassword.dart';
+import 'package:area_front/pages/services/CurrencyService.dart';
+import 'package:area_front/pages/services/EpitechService.dart';
+import 'package:area_front/pages/services/GithubService.dart';
+import 'package:area_front/pages/services/GoogleMailService.dart';
+import 'package:area_front/pages/services/NotificationService.dart';
+import 'package:area_front/pages/services/SendGridService.dart';
+import 'package:area_front/pages/services/SlackService.dart';
+import 'package:area_front/pages/services/WeatherService.dart';
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/pages/auth/SignUp.dart';
 import 'package:area_front/pages/auth/SignWith.dart';
@@ -21,17 +30,85 @@ import 'package:area_front/config.dart';
 // Pages
 import 'package:area_front/pages/Explore.dart';
 import 'package:area_front/pages/MyApplets.dart' show MyApplets;
-import 'package:area_front/pages/MyServices.dart' show MyServices;
+import 'package:area_front/pages/services/MyServices.dart' show MyServices;
 import 'package:area_front/pages/Landing.dart' show LandingPage;
 
 // Config
 import 'package:global_configuration/global_configuration.dart';
+import 'package:flutter/foundation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  if (!kIsWeb) await initializeNotif();
+
   GlobalConfiguration().loadFromMap(config);
   runApp(MyApp());
+
+}
+
+class Router {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case Routes.landing:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => LandingPage()));
+        break;
+      case Routes.home:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => HomePage()));
+        break;
+      case Routes.signIn:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => HomePage()));
+        break;
+      case Routes.signUp:
+        return MaterialPageRoute(builder: (_) => SignUpPage());
+        break;
+      case Routes.signWith:
+        return MaterialPageRoute(builder: (_) => SignWithPage());
+        break;
+      case Routes.resetPassword:
+        return MaterialPageRoute(builder: (_) => ResetPassword());
+        break;
+      case Routes.myApplets:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => MyApplets()));
+        break;
+      case Routes.myServices:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => MyServices()));
+        break;
+      case Routes.explore:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => Explore()));
+        break;
+      case Routes.notifService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => NotificationServicePage()));
+        break;
+      case Routes.githubService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => GithubServicePage()));
+        break;
+      case Routes.epitechService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => EpitechService()));
+        break;
+      case Routes.slackService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => SlackServicePage()));
+        break;
+      case Routes.currencyService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => CurrencyServicePage()));
+        break;
+      case Routes.weatherService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => WeatherServicePage()));
+        break;
+      case Routes.googleMailService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => GoogleMailServicePage()));
+        break;
+      case Routes.sendGridService:
+        return MaterialPageRoute(builder: (_) => CheckAuth(() => SendGridServicePage()));
+        break;
+      default:
+        return MaterialPageRoute(
+            builder: (_) => Scaffold(
+                  body: Center(
+                      child: Text('No route defined for ${settings.name}')),
+                ));
+    }
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -40,28 +117,14 @@ class MyApp extends StatelessWidget {
     return StreamProvider<FirebaseUser>.value(
       value: AuthService().user,
       child: MaterialApp(
-          title: Constants.mainTitle,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          debugShowCheckedModeBanner: false,
-          home: CheckAuth(() => HomePage()),
-          routes: <String, WidgetBuilder>{
-            Routes.landing: (BuildContext context) =>
-                CheckAuth(() => LandingPage()),
-            Routes.home: (BuildContext context) => CheckAuth(() => HomePage()),
-            Routes.signIn: (BuildContext context) =>
-                CheckAuth(() => HomePage()),
-            Routes.signUp: (BuildContext context) => SignUpPage(),
-            Routes.signWith: (BuildContext context) => SignWithPage(),
-            Routes.resetPassword: (BuildContext context) => ResetPassword(),
-            Routes.myApplets: (BuildContext context) =>
-                CheckAuth(() => MyApplets()),
-            Routes.myServices: (BuildContext context) =>
-                CheckAuth(() => MyServices()),
-            Routes.explore: (BuildContext context) =>
-                CheckAuth(() => Explore()),
-          }),
+        title: Constants.mainTitle,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        debugShowCheckedModeBanner: false,
+        home: CheckAuth(() => HomePage()),
+        onGenerateRoute: Router.generateRoute,
+      ),
     );
   }
 }

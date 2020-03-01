@@ -17,11 +17,11 @@ class GetMore extends StatelessWidget {
             SizedBox(height: 50.0),
             Image.asset(
               'assets/images/3.0x/services.png',
-              width: 600,
+              width: 400,
             ),
             SizedBox(height: 100.0),
             Container(
-                width: 300,
+                width: 400,
                 child: AreaLargeButton(
                   text: Constants.getMore,
                   onPressed: () {

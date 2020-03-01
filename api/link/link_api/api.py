@@ -1,15 +1,17 @@
-from django.http import HttpResponse, Http404
 import json
-from link_api.models import Intra, Applet, ParamApplet, Github, Intra, Slack, Google, User, Notif, Service
-from link_api import settings
-from link_api import util
-from django.db import transaction
-from django.views.decorators.http import require_http_methods
-from django.shortcuts import get_object_or_404
-from django.views.decorators.csrf import csrf_exempt
-from sys import stderr
 from datetime import datetime
+from sys import stderr
 
+import requests
+from django.db import transaction
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404, redirect
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+
+from link_api import settings, util
+from link_api.models import (Applet, Github, Google, Intra, Notif, ParamApplet,
+                             Service, Slack, User)
 
 
 class JsonResponse(HttpResponse):
@@ -58,6 +60,67 @@ def applet_to_json(app):
 def request_to_json(request):
     print(request.body.decode(), file=stderr)
     return json.loads(request.body.decode())
+
+
+def service_to_json(id, user_id):
+    return [
+        {
+            "service": "Github",
+            "color" : "0xff0366d6",
+            "logo": settings.STATIC_URL + 'github.png',
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[0], user_id=user_id).enable,
+            "sync": True if Github.objects.get(user_id=user_id).token else False
+        },
+        {
+            "service": "Intra Epitech",
+            "logo": settings.STATIC_URL + 'intra.png',
+            "color" : "0xff00579e",
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[1], user_id=user_id).enable,
+            "sync": True if Intra.objects.get(user_id=user_id).token else False
+        },
+        {
+            "service": "Slack",
+            "logo": settings.STATIC_URL + 'slack.png',
+            "color" : "0xff78d7dd",
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[2], user_id=user_id).enable,
+            "sync": True if Slack.objects.get(user_id=user_id).token else False
+        },
+        {
+            "service": "Currency",
+            "logo": settings.STATIC_URL + 'bitcoin.png',
+            "color" : "0xff0d579b",
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[3], user_id=user_id).enable,
+            "sync": True
+        },
+        {
+            "service": "Weather",
+            "logo": settings.STATIC_URL + 'weather.png',
+            "color" : "0xffeeeeee",
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[4], user_id=user_id).enable,
+            "sync": True
+        },
+        {
+            "service": "Google Mail",
+            "logo": settings.STATIC_URL + 'googlemail.png',
+            "color" : "0xffdadada",
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[5], user_id=user_id).enable,
+            "sync": True if Google.objects.get(user_id=user_id).token else False
+        },
+        {
+            "service": "Notification",
+            "logo": settings.STATIC_URL + 'notification.png',
+            "color" : "0xffdadada",
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[6], user_id=user_id).enable,
+            "sync": True
+        },
+        {
+            "service": "SendGrid",
+            "logo": settings.STATIC_URL + 'mail.png',
+            "color" : "0xff294661",
+            "enable": Service.objects.get(name=settings.SERVICE_NAME[7], user_id=user_id).enable,
+            "sync": True
+        }
+    ][id]
 
 
 ##### APPLET #####
@@ -132,7 +195,27 @@ def set_applet(request, id):
 @csrf_exempt
 @require_http_methods(['POST'])
 def activate_applet(request, id):
+
+    def get_service(name):
+        tab = [
+            Github,
+            Intra,
+            None,
+            None,
+            None,
+            Google,
+            None,
+            None
+        ]
+        return tab[settings.SERVICE_NAME.index(name)]
+
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    model_action = get_service(Applet.objects.get(user_id=user_id, id_applet=id).action_service)
+    model_reaction = get_service(Applet.objects.get(user_id=user_id, id_applet=id).reaction_service)
+    if model_action and not model_action.objects.get(user_id=user_id).token:
+        return HttpResponse('You need to enable ' + Applet.objects.get(user_id=user_id, id_applet=id).action_service, status=303)
+    if model_reaction and not model_reaction.objects.get(user_id=user_id).token:
+        return HttpResponse('You need to enable ' + Applet.objects.get(user_id=user_id, id_applet=id).reaction_service, status=303)
     Applet.objects.filter(user_id=user_id, id_applet=id).update(enable=True)
     return HttpResponse('Ok')
 
@@ -177,7 +260,11 @@ def search_applets(request):
 @csrf_exempt
 @require_http_methods(['GET'])
 def get_applets_by_services(request, service):
-    return JsonResponse([applet_to_json(a) for a in Applet.objects.filter(user_id=user_id, action=service)])
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    result = [applet_to_json(a) for a in Applet.objects.filter(user_id=user_id, action_service=service)]
+    for v in Applet.objects.filter(user_id=user_id, reaction_service=service):
+        result.append(applet_to_json(v))
+    return JsonResponse(result)
 
 
 ## SERVICE ##
@@ -186,8 +273,17 @@ def get_applets_by_services(request, service):
 def sync_token(request, service):
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
     if service == settings.SERVICE_NAME[0]:
+        if request.POST.get('code'):
+            param = {'client_id': settings.GITHUB_ID, "client_secret": settings.GITHUB_SECRET, "code": request.POST.get('code')}
+            r = requests.post('https://github.com/login/oauth/access_token', param)
+            Github.objects.filter(user_id=user_id).update(token=r.text.split('&')[0].split('=')[1])
+            return HttpResponse('Ok')
         Github.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     elif service == settings.SERVICE_NAME[1]:
+        j = json.loads(util.request_create(request.POST.get('token'), settings.SERVICE_INTRA + 'v1/intra/marks').text)
+        print(j, file=stderr)
+        if j['data'] == None:
+            return HttpResponse('Token Not Valid', status=303)
         Intra.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
     elif service == settings.SERVICE_NAME[2]:
         Slack.objects.filter(user_id=user_id).update(token=request.POST.get('token'), refresh=request.POST.get('refresh'))
@@ -200,50 +296,15 @@ def sync_token(request, service):
 @require_http_methods(['GET'])
 def get_services(request):
     user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
-    response = [
-        {
-            "service": "Github",
-            "color" : "0xffb74093",
-            "logo": 'http://' + settings.MY_IP + 'static/github.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[0], user_id=user_id).enable,
-            "sync": True if Github.object.get(user_id=user_id).token else False
-        },
-        {
-            "service": "Intra Epitech",
-            "color" : "0xffb74093",
-            "logo": 'http://' + settings.MY_IP + 'static/intra.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[1], user_id=user_id).enable,
-            "sync": True if Intra.object.get(user_id=user_id).token else False
-        },
-        {
-            "service": "Slack",
-            "color" : "0xffb74093",
-            "logo": 'http://' + settings.MY_IP + 'static/slack.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[2], user_id=user_id).enable,
-            "sync": True if Slack.object.get(user_id=user_id).token else False
-        },
-        {
-            "service": "Currency",
-            "color" : "0xffb74093",
-            "logo": 'http://' + settings.MY_IP + 'static/bitcoin.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[3], user_id=user_id).enable,
-            "sync": True if Currency.object.get(user_id=user_id).token else False
-        },
-        {
-            "service": "Weather",
-            "color" : "0xffb74093",
-            "logo": 'http://' + settings.MY_IP + 'static/weather.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[4], user_id=user_id).enable,
-            "sync": True if Weather.object.get(user_id=user_id).token else False
-        },
-        {
-            "service": "Google Mail",
-            "color" : "0xffb74093",
-            "logo": 'http://' + settings.MY_IP + 'static/googlemail.png',
-            "enable": Service.objects.get(name=settings.SERVICE_NAME[5], user_id=user_id).enable,
-            "sync": True if Google.object.get(user_id=user_id).token else False
-        },
-    ]
+    response = [service_to_json(i, user_id) for i in range(8)]
+    return JsonResponse(response)
+
+
+@csrf_exempt
+@require_http_methods(['GET'])
+def get_one_service(request, service):
+    user_id = util.firebase_get_user_id(request.META['HTTP_AUTHORIZATION'])
+    response = service_to_json(settings.SERVICE_NAME.index(service), user_id)
     return JsonResponse(response)
 
 
@@ -331,7 +392,11 @@ def get_about_json(request):
                 "actions": [{
                     "name": util.applet_id_to_name(i),
                     "description": util.applet_id_to_description(i)
-                } for i in settings.SLACK_NUMBER]
+                } for i in settings.SLACK_NUMBER],
+                "reactions": [{
+                    "name": i,
+                    "description": "Send slack message for reaction"
+                } for i in settings.SLACK_REACTION]
             },
             {
                 "name": settings.SERVICE_NAME[3],
@@ -353,7 +418,25 @@ def get_about_json(request):
                     "name": util.applet_id_to_name(i),
                     "description": util.applet_id_to_description(i)
                 } for i in settings.GOOGLE_NUMBER]
+            },
+            {
+                "name": settings.SERVICE_NAME[7],
+                "reactions": [{
+                    "name": i,
+                    "description": "Send a mail for reaction"
+                } for i in settings.GOOGLE_REACTION]
+            },
+            {
+                "name": settings.SERVICE_NAME[6],
+                "reactions": [{
+                    "name": "Send notification",
+                    "description": "Send a notification for reaction"
+                }]
             }]
         }
     }
     return JsonResponse(result)
+
+
+def redirect_to_front(request):
+    return redirect(settings.FRONT_IP)

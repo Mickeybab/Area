@@ -3,12 +3,11 @@ package client
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
 
-	"github.com/frouioui/dashboard-epitech/api/intra/client/models"
+	"github.com/frouioui/AREA/api/intra/client/models"
 )
 
 var (
