@@ -23,7 +23,7 @@ class Command(BaseCommand):
         Title(value="Receive an email if the temperature drops", name="7").save()
         Title(value="Receive a notification when the temperature drops", name="8").save()
         Title(value="Get notified on Slack if an email is received", name="9").save()
-        Title(value="Notifier la reception d'une email sur email", name="10").save()
+        Title(value="Receive an email if you receive a Google email", name="10").save()
         Title(value="Receive a notification if you receive an email", name="11").save()
         Title(value="Get notified on Slack if there is a new note", name="12").save()
         Title(value="Receive an email if there is a new note", name="13").save()
