@@ -17,7 +17,7 @@ class GetMore extends StatelessWidget {
             SizedBox(height: 50.0),
             Image.asset(
               'assets/images/3.0x/services.png',
-              width: 550,
+              width: 400,
             ),
             SizedBox(height: 100.0),
             Container(

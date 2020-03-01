@@ -2,15 +2,19 @@ part of 'Backend.dart';
 
 class Request {
   static Future<Model.Applet> getApplet(FirebaseUser user, String id) async {
-    final http.Response response =
-        await Backend.get(user, BackendRoutes.specificApplet(id));
+    try {
+      final http.Response response =
+          await Backend.get(user, BackendRoutes.specificApplet(id));
 
-    switch (response.statusCode) {
-      case 200:
-        return compute(parseApplet, response.body);
-        break;
-      default:
-        throw ('An error occured when fetching the applet please try again later');
+      switch (response.statusCode) {
+        case 200:
+          return compute(parseApplet, response.body);
+          break;
+        default:
+          throw ('An error occured when fetching the applet please try again later');
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -22,16 +26,20 @@ class Request {
   }
 
   static Future<List<Model.Applet>> getApplets(FirebaseUser user) async {
-    final http.Response response =
-        await Backend.get(user, BackendRoutes.applets);
+    try {
+      final http.Response response =
+          await Backend.get(user, BackendRoutes.applets);
 
-    switch (response.statusCode) {
-      case 200:
-        return compute(parseApplets, response.body);
-        break;
+      switch (response.statusCode) {
+        case 200:
+          return compute(parseApplets, response.body);
+          break;
 
-      default:
-        throw ('An error occured when fetching all applet please try again later');
+        default:
+          throw ('An error occured when fetching all applet please try again later');
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -42,68 +50,84 @@ class Request {
 
   static Future<Model.Applet> activateApplet(
       FirebaseUser user, String id) async {
-    final Map<String, String> userinfo = {"user_id": user.uid};
-    final http.Response response = await Backend.post(
-        user, BackendRoutes.activateApplet(id),
-        body: userinfo);
+    try {
+      final Map<String, String> userinfo = {"user_id": user.uid};
+      final http.Response response = await Backend.post(
+          user, BackendRoutes.activateApplet(id),
+          body: userinfo);
 
-    switch (response.statusCode) {
-      case 200:
-        return compute(parseApplet, response.body);
-        break;
+      switch (response.statusCode) {
+        case 200:
+          return compute(parseApplet, response.body);
+          break;
 
-      default:
-        throw ('An error occured when activating Applet');
+        default:
+          throw ('An error occured when activating Applet');
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
   static Future<Model.Applet> desactivateApplet(
       FirebaseUser user, String id) async {
-    final Map<String, String> userinfo = {"user_id": user.uid};
-    final http.Response response = await Backend.post(
-        user, BackendRoutes.desactivateApplet(id),
-        body: userinfo);
+    try {
+      final Map<String, String> userinfo = {"user_id": user.uid};
+      final http.Response response = await Backend.post(
+          user, BackendRoutes.desactivateApplet(id),
+          body: userinfo);
 
-    switch (response.statusCode) {
-      case 200:
-        return compute((String body) {
-          final parsedJson = json.decode(body);
-          return Model.Applet.fromJson(parsedJson);
-        }, response.body);
-        break;
+      switch (response.statusCode) {
+        case 200:
+          return compute((String body) {
+            final parsedJson = json.decode(body);
+            return Model.Applet.fromJson(parsedJson);
+          }, response.body);
+          break;
 
-      default:
-        throw ('An error occured when desactivating Applet');
+        default:
+          throw ('An error occured when desactivating Applet');
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
   static Future<Model.Applet> addOrUpdateApplet(
       FirebaseUser user, Model.Applet applet) async {
-    final http.Response response = await Backend.post(
-        user, BackendRoutes.addApplet(applet.id.toString()),
-        body: json.encode(applet.toJson()));
+    try {
+      final http.Response response = await Backend.post(
+          user, BackendRoutes.addApplet(applet.id.toString()),
+          body: json.encode(applet.toJson()));
 
-    switch (response.statusCode) {
-      case 200:
-        return compute(parseApplet, response.body);
-        break;
+      switch (response.statusCode) {
+        case 200:
+          return compute(parseApplet, response.body);
+          break;
 
-      default:
-        throw ('An error occured when adding a new Applet');
+        default:
+          throw ('An error occured when adding a new Applet');
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
   static Future<List<Model.Applet>> getAppletsByService(FirebaseUser user, String service) async {
-    final http.Response response =
-        await Backend.get(user, BackendRoutes.specificApplet(service));
+    try {
+      final http.Response response =
+          await Backend.get(user, BackendRoutes.specificApplet(service));
 
-    switch (response.statusCode) {
-      case 200:
-        return compute(parseApplets, response.body);
-        break;
+      switch (response.statusCode) {
+        case 200:
+          return compute(parseApplets, response.body);
+          break;
 
-      default:
-        throw ('An error occured when fetching &service applets please try again later');
+        default:
+          throw ('An error occured when fetching &service applets please try again later');
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -115,16 +139,20 @@ class Request {
   }
 
   static Future<List<Model.Service>> getServices(FirebaseUser user) async {
-    final http.Response response =
-        await Backend.get(user, BackendRoutes.services);
+    try {
+      final http.Response response =
+          await Backend.get(user, BackendRoutes.services);
 
-    switch (response.statusCode) {
-      case 200:
-        return compute(parseServices, response.body);
-        break;
+      switch (response.statusCode) {
+        case 200:
+          return compute(parseServices, response.body);
+          break;
 
-      default:
-        throw ('An error occured when fetching all services please try again later');
+        default:
+          throw ('An error occured when fetching all services please try again later');
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -134,32 +162,39 @@ class Request {
   }
 
   static Future<Model.Service> getService(FirebaseUser user, String service) async {
-    final http.Response response =
-        await Backend.get(user, BackendRoutes.specificService(service));
+    try {
+      final http.Response response =
+          await Backend.get(user, BackendRoutes.specificService(service));
 
-    switch (response.statusCode) {
-      case 200:
-        return compute(parseService, response.body);
-        break;
+      switch (response.statusCode) {
+        case 200:
+          return compute(parseService, response.body);
+          break;
 
-      default:
-        throw ('An error occured when fetching $service service please try again later');
+        default:
+          throw ('An error occured when fetching $service service please try again later');
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
   static Future<List<dynamic>> notif(FirebaseUser user) async {
-    final http.Response response = await Backend.get(user, BackendRoutes.notif);
+    try {
+      final http.Response response = await Backend.get(user, BackendRoutes.notif);
 
-    switch (response.statusCode) {
-      case 200:
-        print(json.decode(response.body));
-        return json.decode(response.body);
-        break;
+      switch (response.statusCode) {
+        case 200:
+          print(json.decode(response.body));
+          return json.decode(response.body);
+          break;
 
-      default:
+        default:
 
-        throw ('An error occured when fecthing Notif');
+          throw ('An error occured when fecthing Notif');
+      }
+    } catch (e) {
+      print(e);
     }
-
-  }
+    }
 }
