@@ -268,19 +268,19 @@ def create_user(user_id):
     ## Slack
     Applet(id_applet=30, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[2], action=settings.SLACK_ACTION[0], action_logo=settings.MY_IP + 'static/slack.png',
         reaction_service=settings.SERVICE_NAME[2], reaction=settings.SLACK_REACTION[0], reaction_logo=settings.MY_IP + 'static/slack.png').save()
-    ParamApplet(name="Message", type=True, side=False, value="My GPA went below [...]", applet_id=Applet.objects.filter(user_id=user_id, id_applet=30).get().id).save()
+    ParamApplet(name="Message", type=True, side=False, value="You receive a notification on slack", applet_id=Applet.objects.filter(user_id=user_id, id_applet=30).get().id).save()
 
     ## Exchange
     Applet(id_applet=31, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[2], action=settings.SLACK_ACTION[0], action_logo=settings.MY_IP + 'static/slack.png',
         reaction_service=settings.SERVICE_NAME[7], reaction=settings.GOOGLE_REACTION[0], reaction_logo=settings.MY_IP + 'static/mail.png').save()
     ParamApplet(name="Receiver", type=True, side=False, value="", applet_id=Applet.objects.filter(user_id=user_id, id_applet=31).get().id).save()
     ParamApplet(name="Subject", type=True, side=False, value="New GPA", applet_id=Applet.objects.filter(user_id=user_id, id_applet=31).get().id).save()
-    ParamApplet(name="Message", type=True, side=False, value="My GPA went below [...]", applet_id=Applet.objects.filter(user_id=user_id, id_applet=31).get().id).save()
+    ParamApplet(name="Message", type=True, side=False, value="You receive a notification on slack", applet_id=Applet.objects.filter(user_id=user_id, id_applet=31).get().id).save()
 
     ## Notify
     Applet(id_applet=32, enable=False, user_id=user_id, action_service=settings.SERVICE_NAME[2], action=settings.SLACK_ACTION[0], action_logo=settings.MY_IP + 'static/slack.png',
         reaction_service=settings.SERVICE_NAME[6], reaction=settings.NOTIFICATION_REACTION[0], reaction_logo=settings.MY_IP + 'static/notification.png').save()
-    ParamApplet(name="Message", type=True, side=False, value="My GPA went below [...]", applet_id=Applet.objects.filter(user_id=user_id, id_applet=32).get().id).save()
+    ParamApplet(name="Message", type=True, side=False, value="You receive a notification on slack", applet_id=Applet.objects.filter(user_id=user_id, id_applet=32).get().id).save()
 
 
     Github(user_id=user_id).save()
