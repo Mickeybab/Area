@@ -3,6 +3,7 @@ library area_links_web;
 import 'dart:html' as html;
 import 'dart:js';
 import 'package:area_links_web/message.dart';
+import 'package:area_links_web/Notification.dart' as N;
 import 'package:flutter/services.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
@@ -25,6 +26,9 @@ class AreaLinks extends AreaLinksPlatform {
       case 'registerCallbackHandler':
         Function callback = call.arguments['callback'];
         return registerCallbackHandler(callback);
+      case 'sendNotification':
+        dynamic message = call.arguments['message'];
+        return sendNotification(message);
       default:
         throw PlatformException(
             code: 'Unimplemented',
@@ -32,6 +36,11 @@ class AreaLinks extends AreaLinksPlatform {
                 "the method '${call.method}'");
     }
   }
+
+    AreaLinks() {
+    print("Web");
+  }
+
 
   /// Register a callback to be call when :
   /// - The opened browser instance redirect to the correct url
@@ -42,4 +51,9 @@ class AreaLinks extends AreaLinksPlatform {
 
   /// Clear the link
   cancel() {}
+
+  Future sendNotification(dynamic message) {
+    print('notifcaton web');
+    return N.jsSendNotification(message);
+  }
 }

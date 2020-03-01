@@ -5,4 +5,4 @@ library notification.js;
 import 'package:js/js.dart';
 
 @JS('sendNotification')
-external Future sendNotification(message);
+external Future jsSendNotification(message);

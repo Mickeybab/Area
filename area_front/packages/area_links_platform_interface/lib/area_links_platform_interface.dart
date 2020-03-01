@@ -15,4 +15,8 @@ abstract class AreaLinksPlatform {
   cancel() {
     throw UnimplementedError("cancel() has not been implemented.");
   }
+
+  Future sendNotification(dynamic message) {
+    throw UnimplementedError("sendNotification() has not been implemented.");
+  }
 }
