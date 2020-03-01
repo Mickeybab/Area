@@ -349,7 +349,7 @@ def verify_intra(app):
         if float(j['data']['gpa']) < float(limit):
             ParamApplet.objects.filter(applet_id=app.id, name='Limit').update(value=j['data']['gpa'])
             return True
-    elif app.action == action.INTRA_ACTION[3]:
+    elif app.action == settings.INTRA_ACTION[3]:
         print('Start verif gpa exceeds', file=stderr)
         r = request_create(token, settings.SERVICE_INTRA + 'v1/intra/grade/bachelor')
         j = json.loads(r.text)
