@@ -54,28 +54,33 @@ class _NotificationsState extends State<Notifications> {
     this._timer = Timer.periodic(new Duration(seconds: 5), (timer) async {
       final user = Provider.of<FirebaseUser>(context, listen: false);
       if (user != null) {
-        final notif = await Request.notif(user);
-        if (notif.length != 0) {
-          notif.forEach((element) async {
-            if (!kIsWeb) {
-              var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-                  'your channel id',
-                  'your channel name',
-                  'your channel description',
-                  importance: Importance.Max,
-                  priority: Priority.High,
-                  ticker: 'ticker');
-              var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-              var platformChannelSpecifics = NotificationDetails(
-                  androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-              await flutterLocalNotificationsPlugin.show(
-                  0, 'AREA', element, platformChannelSpecifics,
-                  payload: 'item x');
-            } else {
-              _link.sendNotification(element);
-              jsSendNotification(element);
-            }
-          });
+        try {
+          final notif = await Request.notif(user);
+
+          if (notif.length != 0) {
+            notif.forEach((element) async {
+              if (!kIsWeb) {
+                var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+                    'your channel id',
+                    'your channel name',
+                    'your channel description',
+                    importance: Importance.Max,
+                    priority: Priority.High,
+                    ticker: 'ticker');
+                var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+                var platformChannelSpecifics = NotificationDetails(
+                    androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+                await flutterLocalNotificationsPlugin.show(
+                    0, 'AREA', element, platformChannelSpecifics,
+                    payload: 'item x');
+              } else {
+                _link.sendNotification(element);
+                jsSendNotification(element);
+              }
+            });
+          }
+        } catch (e) {
+          print(e);
         }
       }
     });
