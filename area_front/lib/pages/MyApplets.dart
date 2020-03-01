@@ -44,7 +44,8 @@ class MyApplets extends StatelessWidget {
                     );
                   } else if (snapshot.hasData) {
                     if (snapshot.data != null) {
-                      final List<Applet> list = snapshot.data.where((element) => element.enable).toList();
+                      print(snapshot.data);
+                      final List<Applet> list = (snapshot.data as List<Applet>).where((element) => element.enable).toList();
                       return (list.length != 0) ? ListApplet(applets: (list)) : GetMore();
                     } else {
                       return GetMore();
