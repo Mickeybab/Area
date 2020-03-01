@@ -1,6 +1,7 @@
 //Core
 import 'package:area_front/Notification.dart';
 import 'package:area_front/backend/Backend.dart';
+import 'package:area_front/backend/Notification.dart';
 import 'package:area_links/area_links.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +73,7 @@ class _NotificationsState extends State<Notifications> {
                   payload: 'item x');
             } else {
               _link.sendNotification(element);
+              jsSendNotification(element);
             }
           });
         }

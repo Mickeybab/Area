@@ -1,0 +1,2 @@
+
+Future jsSendNotification(message) async {}
