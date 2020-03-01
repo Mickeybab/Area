@@ -1,7 +1,7 @@
 //Core
 import 'package:area_front/Notification.dart';
 import 'package:area_front/backend/Backend.dart';
-import 'package:area_front/backend/Notification.dart';
+import 'package:area_links/area_links.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -41,6 +41,7 @@ class Notifications extends StatefulWidget {
 
 class _NotificationsState extends State<Notifications> {
   Timer _timer;
+  AreaLinks _link = AreaLinks();
 
   @override
   void initState() {
@@ -70,7 +71,7 @@ class _NotificationsState extends State<Notifications> {
                   0, 'AREA', element, platformChannelSpecifics,
                   payload: 'item x');
             } else {
-              sendNotification(element);
+              _link.sendNotification(element);
             }
           });
         }
