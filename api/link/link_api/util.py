@@ -360,6 +360,16 @@ def verify_intra(app):
 
 
 def verify_slack(app):
+    print("Salut", file=stderr)
+    if app.action == settings.SLACK_ACTION[0]:
+        print("Start verif slack message", file=stderr)
+        r = request_create('', settings.SERVICE_SLACK + 'v1/slack/message')
+        print(r.text, file=stderr)
+        j = json.loads(r.text)
+        print(j, file=stderr)
+        if (len(j['data']) > 0 and json.dumps(j['data'][0]) != app.data) or not app.data:
+            Applet.objects.filter(id=app.id).update(data=json.dumps(j['data'][0]))
+            return True
     return False
 
 

@@ -200,7 +200,7 @@ def activate_applet(request, id):
         tab = [
             Github,
             Intra,
-            Slack,
+            None,
             None,
             None,
             Google,
