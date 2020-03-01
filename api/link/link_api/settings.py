@@ -191,11 +191,11 @@ GITHUB_ACTION = [
 ]
 
 SLACK_REACTION = [
-    'Slack Message'
+    'Slack message'
 ]
 
 GOOGLE_REACTION = [
-    'EMail'
+    'Email'
 ]
 
 NOTIFICATION_REACTION = [
@@ -214,8 +214,8 @@ GOOGLE_ACTION = [
 INTRA_ACTION = [
     'mark below a limit',
     'credit number that exceeds',
-    'gpa drop below',
-    'gpa exceeds'
+    'GPA drop below',
+    'GPA exceeds'
 ]
 
 CURRENCY_ACTION = [

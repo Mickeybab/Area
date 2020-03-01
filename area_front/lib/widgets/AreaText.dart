@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
 
 class AreaText extends StatelessWidget {
   const AreaText(this.data,
@@ -23,9 +22,6 @@ class AreaText extends StatelessWidget {
   Widget build(BuildContext context) {
     double _fontSize = fontSize;
 
-    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
-      _fontSize = fontSize * 0.5;
-    }
     return Text(
       this.data,
       style: TextStyle(
