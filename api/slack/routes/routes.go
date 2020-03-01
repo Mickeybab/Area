@@ -34,21 +34,8 @@ func homeRoute(w http.ResponseWriter, r *http.Request) {
 }
 
 func receiveEventHandler(w http.ResponseWriter, r *http.Request) {
-	chall := models.Challenge{}
-	err := json.NewDecoder(r.Body).Decode(&chall)
-	if err != nil {
-		w.WriteHeader(400)
-		log.Println(err)
-		fmt.Fprintf(w, `{"status": "failure", "code": %d, "message": "%s"}`, 400, err)
-		return
-	}
-
-	w.WriteHeader(200)
-	fmt.Fprintf(w, "%s", chall.Challenge)
-	return
-
-	// payload := models.Payload{}
-	// err := json.NewDecoder(r.Body).Decode(&payload)
+	// chall := models.Challenge{}
+	// err := json.NewDecoder(r.Body).Decode(&chall)
 	// if err != nil {
 	// 	w.WriteHeader(400)
 	// 	log.Println(err)
@@ -56,8 +43,21 @@ func receiveEventHandler(w http.ResponseWriter, r *http.Request) {
 	// 	return
 	// }
 
-	// List = append(List, payload.Event)
-	// fmt.Println(List)
+	// w.WriteHeader(200)
+	// fmt.Fprintf(w, "%s", chall.Challenge)
+	// return
+
+	payload := models.Payload{}
+	err := json.NewDecoder(r.Body).Decode(&payload)
+	if err != nil {
+		w.WriteHeader(400)
+		log.Println(err)
+		fmt.Fprintf(w, `{"status": "failure", "code": %d, "message": "%s"}`, 400, err)
+		return
+	}
+
+	List = append(List, payload.Event)
+	fmt.Println(List)
 }
 
 func sendMessageHandler(w http.ResponseWriter, r *http.Request) {
