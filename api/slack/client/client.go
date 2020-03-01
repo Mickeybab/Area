@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	urlAPI = "https://hooks.slack.com/services/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"
+	urlAPI = "https://hooks.slack.com/services/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"
 )
 
 func SendMessage(message string) (err error) {
