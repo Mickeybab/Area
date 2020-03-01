@@ -1,6 +1,7 @@
 // Core
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
+import 'dart:io';
 
 // Widgets
 import 'package:area_front/widgets/AreaText.dart';
@@ -12,12 +13,10 @@ class AreaTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double _fontSize;
+    double _fontSize = 60;
 
-    if (Platform.isAndroid || Platform.isIOS) {
+    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
       _fontSize = 30;
-    } else {
-      _fontSize = 60;
     }
     return AreaText(
       this.title,

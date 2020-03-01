@@ -12,6 +12,10 @@ import (
 	"github.com/gorilla/mux"
 )
 
+var (
+	List []models.Event
+)
+
 // Assign all the routes to a mux Router
 func Assign(r *mux.Router) {
 	log.Println("Setting up routes ...")
@@ -30,8 +34,21 @@ func homeRoute(w http.ResponseWriter, r *http.Request) {
 }
 
 func receiveEventHandler(w http.ResponseWriter, r *http.Request) {
-	chall := models.Challenge{}
-	err := json.NewDecoder(r.Body).Decode(&chall)
+	// chall := models.Challenge{}
+	// err := json.NewDecoder(r.Body).Decode(&chall)
+	// if err != nil {
+	// 	w.WriteHeader(400)
+	// 	log.Println(err)
+	// 	fmt.Fprintf(w, `{"status": "failure", "code": %d, "message": "%s"}`, 400, err)
+	// 	return
+	// }
+
+	// w.WriteHeader(200)
+	// fmt.Fprintf(w, "%s", chall.Challenge)
+	// return
+
+	payload := models.Payload{}
+	err := json.NewDecoder(r.Body).Decode(&payload)
 	if err != nil {
 		w.WriteHeader(400)
 		log.Println(err)
@@ -39,9 +56,8 @@ func receiveEventHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(200)
-	fmt.Fprintf(w, "%s", chall.Challenge)
-	return
+	List = append(List, payload.Event)
+	fmt.Println(List)
 }
 
 func sendMessageHandler(w http.ResponseWriter, r *http.Request) {
@@ -62,9 +78,15 @@ func sendMessageHandler(w http.ResponseWriter, r *http.Request) {
 
 func getMessageHandler(w http.ResponseWriter, r *http.Request) {
 
-	// client.SendMessage(msg[0])
-
 	w.WriteHeader(200)
-	fmt.Fprintf(w, `{"status": "success", "code": %d, "data": %s}`, 200, "ok")
+
+	listB, err := json.Marshal(List)
+	if err != nil {
+		w.WriteHeader(500)
+		log.Println(err)
+		fmt.Fprintf(w, `{"status": "failure", "code": %d, "message": "%s"}`, 500, err)
+	}
+	List = make([]models.Event, 0)
+	fmt.Fprintf(w, `{"status": "success", "code": %d, "data": %s}`, 200, string(listB))
 	return
 }
