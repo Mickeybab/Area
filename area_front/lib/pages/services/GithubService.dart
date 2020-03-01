@@ -36,6 +36,72 @@ class GithubServicePage extends StatefulWidget {
 
   @override
   _GithubServicePageState createState() => _GithubServicePageState();
+}
+
+class _GithubServicePageState extends State<GithubServicePage> {
+  @override
+  Widget build(BuildContext context) {
+    final user = Provider.of<FirebaseUser>(context);
+
+    return Scaffold(
+        appBar: TopBar(),
+        body: Center(
+            child: Container(
+                child: FutureBuilder(
+                    future: Request.getService(user, BackendRoutes.github),
+                    builder: (context, snapshot) {
+                      Service data;
+                      if (snapshot.hasError == true) {
+                        return Column(
+                          children: <Widget>[
+                            Icon(Icons.error_outline),
+                            Text(snapshot.error.toString())
+                          ],
+                        );
+                      } else if (snapshot.hasData == true) {
+                        data = snapshot.data;
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            ServiceHeader(data: data, textColor: Colors.black),
+                            SizedBox(height: 20),
+                            GithubSwitch(data: snapshot.data),
+                            SizedBox(height: 10),
+                            FutureBuilder(
+                              future: Request.getAppletsByService(user, BackendRoutes.github),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError == true) {
+                                  return Column(
+                                    children: <Widget>[
+                                      Icon(Icons.error_outline),
+                                      Text(snapshot.error.toString())
+                                    ],
+                                  );
+                                } else if (snapshot.hasData) {
+                                  if (snapshot.data != null) {
+                                    return ListApplet(applets: snapshot.data);
+                                  } else {
+                                    return GetMore();
+                                  }
+                                } else
+                                  return CircularProgressIndicator();
+                              },
+                            )
+                          ],
+                        );
+                      } else
+                        return CircularProgressIndicator();
+                    }))));
+  }
+}
+
+class GithubSwitch extends StatefulWidget {
+  GithubSwitch({this.data, Key key}) : super(key: key);
+
+  final Service data;
+  @override
+  _GithubSwitchState createState() => _GithubSwitchState();
 
   static Future<void> registerGithubToken(
       String code, FirebaseUser firebaseUser) async {
@@ -80,7 +146,7 @@ class GithubServicePage extends StatefulWidget {
   }
 }
 
-class _GithubServicePageState extends State<GithubServicePage> {
+class _GithubSwitchState extends State<GithubSwitch> {
   FirebaseUser firebaseUser;
 
   AreaLinks _link = AreaLinks();
@@ -129,7 +195,7 @@ class _GithubServicePageState extends State<GithubServicePage> {
     if (link != null) {
       String code = link.substring(link.indexOf(RegExp('code=')) + 5);
       try {
-        await GithubServicePage.registerGithubToken(code, firebaseUser);
+        await GithubSwitch.registerGithubToken(code, firebaseUser);
       } catch (e) {
         setState(() => _error = e);
       }
@@ -141,95 +207,43 @@ class _GithubServicePageState extends State<GithubServicePage> {
     final user = Provider.of<FirebaseUser>(context);
     this.firebaseUser = user;
 
-    return Scaffold(
-        appBar: TopBar(),
-        body: Center(
-            child: Container(
-                child: FutureBuilder(
-                    future: Request.getService(user, BackendRoutes.github),
-                    builder: (context, snapshot) {
-                      Service data;
-                      if (snapshot.hasError == true) {
-                        return Column(
-                          children: <Widget>[
-                            Icon(Icons.error_outline),
-                            Text(snapshot.error.toString())
-                          ],
-                        );
-                      } else if (snapshot.hasData == true) {
-                        data = snapshot.data;
-                        // updateServiceData(snapshot.data);
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            ServiceHeader(data: data, textColor: Colors.black),
-                            SizedBox(height: 20),
-                            LiteRollingSwitch(
-                              value: data.enable,
-                              textOn: 'On',
-                              textOff: 'Off',
-                              colorOn: hexToColor(data.color),
-                              colorOff: Colors.grey[700],
-                              iconOn: Icons.done,
-                              iconOff: Icons.remove_circle_outline,
-                              textSize: 25.0,
-                              onChanged: (newValue) async {
-                                print("Ici");
-                                if (newValue == true) {
-                                  try {
-                                    await B.Backend.post(
-                                        user,
-                                        BackendRoutes.activateService(
-                                            BackendRoutes.github));
-                                  } catch (e) {
-                                    setState(() => _error = e);
-                                  }
-                                  if (!data.sync) {
-                                    await this.signInWithGithub();
-                                    data = await Request.getService(
-                                        user, 'github');
-                                  } else {
-                                    try {
-                                      await B.Backend.post(
-                                          user,
-                                          BackendRoutes.desactivateService(
-                                              BackendRoutes.github));
-                                    } catch (e) {
-                                      setState(() => _error = e);
-                                    }
-                                  }
-                                }
-                              },
-                            ),
-                            SizedBox(height: 10),
-                            ErrorAuth(_error),
-                            SizedBox(height: 10),
-                            FutureBuilder(
-                              future: Request.getAppletsByService(
-                                  user, BackendRoutes.github),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasError == true) {
-                                  return Column(
-                                    children: <Widget>[
-                                      Icon(Icons.error_outline),
-                                      Text(snapshot.error.toString())
-                                    ],
-                                  );
-                                } else if (snapshot.hasData) {
-                                  if (snapshot.data != null) {
-                                    return ListApplet(applets: snapshot.data);
-                                  } else {
-                                    return GetMore();
-                                  }
-                                } else
-                                  return CircularProgressIndicator();
-                              },
-                            )
-                          ],
-                        );
-                      } else
-                        return CircularProgressIndicator();
-                    }))));
+    return Column(
+      children: <Widget>[
+        LiteRollingSwitch(
+          value: widget.data.enable,
+          textOn: 'On',
+          textOff: 'Off',
+          colorOn: hexToColor(widget.data.color),
+          colorOff: Colors.grey[700],
+          iconOn: Icons.done,
+          iconOff: Icons.remove_circle_outline,
+          textSize: 25.0,
+          onChanged: (newValue) async {
+            if (newValue == true) {
+              try {
+                await B.Backend.post(
+                    user,
+                    BackendRoutes.activateService(BackendRoutes.github));
+              } catch (e) {
+                setState(() => _error = e);
+              }
+              if (!widget.data.sync) {
+                await this.signInWithGithub();
+              }
+            } else {
+              try {
+                await B.Backend.post(
+                    user,
+                    BackendRoutes.desactivateService(BackendRoutes.github));
+              } catch (e) {
+                setState(() => _error = e);
+              }
+            }
+          },
+        ),
+        SizedBox(height: 10),
+        ErrorAuth(_error),
+      ],
+    );
   }
 }

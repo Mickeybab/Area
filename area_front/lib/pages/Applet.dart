@@ -1,16 +1,18 @@
 // Core
 import 'package:area_front/backend/Backend.dart';
-import 'package:area_front/backend/Navigation.dart';
+import 'package:area_front/backend/CheckAuth.dart';
 import 'package:area_front/models/Service.dart';
 import 'package:area_front/static/Constants.dart';
-import 'package:area_front/static/Routes.dart';
+import 'package:area_front/static/backend/BackendRoutes.dart';
 import 'package:area_front/widgets/AreaLargeButton.dart';
 import 'package:area_front/widgets/AreaText.dart';
 import 'package:area_front/widgets/AreaTextField.dart';
 import 'package:area_front/widgets/applets/AppletHeader.dart';
+import 'package:area_front/widgets/services/ServiceSwitch.dart';
 import 'package:area_front/widgets/topbar/TopBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:area_front/backend/Backend.dart' as B;
 
 // Models
 import 'package:area_front/models/applets/Applet.dart';
@@ -87,7 +89,7 @@ class _AppletsDetailsPageState extends State<AppletsDetailsPage> {
   }
 }
 
-class AppletEnable extends StatelessWidget {
+class AppletEnable extends StatefulWidget {
   const AppletEnable({
     Key key,
     @required this.widget,
@@ -101,40 +103,94 @@ class AppletEnable extends StatelessWidget {
   final Service rService;
 
   @override
+  _AppletEnableState createState() => _AppletEnableState();
+}
+
+class _AppletEnableState extends State<AppletEnable> {
+  @override
   Widget build(BuildContext context) {
+    final user = Provider.of<FirebaseUser>(context, listen: false);
+
     Widget redirectionButtons() {
-      if (!aService.enable && !rService.enable) {
+      if (!widget.aService.enable && !widget.rService.enable) {
         return Column(
           children: <Widget>[
-            AreaLargeButton(
-              text: Constants.enableServiceStart + aService.service + Constants.enableServiceEnd,
-              onPressed: () async {
-                Navigation.navigate(context, Routes.specificService(widget.applet.action.service));
-              }
+            AreaText(
+              Constants.enableServiceStart + widget.aService.service + Constants.enableServiceEnd,
+              fontWeight: FontWeight.w600,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
+            ServiceSwitch(data: widget.aService, user: user, serviceName: widget.widget.applet.action.service),
+            SizedBox(height: 10),
+            AreaText(
+              Constants.enableServiceStart + widget.rService.service + Constants.enableServiceEnd,
+              fontWeight: FontWeight.w600,
+            ),
+            SizedBox(height: 10),
+            ServiceSwitch(data: widget.rService, user: user, serviceName: widget.widget.applet.reaction.service),
+            SizedBox(height: 10),
             AreaLargeButton(
-              text: Constants.enableServiceStart + rService.service + Constants.enableServiceEnd,
+              text: 'Refresh',
               onPressed: () async {
-                Navigation.navigate(context, Routes.specificService(widget.applet.reaction.service));
+                this.setState(() {});
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CheckAuth(() => AppletsDetailsPage(widget.widget.applet)),
+                  ),
+                );
               }
             ),
           ]
         );
       }
-      if (!aService.enable && rService.enable) {
-        return AreaLargeButton(
-          text: Constants.enableServiceStart + aService.service + Constants.enableServiceEnd,
-          onPressed: () async {
-            Navigation.navigate(context, Routes.specificService(widget.applet.action.service));
-          }
+      if (!widget.aService.enable && widget.rService.enable) {
+        return Column(
+          children: <Widget>[
+            AreaText(
+              Constants.enableServiceStart + widget.aService.service + Constants.enableServiceEnd,
+              fontWeight: FontWeight.w600,
+            ),
+            SizedBox(height: 10),
+            ServiceSwitch(data: widget.aService, user: user, serviceName: widget.widget.applet.action.service),
+            SizedBox(height: 10),
+            AreaLargeButton(
+              text: 'Refresh',
+              onPressed: () async {
+                this.setState(() {});
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CheckAuth(() => AppletsDetailsPage(widget.widget.applet)),
+                  ),
+                );
+              }
+            ),
+          ],
         );
       }
-      return AreaLargeButton(
-        text: Constants.enableServiceStart + rService.service + Constants.enableServiceEnd,
-        onPressed: () async {
-          Navigation.navigate(context, Routes.specificService(widget.applet.reaction.service));
-        }
+      return Column(
+        children: <Widget>[
+          AreaText(
+            Constants.enableServiceStart + widget.rService.service + Constants.enableServiceEnd,
+            fontWeight: FontWeight.w600,
+          ),
+          SizedBox(height: 10),
+          ServiceSwitch(data: widget.rService, user: user, serviceName: widget.widget.applet.reaction.service),
+          SizedBox(height: 10),
+          AreaLargeButton(
+            text: 'Refresh',
+            onPressed: () async {
+              this.setState(() {});
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CheckAuth(() => AppletsDetailsPage(widget.widget.applet)),
+                ),
+              );
+            }
+          ),
+        ],
       );
     }
 
@@ -143,9 +199,9 @@ class AppletEnable extends StatelessWidget {
         child: Column(
           children: <Widget>[
             AppletHeader(
-              applet: widget.applet,
-              action: widget.applet.action,
-              reaction: widget.applet.reaction,
+              applet: widget.widget.applet,
+              action: widget.widget.applet.action,
+              reaction: widget.widget.applet.reaction,
             ),
             SizedBox(height: 20),
             Container(
@@ -199,6 +255,12 @@ class AppletFrom extends StatelessWidget {
                     final user = Provider.of<FirebaseUser>(context, listen: false);
                     try {
                       await Request.addOrUpdateApplet(user, widget.applet);
+                      await B.Backend.post(
+                        user,
+                        BackendRoutes.activateApplet(
+                          widget.applet.id.toString()
+                        )
+                      );
                       final snackbar = SnackBar(
                         content: Text(Constants.allOk),
                       );

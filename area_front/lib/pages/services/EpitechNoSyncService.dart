@@ -3,6 +3,7 @@ import 'package:area_front/pages/services/EpitechSyncService.dart';
 import 'package:area_front/services/Auth.dart';
 import 'package:area_front/static/Constants.dart';
 import 'package:area_front/widgets/AreaLargeButton.dart';
+import 'package:area_front/widgets/AreaText.dart';
 import 'package:area_front/widgets/auth/ErrorAuthText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -142,6 +143,94 @@ class _EpitechNoSyncServicePageState extends State<EpitechNoSyncServicePage> {
                 )
             )
         )
+    );
+  }
+}
+
+class EpitechNoSyncButton extends StatefulWidget {
+  const EpitechNoSyncButton({Key key}) : super(key: key);
+
+  @override
+  _EpitechNoSyncButtonState createState() => _EpitechNoSyncButtonState();
+}
+
+class _EpitechNoSyncButtonState extends State<EpitechNoSyncButton> {
+
+  FirebaseUser firebaseUser;
+
+  String accessToken = '';
+  String error = '';
+  String message = '';
+
+  final _formKey = GlobalKey<FormState>();
+
+  TextFormField _tokenField() {
+    return TextFormField(
+      decoration: InputDecoration(
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Constants.colorBorder, width: 5),
+          borderRadius: BorderRadius.circular(10)
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black, width: 5),
+          borderRadius: BorderRadius.circular(10)
+        ),
+        contentPadding: Constants.defaultPadding,
+        hintText: Constants.hintTokenField,
+      ),
+      onChanged: (value) {
+        setState(() {
+          accessToken = value;
+        });
+      },
+      validator: (value) =>
+            value.isEmpty ? Constants.errorMessageEmailEmpty : null);
+  }
+
+  AreaLargeButton _registerTokenButton() {
+    return AreaLargeButton(
+      text: Constants.epitechAuthLink,
+      onPressed: () async {
+        if (_formKey.currentState.validate()) {
+          try {
+            await AuthService().syncInWithEpitechIntra(firebaseUser, accessToken);
+            setState(() {
+               message = 'Synchronization success';
+               accessToken = '';
+               error = '';
+            });
+          } catch (e) {
+            setState(() => error = e);
+          }
+        }
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final user = Provider.of<FirebaseUser>(context, listen: false);
+    this.firebaseUser = user;
+
+    return Container(
+      width: 550,
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: <Widget>[
+            this._tokenField(),
+            SizedBox(height: 20),
+            this._registerTokenButton(),
+            SizedBox(height: 5),
+            ErrorAuth(error),
+            AreaText(
+              message,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            )
+          ]
+        ),
+      ),
     );
   }
 }
