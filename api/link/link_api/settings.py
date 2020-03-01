@@ -18,8 +18,8 @@ DEV = False
 if os.getenv("DEV"):
     DEV = True
 
-MY_IP = 'http://mickeudulac.hd.free.fr:8080/'
-FRONT_IP = 'http://mickeudulac.hd.free.fr:8081/'
+MY_IP = 'http://mickeydulac.hd.free.fr:8080/'
+FRONT_IP = 'http://mickeydulac.hd.free.fr:8081/'
 if DEV:
     MY_IP = 'http://localhost:8080/'
     FRONT_IP = 'http://localhost:8081/'
